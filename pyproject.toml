@@ -7,7 +7,10 @@ authors = [
     { name = "Keith Murray", email = "murraykeith64@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "pillow>=12.3.0",
+    "requests>=2.34.2",
+]
 
 [project.scripts]
 finst-video-model = "finst_video_model:main"

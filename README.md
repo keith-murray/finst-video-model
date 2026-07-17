@@ -38,7 +38,7 @@ verification must be done against what Veo *itself* depicted (see
 - `prompts.py` — builds the three-phase text prompt from a `TrialConfig`.
 
 Both have smoke tests under `if __name__ == "__main__"` and have been run
-successfully (see `stimuli/` for a sample output).
+successfully (see `data/` for a sample output).
 
 ## What's NOT implemented yet (next steps for Claude Code)
 

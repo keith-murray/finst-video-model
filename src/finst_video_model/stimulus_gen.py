@@ -13,7 +13,7 @@ import random
 from dataclasses import asdict
 from PIL import Image, ImageDraw
 
-from config import TrialConfig
+from finst_video_model.config import TrialConfig
 
 
 def _sample_non_overlapping_centers(cfg: TrialConfig) -> list[tuple[int, int]]:
@@ -97,8 +97,8 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
 if __name__ == "__main__":
     # Quick manual smoke test
     import os
-    os.makedirs("stimuli", exist_ok=True)
+    os.makedirs("data", exist_ok=True)
     cfg = TrialConfig(n_circles=6, n_cued=2, seed=42)
-    gt = generate_stimulus(cfg, "stimuli")
+    gt = generate_stimulus(cfg, "data")
     print(f"Wrote {gt['frame0_path']}")
     print(f"Cued indices: {gt['cued_indices']}")

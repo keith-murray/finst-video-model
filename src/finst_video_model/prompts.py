@@ -5,7 +5,7 @@ three-phase structure (cue -> de-cue/track -> re-cue) since Veo only sees a
 single static starting frame, not the cueing sequence itself.
 """
 
-from config import TrialConfig
+from finst_video_model.config import TrialConfig
 
 
 def build_prompt(cfg: TrialConfig) -> str:
