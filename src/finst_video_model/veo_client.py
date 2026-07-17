@@ -12,10 +12,13 @@ import os
 import time
 
 import requests
+from dotenv import load_dotenv
 
 from finst_video_model.config import TrialConfig
 from finst_video_model.prompts import build_prompt
 from finst_video_model.stimulus_gen import generate_stimulus
+
+load_dotenv()
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 VEO_MODEL = "google/veo-3.1"
@@ -96,7 +99,8 @@ def poll_job(polling_url: str, interval_s: float = 15.0, timeout_s: float = 600.
 def download_video(status: dict, out_path: str) -> str:
     """Downloads a completed job's video to `out_path`."""
     content_url = status["unsigned_urls"][0]
-    response = requests.get(content_url, timeout=120)
+    headers = {"Authorization": f"Bearer {_api_key()}"}
+    response = requests.get(content_url, headers=headers, timeout=120)
     response.raise_for_status()
     with open(out_path, "wb") as f:
         f.write(response.content)
@@ -135,8 +139,11 @@ def run_trial(cfg: TrialConfig, out_dir: str) -> dict:
 
         if final_status["status"] == "completed":
             video_path = f"{out_dir}/video_{cfg.trial_id}.mp4"
-            download_video(final_status, video_path)
-            result["video_path"] = video_path
+            try:
+                download_video(final_status, video_path)
+                result["video_path"] = video_path
+            except (requests.RequestException, KeyError) as e:
+                result["download_error"] = str(e)
         else:
             result["error"] = final_status.get("error", "Unknown failure")
     except (requests.RequestException, KeyError, TimeoutError, RuntimeError) as e:
