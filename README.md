@@ -14,10 +14,11 @@ entirely in the **text prompt**, anchored to a single ground-truth frame:
 1. **Frame 0** (rendered by us, `stimulus_gen.py`): N identical circles,
    K of them colored red (cued), rest gray. This is the only visual
    ground truth we control.
-2. **Prompt** (`prompts.py`): instructs Veo to (a) de-cue within ~1s so all
-   circles become identical gray, (b) move all circles for several seconds
-   under described physics, (c) re-cue *only the originally-red circles* in
-   the final frame.
+2. **Prompt** (owned by each experiment script under `scripts/`, e.g.
+   `run_trial.py` / `run_circular_trial.py`): instructs Veo to (a) de-cue
+   within ~1s so all circles become identical gray, (b) move all circles for
+   several seconds under some described motion, (c) re-cue *only the
+   originally-red circles* in the final frame.
 3. Veo generates the whole 8s clip from image + prompt in one call.
 
 **Important limitation to keep in mind**: Veo is generative, not a physics
@@ -29,16 +30,27 @@ verification must be done against what Veo *itself* depicted (see
 ## What's implemented
 
 - `config.py` — `TrialConfig` dataclass: all independent variables
-  (n_circles, n_cued, phase durations, geometry, colors, seed). Validates
-  phase durations sum to a Veo-supported clip length (4/6/8s).
-- `stimulus_gen.py` — renders frame 0 via PIL (rejection-sampled
-  non-overlapping circle placement), writes the PNG plus a
-  `ground_truth_<trial_id>.json` recording every circle's position and
-  cued/not-cued status.
-- `prompts.py` — builds the three-phase text prompt from a `TrialConfig`.
+  (n_circles, n_cued, phase durations, geometry, colors, seed, plus
+  circular-track geometry). Validates phase durations sum to a
+  Veo-supported clip length (4/6/8s).
+- `stimulus_gen.py` — renders frame 0 via PIL. Two stimulus types:
+  `generate_stimulus` (rejection-sampled non-overlapping circle placement,
+  free-form motion) and `generate_circular_track_stimulus` (circles evenly
+  spaced around a drawn circular track, for constrained clockwise motion).
+  Both write `frame0.png` plus `ground_truth.json` into a trial-specific
+  output directory.
+- `veo_client.py` — generic OpenRouter submit/poll/download client. Knows
+  nothing about any specific experiment's stimulus or prompt; `run_trial`
+  takes an already-built prompt and frame-0 image path and launches it.
+- `scripts/run_trial.py` / `scripts/run_circular_trial.py` — one script per
+  experiment, each owning its own prompt text (built from a `TrialConfig`)
+  alongside the code that generates its stimulus and launches the trial via
+  `veo_client.run_trial`. Prompts intentionally live next to the launch code
+  rather than in the shared package, so wording can be iterated on
+  per-experiment without touching shared infra.
 
-Both have smoke tests under `if __name__ == "__main__"` and have been run
-successfully (see `data/` for a sample output).
+`stimulus_gen.py` has smoke tests under `if __name__ == "__main__"` and has
+been run successfully (see `data/` for a sample output).
 
 ## What's NOT implemented yet (next steps for Claude Code)
 

@@ -4,6 +4,11 @@ OpenRouter REST client for Veo 3.1 video generation.
 Talks to Veo exclusively through OpenRouter's async video API (submit ->
 poll -> download), per claude/openrouter/video_generation.md. This project
 does NOT use the Google Gemini SDK.
+
+This module is intentionally generic: it knows nothing about any particular
+experiment's stimulus or prompt. Each experiment script (in `scripts/`) owns
+its own prompt text and stimulus generation, then calls `run_trial` here to
+launch it.
 """
 
 import base64
@@ -15,8 +20,6 @@ import requests
 from dotenv import load_dotenv
 
 from finst_video_model.config import TrialConfig
-from finst_video_model.prompts import build_prompt
-from finst_video_model.stimulus_gen import generate_stimulus
 
 load_dotenv()
 
@@ -107,32 +110,29 @@ def download_video(status: dict, out_path: str) -> str:
     return out_path
 
 
-def run_trial(cfg: TrialConfig, out_dir: str) -> dict:
-    """Proof-of-concept pipeline for one trial: generate the frame-0
-    stimulus + prompt, submit to Veo via OpenRouter, poll to completion, and
-    download the resulting video.
+def run_trial(cfg: TrialConfig, trial_dir: str, prompt: str, frame0_path: str) -> dict:
+    """Launches one trial: submits an already-built `prompt` + already-
+    rendered `frame0_path` image to Veo via OpenRouter, polls to completion,
+    and downloads the resulting video.
 
     Failures (safety blocks, timeouts, malformed responses) are caught and
     recorded in the returned dict rather than raised, so a future batch
     runner can log and continue instead of crashing.
 
-    All artifacts for the trial are written into `<out_dir>/<trial_id>/`:
-    `frame0.png` / `ground_truth.json` (from `stimulus_gen.py`), plus
-    `video.mp4` and `generation.json`.
+    Callers are responsible for creating `trial_dir` and generating the
+    stimulus + prompt into it (see `stimulus_gen.py` and each experiment
+    script). Writes `video.mp4` and `generation.json` into `trial_dir`.
     """
-    trial_dir = os.path.join(out_dir, cfg.trial_id)
     os.makedirs(trial_dir, exist_ok=True)
-    ground_truth = generate_stimulus(cfg, trial_dir)
-    prompt = build_prompt(cfg)
 
     result = {
         "trial_id": cfg.trial_id,
         "prompt": prompt,
-        "frame0_path": ground_truth["frame0_path"],
+        "frame0_path": frame0_path,
     }
 
     try:
-        submitted = submit_video_job(prompt, ground_truth["frame0_path"], cfg)
+        submitted = submit_video_job(prompt, frame0_path, cfg)
         result["job_id"] = submitted["id"]
         final_status = poll_job(submitted["polling_url"])
         result["status"] = final_status["status"]
@@ -157,9 +157,3 @@ def run_trial(cfg: TrialConfig, out_dir: str) -> dict:
     result["generation_path"] = gen_path
 
     return result
-
-
-if __name__ == "__main__":
-    cfg = TrialConfig(n_circles=6, n_cued=2, seed=42)
-    result = run_trial(cfg, "data")
-    print(json.dumps(result, indent=2))

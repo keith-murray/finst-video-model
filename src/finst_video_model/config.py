@@ -29,6 +29,12 @@ class TrialConfig:
     circle_radius: int = 28
     min_center_distance_factor: float = 2.6  # * radius, for non-overlap + margin
 
+    # --- Circular-track geometry (only used by the circular-track stimulus) ---
+    track_radius: int = 250          # radius of the circular path, centered in frame
+    track_line_width: int = 3
+    track_start_angle_deg: float = -90.0  # angle of circle index 0; -90 = top of frame
+    track_color: tuple = (160, 160, 160)
+
     # --- Colors (RGB) ---
     background_color: tuple = (235, 235, 235)
     cued_color: tuple = (220, 40, 40)     # red
