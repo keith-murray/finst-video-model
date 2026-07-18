@@ -47,8 +47,9 @@ def _sample_non_overlapping_centers(cfg: TrialConfig) -> list[tuple[int, int]]:
 
 
 def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
-    """Writes `<out_dir>/frame0_<trial_id>.png` and
-    `<out_dir>/ground_truth_<trial_id>.json`. Returns the ground truth dict.
+    """Writes `<out_dir>/frame0.png` and `<out_dir>/ground_truth.json`.
+    `out_dir` is expected to already be trial-specific (e.g.
+    `data/<trial_id>/`). Returns the ground truth dict.
     """
     cfg.validate()
 
@@ -76,7 +77,7 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
             "cued": is_cued,
         })
 
-    frame_path = f"{out_dir}/frame0_{cfg.trial_id}.png"
+    frame_path = f"{out_dir}/frame0.png"
     img.save(frame_path)
 
     ground_truth = {
@@ -87,7 +88,7 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
         "cued_indices": cued_indices,
     }
 
-    gt_path = f"{out_dir}/ground_truth_{cfg.trial_id}.json"
+    gt_path = f"{out_dir}/ground_truth.json"
     with open(gt_path, "w") as f:
         json.dump(ground_truth, f, indent=2)
 
@@ -97,8 +98,9 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
 if __name__ == "__main__":
     # Quick manual smoke test
     import os
-    os.makedirs("data", exist_ok=True)
     cfg = TrialConfig(n_circles=6, n_cued=2, seed=42)
-    gt = generate_stimulus(cfg, "data")
+    out_dir = f"data/{cfg.trial_id}"
+    os.makedirs(out_dir, exist_ok=True)
+    gt = generate_stimulus(cfg, out_dir)
     print(f"Wrote {gt['frame0_path']}")
     print(f"Cued indices: {gt['cued_indices']}")

@@ -116,12 +116,13 @@ def run_trial(cfg: TrialConfig, out_dir: str) -> dict:
     recorded in the returned dict rather than raised, so a future batch
     runner can log and continue instead of crashing.
 
-    Writes `video_<trial_id>.mp4` and `generation_<trial_id>.json` into
-    `out_dir`, alongside the `frame0_<trial_id>.png` /
-    `ground_truth_<trial_id>.json` pair from `stimulus_gen.py`.
+    All artifacts for the trial are written into `<out_dir>/<trial_id>/`:
+    `frame0.png` / `ground_truth.json` (from `stimulus_gen.py`), plus
+    `video.mp4` and `generation.json`.
     """
-    os.makedirs(out_dir, exist_ok=True)
-    ground_truth = generate_stimulus(cfg, out_dir)
+    trial_dir = os.path.join(out_dir, cfg.trial_id)
+    os.makedirs(trial_dir, exist_ok=True)
+    ground_truth = generate_stimulus(cfg, trial_dir)
     prompt = build_prompt(cfg)
 
     result = {
@@ -138,7 +139,7 @@ def run_trial(cfg: TrialConfig, out_dir: str) -> dict:
         result["usage"] = final_status.get("usage")
 
         if final_status["status"] == "completed":
-            video_path = f"{out_dir}/video_{cfg.trial_id}.mp4"
+            video_path = f"{trial_dir}/video.mp4"
             try:
                 download_video(final_status, video_path)
                 result["video_path"] = video_path
@@ -150,7 +151,7 @@ def run_trial(cfg: TrialConfig, out_dir: str) -> dict:
         result["status"] = "error"
         result["error"] = str(e)
 
-    gen_path = f"{out_dir}/generation_{cfg.trial_id}.json"
+    gen_path = f"{trial_dir}/generation.json"
     with open(gen_path, "w") as f:
         json.dump(result, f, indent=2)
     result["generation_path"] = gen_path
