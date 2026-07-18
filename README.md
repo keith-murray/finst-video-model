@@ -1,13 +1,16 @@
-# Veo 3.1 FINST/MOT Capacity Experiment
+# Video Generation Model FINST/MOT Capacity Experiment
 
-Tests whether Veo 3.1 shows a Pylyshyn-style capacity limit when tracking a
-cued subset of identical circles through a de-cued "invisible tracking"
-phase (adapted from classic multiple-object-tracking / MOT paradigms).
+Tests whether video generation models show a Pylyshyn-style capacity limit
+when tracking a cued subset of identical circles through a de-cued
+"invisible tracking" phase (adapted from classic multiple-object-tracking /
+MOT paradigms). All models are accessed through OpenRouter, so in principle
+any video generation model OpenRouter exposes can be tested this way — Veo
+3.1 is simply the first model this has been tried on.
 
 ## Design summary
 
-Veo 3.1 only accepts a single starting **image** (no multi-frame video
-conditioning for arbitrary/external video — see note below), so the full
+Video generation models typically accept a single starting **image** (no
+multi-frame video conditioning for arbitrary/external video), so the full
 three-phase MOT trial structure (cue -> de-cue/track -> re-cue) is encoded
 entirely in the **text prompt**, anchored to a single ground-truth frame:
 
@@ -15,67 +18,54 @@ entirely in the **text prompt**, anchored to a single ground-truth frame:
    K of them colored red (cued), rest gray. This is the only visual
    ground truth we control.
 2. **Prompt** (owned by each experiment script under `scripts/`, e.g.
-   `run_trial.py` / `run_circular_trial.py`): instructs Veo to (a) de-cue
-   within ~1s so all circles become identical gray, (b) move all circles for
-   several seconds under some described motion, (c) re-cue *only the
-   originally-red circles* in the final frame.
-3. Veo generates the whole 8s clip from image + prompt in one call.
+   `run_trial.py` / `run_circular_trial.py`): instructs the model to (a)
+   de-cue within ~1s so all circles become identical gray, (b) move all
+   circles for several seconds under some described motion, (c) re-cue
+   *only the originally-red circles* in the final frame.
+3. The model generates the whole clip from image + prompt in one call.
 
-**Important limitation to keep in mind**: Veo is generative, not a physics
-simulator. It will not execute the described motion exactly. This means
-there is no external ground-truth trajectory to check the output against —
-verification must be done against what Veo *itself* depicted (see
-"Verification pipeline" below), not against an intended physics simulation.
+**Important limitation to keep in mind**: these models are generative, not
+physics simulators. They will not execute the described motion exactly.
+This means there is no external ground-truth trajectory to check the
+output against — verification must be done against what the model *itself*
+depicted (see "Verification pipeline" below), not against an intended
+physics simulation.
 
 ## What's implemented
 
 - `config.py` — `TrialConfig` dataclass: all independent variables
   (n_circles, n_cued, phase durations, geometry, colors, seed, plus
-  circular-track geometry). Validates phase durations sum to a
-  Veo-supported clip length (4/6/8s).
+  circular-track geometry). Validates phase durations sum to a supported
+  clip length (Veo 3.1 supports 4/6/8s; other models may differ).
 - `stimulus_gen.py` — renders frame 0 via PIL. Two stimulus types:
   `generate_stimulus` (rejection-sampled non-overlapping circle placement,
   free-form motion) and `generate_circular_track_stimulus` (circles evenly
-  spaced around a drawn circular track, for constrained clockwise motion).
-  Both write `frame0.png` plus `ground_truth.json` into a trial-specific
-  output directory.
-- `veo_client.py` — generic OpenRouter submit/poll/download client. Knows
-  nothing about any specific experiment's stimulus or prompt; `run_trial`
-  takes an already-built prompt and frame-0 image path and launches it.
+  spaced around a drawn circular track, for constrained clockwise motion —
+  this constraint noticeably reduced hallucinated motion compared to
+  free-form physics description). Both write `frame0.png` plus
+  `ground_truth.json` into a trial-specific output directory.
+- `client.py` — generic OpenRouter submit/poll/download client. Knows
+  nothing about any specific experiment's stimulus, prompt, or model
+  choice; `run_trial` takes an already-built prompt, frame-0 image path,
+  and an OpenRouter model slug (e.g. `"google/veo-3.1"`), and launches it.
 - `scripts/run_trial.py` / `scripts/run_circular_trial.py` — one script per
   experiment, each owning its own prompt text (built from a `TrialConfig`)
-  alongside the code that generates its stimulus and launches the trial via
-  `veo_client.run_trial`. Prompts intentionally live next to the launch code
-  rather than in the shared package, so wording can be iterated on
-  per-experiment without touching shared infra.
+  and model choice (a `MODEL` constant), alongside the code that generates
+  its stimulus and launches the trial via `client.run_trial`. Prompts and
+  model choice intentionally live next to the launch code rather than in
+  the shared package, so both can be iterated on per-experiment without
+  touching shared infra.
 
-`stimulus_gen.py` has smoke tests under `if __name__ == "__main__"` and has
-been run successfully (see `data/` for a sample output).
+Every trial's artifacts (`frame0.png`, `ground_truth.json`, `video.mp4`,
+`generation.json`) land in `data/<trial_id>/`, linked by `trial_id`.
 
 ## What's NOT implemented yet (next steps for Claude Code)
 
-### 1. Veo API call wrapper
-- Use `client.models.generate_videos(model="veo-3.1-generate-preview", prompt=..., image=..., config=types.GenerateVideosConfig(...))`.
-- Must poll `operation.done` (see Gemini API video generation docs) and
-  download the result.
-- `resolution="720p"`, `duration_seconds` should equal `cfg.clip_duration_s`
-  as a string (`"4"`, `"6"`, or `"8"`).
-- Handle safety-filter blocks/failures gracefully — log and skip rather than
-  crash a batch run (circles-on-plain-background prompts *shouldn't* trip
-  filters, but audio-safety blocks have been reported as a general Veo 3.1
-  failure mode; also handle empty/malformed responses).
-- Note API cost/latency: each 8s 720p generation can take up to several
-  minutes (documented range: 11s min, up to 6 min at peak). Batch runs
-  over multiple N values x multiple repeats will need async/queued
-  execution, not a blocking loop, to be practical.
-- Save output video alongside the trial's `ground_truth_<trial_id>.json`
-  (same trial_id) so config, ground truth, and output stay linked.
-
-### 2. Frame extraction
+### 1. Frame extraction
 - Use `ffmpeg` or `opencv` to pull all frames (or at minimum the last ~1s
-  worth of frames) from the generated 24fps video.
+  worth of frames) from the generated video.
 
-### 3. Verification / blob-tracking pipeline
+### 2. Verification / blob-tracking pipeline
 This is the core scoring logic and needs the most design care:
 - **Blob detection**: per frame, detect circular blobs by color
   (red vs. gray vs. background) via simple color thresholding + contour
@@ -83,12 +73,12 @@ This is the core scoring logic and needs the most design care:
   deliberately simple, flat-color stimulus design.
 - **Frame-to-frame tracking**: nearest-centroid tracking across frames to
   build each blob's trajectory through the *generated* video (this is
-  necessary since Veo doesn't give you object IDs — you have to reconstruct
-  them from its pixel output, the same way you'd analyze a real MOT trial
-  video).
+  necessary since these models don't give you object IDs — you have to
+  reconstruct them from pixel output, the same way you'd analyze a real
+  MOT trial video).
 - **Validity/exclusion checks** (run before scoring):
   - Exactly N circles detected in frame 0 of the *output* (sanity check
-    that Veo rendered the input image correctly).
+    that the model rendered the input image correctly).
   - Circle count stays constant throughout (no unexplained merges/splits/
     disappearances) — flag or exclude trials that fail this.
   - Exactly K circles are red in the final frame — trials with the wrong
@@ -99,11 +89,12 @@ This is the core scoring logic and needs the most design care:
   whether it corresponds to a circle that was red in frame 0. Compute
   accuracy as fraction of correctly-identified cued circles per trial.
 
-### 4. Batch runner
-- Sweep `n_circles` across e.g. [3, 4, 5, 6, 8, 10, 12], fixed `n_cued=2`,
-  multiple seeds/repeats per N (for noise — Veo generation is stochastic).
-- Log per-trial: config, prompt, ground_truth, output video path, extracted
-  trajectories, validity flags, accuracy score.
+### 3. Batch runner
+- Sweep `n_circles` across e.g. [2, 3, 4, 5, 6, 8, 10, 12], fixed
+  `n_cued=1` or `2`, multiple seeds/repeats per N (for noise — generation
+  is stochastic).
+- Log per-trial: config, prompt, model, ground_truth, output video path,
+  extracted trajectories, validity flags, accuracy score.
 - Output a tidy CSV/DataFrame for downstream analysis (accuracy vs. N plot
   is the headline result — looking for a capacity "knee" around N=4-5 per
   Pylyshyn/MOT literature).
@@ -114,6 +105,10 @@ This is the core scoring logic and needs the most design care:
 - Whether to also vary "path crossing" (deliberately prompting for cued vs.
   distractor paths to cross) as a separate manipulation, per the
   feature-swap/tunnel-effect logic discussed earlier in this project.
-- How many repeats per condition are needed given Veo's generation cost/
-  latency — worth a small pilot (e.g., n=5 per condition) before committing
-  to a full sweep.
+- How many repeats per condition are needed given generation cost/latency
+  — worth a small pilot (e.g., n=5 per condition) before committing to a
+  full sweep.
+- Whether/how prompt wording and request payload fields (duration, size,
+  audio) need to vary across models, now that `client.py` no longer
+  hardcodes Veo — different OpenRouter video models may expect different
+  parameters or tolerate different phrasing.

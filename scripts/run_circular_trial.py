@@ -18,9 +18,11 @@ Usage:
 import json
 import os
 
+from finst_video_model.client import run_trial
 from finst_video_model.config import TrialConfig
 from finst_video_model.stimulus_gen import generate_circular_track_stimulus
-from finst_video_model.veo_client import run_trial
+
+MODEL = "google/veo-3.1"
 
 
 def build_prompt(cfg: TrialConfig) -> str:
@@ -71,7 +73,7 @@ def main():
     ground_truth = generate_circular_track_stimulus(cfg, trial_dir)
     prompt = build_prompt(cfg)
 
-    result = run_trial(cfg, trial_dir, prompt, ground_truth["frame0_path"])
+    result = run_trial(cfg, trial_dir, prompt, ground_truth["frame0_path"], MODEL)
     print(json.dumps(result, indent=2))
 
 

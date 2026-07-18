@@ -1,14 +1,14 @@
 """
-OpenRouter REST client for Veo 3.1 video generation.
+OpenRouter REST client for video generation models.
 
-Talks to Veo exclusively through OpenRouter's async video API (submit ->
-poll -> download), per claude/openrouter/video_generation.md. This project
-does NOT use the Google Gemini SDK.
+Talks to models exclusively through OpenRouter's async video API (submit ->
+poll -> download), per claude/openrouter/video_generation.md, rather than
+any model provider's own SDK.
 
 This module is intentionally generic: it knows nothing about any particular
-experiment's stimulus or prompt. Each experiment script (in `scripts/`) owns
-its own prompt text and stimulus generation, then calls `run_trial` here to
-launch it.
+experiment's stimulus, prompt, or model choice. Each experiment script (in
+`scripts/`) owns its own prompt text, stimulus generation, and model name,
+then calls `run_trial` here to launch it.
 """
 
 import base64
@@ -24,7 +24,6 @@ from finst_video_model.config import TrialConfig
 load_dotenv()
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
-VEO_MODEL = "google/veo-3.1"
 TERMINAL_STATUSES = {"completed", "failed", "cancelled", "expired"}
 
 
@@ -44,11 +43,12 @@ def _image_data_uri(image_path: str) -> str:
     return f"data:image/png;base64,{b64}"
 
 
-def submit_video_job(prompt: str, image_path: str, cfg: TrialConfig) -> dict:
-    """POSTs a video generation job to OpenRouter. Returns the submit
-    response: {"id", "polling_url", "status"}."""
+def submit_video_job(prompt: str, image_path: str, cfg: TrialConfig, model: str) -> dict:
+    """POSTs a video generation job to OpenRouter for `model` (an OpenRouter
+    model slug, e.g. "google/veo-3.1"). Returns the submit response:
+    {"id", "polling_url", "status"}."""
     payload = {
-        "model": VEO_MODEL,
+        "model": model,
         "prompt": prompt,
         "frame_images": [
             {
@@ -59,8 +59,8 @@ def submit_video_job(prompt: str, image_path: str, cfg: TrialConfig) -> dict:
         ],
         "duration": cfg.clip_duration_s,
         "size": f"{cfg.image_width}x{cfg.image_height}",
-        # Stimulus has no audio content, and audio-safety filters are a
-        # known Veo 3.1 false-positive source -- skip audio generation.
+        # Stimuli are visually silent; skip audio generation to avoid
+        # audio-safety-filter false positives some models exhibit.
         "generate_audio": False,
     }
     response = requests.post(
@@ -110,10 +110,10 @@ def download_video(status: dict, out_path: str) -> str:
     return out_path
 
 
-def run_trial(cfg: TrialConfig, trial_dir: str, prompt: str, frame0_path: str) -> dict:
+def run_trial(cfg: TrialConfig, trial_dir: str, prompt: str, frame0_path: str, model: str) -> dict:
     """Launches one trial: submits an already-built `prompt` + already-
-    rendered `frame0_path` image to Veo via OpenRouter, polls to completion,
-    and downloads the resulting video.
+    rendered `frame0_path` image to `model` via OpenRouter, polls to
+    completion, and downloads the resulting video.
 
     Failures (safety blocks, timeouts, malformed responses) are caught and
     recorded in the returned dict rather than raised, so a future batch
@@ -127,12 +127,13 @@ def run_trial(cfg: TrialConfig, trial_dir: str, prompt: str, frame0_path: str) -
 
     result = {
         "trial_id": cfg.trial_id,
+        "model": model,
         "prompt": prompt,
         "frame0_path": frame0_path,
     }
 
     try:
-        submitted = submit_video_job(prompt, frame0_path, cfg)
+        submitted = submit_video_job(prompt, frame0_path, cfg, model)
         result["job_id"] = submitted["id"]
         final_status = poll_job(submitted["polling_url"])
         result["status"] = final_status["status"]
