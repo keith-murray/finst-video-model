@@ -33,19 +33,30 @@ physics simulation.
 
 ## What's implemented
 
-- `config.py` — `TrialConfig` dataclass: all independent variables
-  (n_circles, n_cued, phase durations, geometry, colors, seed, plus
-  circular-track geometry). Validates phase durations sum to a supported
-  clip length (Veo 3.1 supports 4/6/8s; other models may differ).
-- `stimulus_gen.py` — renders frame 0 via PIL. Two stimulus types:
-  `generate_stimulus` (rejection-sampled non-overlapping circle placement,
-  free-form motion) and `generate_circular_track_stimulus` (circles evenly
-  spaced around a drawn circular track, for constrained clockwise motion —
-  this constraint noticeably reduced hallucinated motion compared to
-  free-form physics description). Both write `frame0.png` plus
-  `ground_truth.json` into a trial-specific output directory.
-- `client.py` — generic OpenRouter submit/poll/download client. Knows
-  nothing about any specific experiment's stimulus, prompt, or model
+**Status: this arm is abandoned as of 2026-07-20** — video-generation models
+(both prompt-only, here, and video-extend, see the comprehension arm's
+`scripts/run_extend_trial.py` below) proved too unreliable at multi-object
+motion to isolate a FINST/MOT signal from generation noise. Kept in place as
+a record of the experiment; see "Comprehension arm" below for the arm
+actually being developed further. All files below live under
+`src/finst_video_model/generation/`, siloed from the comprehension arm's
+`src/finst_video_model/comprehension/` since both define a same-named
+`TrialConfig` with incompatible fields.
+
+- `generation/config.py` — `TrialConfig` dataclass: all independent
+  variables (n_circles, n_cued, phase durations, geometry, colors, seed,
+  plus circular-track geometry). Validates phase durations sum to a
+  supported clip length (Veo 3.1 supports 4/6/8s; other models may differ).
+- `generation/stimulus_gen.py` — renders frame 0 via PIL. Two stimulus
+  types: `generate_stimulus` (rejection-sampled non-overlapping circle
+  placement, free-form motion) and `generate_circular_track_stimulus`
+  (circles evenly spaced around a drawn circular track, for constrained
+  clockwise motion — this constraint noticeably reduced hallucinated
+  motion compared to free-form physics description). Both write
+  `frame0.png` plus `ground_truth.json` into a trial-specific output
+  directory.
+- `generation/client.py` — generic OpenRouter submit/poll/download client.
+  Knows nothing about any specific experiment's stimulus, prompt, or model
   choice; `run_trial` takes an already-built prompt, frame-0 image path,
   and an OpenRouter model slug (e.g. `"google/veo-3.1"`), and launches it.
 - `scripts/run_trial.py` / `scripts/run_circular_trial.py` — one script per
@@ -60,6 +71,11 @@ Every trial's artifacts (`frame0.png`, `ground_truth.json`, `video.mp4`,
 `generation.json`) land in `data/<trial_id>/`, linked by `trial_id`.
 
 ## What's NOT implemented yet (next steps for Claude Code)
+
+The frame-extraction/blob-tracking/batch-runner plan below was designed for
+this now-abandoned generation arm and was never built. It's left here for
+reference in case a future video-generation model is worth revisiting, but
+is not the current direction — see "Comprehension arm" below for that.
 
 ### 1. Frame extraction
 - Use `ffmpeg` or `opencv` to pull all frames (or at minimum the last ~1s

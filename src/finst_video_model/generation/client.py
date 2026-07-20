@@ -19,7 +19,7 @@ import time
 import requests
 from dotenv import load_dotenv
 
-from finst_video_model.config import TrialConfig
+from finst_video_model.generation.config import TrialConfig
 
 load_dotenv()
 

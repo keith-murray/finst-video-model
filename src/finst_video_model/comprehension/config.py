@@ -2,7 +2,7 @@
 Trial configuration for the VLM (video-to-text) FINST/MOT capacity
 experiment -- the "comprehension arm".
 
-Unlike the Veo generation arm (see `finst_video_model.config`), we fully
+Unlike the Veo generation arm (see `finst_video_model.generation.config`), we fully
 simulate and render the video ourselves, so we have exact ground truth for
 every circle at every frame -- no reverse engineering required. The model's
 job is purely to answer a text question about which circles were cued.

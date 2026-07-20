@@ -14,7 +14,7 @@ import random
 from dataclasses import asdict
 from PIL import Image, ImageDraw
 
-from finst_video_model.config import TrialConfig
+from finst_video_model.generation.config import TrialConfig
 
 
 def _sample_non_overlapping_centers(cfg: TrialConfig) -> list[tuple[int, int]]:

@@ -14,9 +14,9 @@ Usage:
 import json
 import os
 
-from finst_video_model.client import run_trial
-from finst_video_model.config import TrialConfig
-from finst_video_model.stimulus_gen import generate_stimulus
+from finst_video_model.generation.client import run_trial
+from finst_video_model.generation.config import TrialConfig
+from finst_video_model.generation.stimulus_gen import generate_stimulus
 
 MODEL = "google/veo-3.1"
 
