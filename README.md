@@ -99,6 +99,52 @@ This is the core scoring logic and needs the most design care:
   is the headline result — looking for a capacity "knee" around N=4-5 per
   Pylyshyn/MOT literature).
 
+## Comprehension arm (video-understanding VLM)
+
+Motivated by video-generation models' own documented weakness at multi-object
+motion fidelity (the Veo arm above hit this directly — see
+`claude/2026_07_18/TODO.md` results), this arm sidesteps generation entirely:
+we render the video ourselves with deterministic physics (exact ground truth,
+nothing to reverse-engineer from output pixels), and ask a video-*understanding*
+VLM a text question instead of asking a video-*generation* model to move
+objects correctly.
+
+- `src/finst_video_model/comprehension/config.py` — a separate `TrialConfig`
+  (distinct from the Veo arm's) with `fps`/`tracking_s`/`speed_px_s` physics
+  timing instead of a fixed clip duration, plus `force_path_crossing` (biases
+  cued circles' initial headings toward the distractor centroid, to increase
+  trajectory-crossing events during tracking) and `use_label_phase` — a
+  hyperparameter for whether the video ends with a frozen, letter-labeled
+  frame. Label phase is needed for the VLM text-question task below; disable
+  it for uses that only need the raw cue -> tracking motion (e.g. probing a
+  frozen encoder's activations directly against ground truth, no text answer
+  involved).
+- `comprehension/physics.py` — deterministic constant-velocity motion with
+  elastic wall bounces; non-overlapping initial placement via rejection
+  sampling.
+- `comprehension/stimulus_gen.py` — renders the full mp4 (via OpenCV
+  `VideoWriter`) across the cue / tracking / (optional) label phases, and
+  writes `ground_truth.json` with every circle's final position, assigned
+  letter (`null` if `use_label_phase=False`), and cued/not-cued status, plus
+  the answer key (`cued_letters`, `null` if no label phase). Same
+  `data/<trial_id>/` artifact convention as the Veo arm.
+- `scripts/run_comprehension_trial.py` — the one script that owns this arm's
+  question text (`build_question`, matching the convention that prompts live
+  next to launch code, not in the shared package) and runs stimulus
+  generation end to end, writing `video.mp4` / `ground_truth.json` /
+  `question.txt` into `data/<trial_id>/`.
+
+**What's NOT implemented yet for this arm**:
+
+- No model call yet — the video and question are generated but nothing
+  sends them to a VLM. Needs a thin adapter per target API (Gemini,
+  Qwen3-VL, GPT-5, etc.) that uploads/attaches the video, sends the
+  question, and returns raw text.
+- Answer parsing (letters out of free text) and scoring against
+  `ground_truth["cued_letters"]` (exact-set match, plus partial-credit
+  precision/recall).
+- Batch runner sweeping `n_circles` x `force_path_crossing` x seeds.
+
 ## Open design questions to resolve before scaling up
 
 - Whether to sweep `n_cued` (K) as a second axis, not just `n_circles`.
