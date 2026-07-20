@@ -144,32 +144,57 @@ objects correctly.
   letter (`null` if `use_label_phase=False`), and cued/not-cued status, plus
   the answer key (`cued_letters`, `null` if no label phase). Same
   `data/<trial_id>/` artifact convention as the Veo arm.
-- `scripts/run_comprehension_trial.py` — the one script that owns this arm's
-  question text (`build_question`, matching the convention that prompts live
-  next to launch code, not in the shared package) and runs stimulus
-  generation end to end, writing `video.mp4` / `ground_truth.json` /
-  `question.txt` into `data/<trial_id>/`.
+- `comprehension/vlm_client.py` — generic OpenRouter chat-completions
+  wrapper (`ask_about_video`); knows nothing about any experiment's
+  question text or model choice, mirroring how `generation/client.py`
+  knows nothing about prompt/model choice for the Veo arm. Sends the
+  video as a base64 `video_url` data URL per
+  `claude/openrouter/video_input.md`. Note: OpenRouter rejects any
+  video-containing request with a `402` unless the account balance is
+  >= $1.00, regardless of the (tiny, ~$0.001/trial) actual per-call cost.
+- `comprehension/scoring.py` — `parse_answer_letters` (regex-extracts
+  standalone capital letters from the model's free-text answer) and
+  `score_answer` (compares against `ground_truth["cued_letters"]`:
+  exact-set match, "right count" cheap-success check, precision/recall for
+  partial credit).
+- `scripts/run_comprehension_trial.py` — the one script that owns this
+  arm's question text (`build_question`, matching the convention that
+  prompts live next to launch code, not in the shared package) and the
+  model choice. Runs one trial end to end (stimulus -> question -> VLM
+  call -> scoring), writing `video.mp4` / `ground_truth.json` /
+  `question.txt` / `result.json` into `data/<trial_id>/`. Takes
+  `--seed`/`--model`/`--n-circles`/`--n-cued` for quick one-off comparisons
+  by hand.
+- `scripts/run_comprehension_batch.py` — sweeps `n_circles` x `seeds` x
+  `models` (all as CLI args), running the same pipeline as
+  `run_comprehension_trial.py` for every combination via its imported
+  `build_question`. Unlike the one-off script, every trial from a single
+  invocation shares one `data/<batch_id>/` directory — per-trial artifacts
+  under `data/<batch_id>/trials/<trial_id>/`, plus `config.json` and one
+  aggregate `results.csv` at the top — instead of scattering a top-level
+  `data/<trial_id>/` folder per trial, so a whole sweep is one thing to
+  find or delete.
 - `scripts/run_extend_trial.py` — a sibling script for a different model
   class: instead of asking a VLM a text question, this renders the same
   cue -> tracking motion with `use_label_phase=False` (no frozen/labeled
-  ending) and writes an `extend_prompt.txt` asking a video-*extension* model
-  (one that continues an existing video from its last frame) to bring the
-  circles to a stop and recolor only the originally-cued ones red — closer
-  to the original Veo generation-arm task, but handing off only the re-cue
-  step instead of the whole clip. No model call is wired up yet (OpenRouter
-  video-extend support is still beta/sparse per
-  `claude/2026_07_20/TODO.md`) — this only produces the base video + prompt.
+  ending) and writes an `extend_prompt.txt` asking a video-*extension*
+  model (one that continues an existing video from its last frame) to
+  bring the circles to a stop and recolor only the originally-cued ones
+  red. **Abandoned** per `claude/2026_07_20/TODO.md`'s results note — Kling
+  AI could not actually extend the video, so this only produces the base
+  video + prompt and nothing further was built on it.
 
 **What's NOT implemented yet for this arm**:
 
-- No model call yet — the video and question are generated but nothing
-  sends them to a VLM. Needs a thin adapter per target API (Gemini,
-  Qwen3-VL, GPT-5, etc.) that uploads/attaches the video, sends the
-  question, and returns raw text.
-- Answer parsing (letters out of free text) and scoring against
-  `ground_truth["cued_letters"]` (exact-set match, plus partial-credit
-  precision/recall).
-- Batch runner sweeping `n_circles` x `force_path_crossing` x seeds.
+- Only a single fixed-`n_cued`, fixed-timing pilot has been run by hand (8
+  trials across `google/gemini-2.5-flash`, `qwen/qwen3.5-397b-a17b`,
+  `qwen/qwen3.5-flash-02-23`; near-chance identity accuracy, always right
+  on count) — not yet a real batch-runner sweep.
+- Sweeping `n_cued` and `force_path_crossing` as additional grid axes in
+  `run_comprehension_batch.py` (currently fixed via `--n-cued`, not swept).
+- Any analysis/plotting of `results.csv` (accuracy vs. `n_circles` is the
+  headline result — looking for a capacity "knee" around N=4-5 per
+  Pylyshyn/MOT literature).
 
 ## Open design questions to resolve before scaling up
 
