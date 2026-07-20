@@ -8,8 +8,13 @@ N, to get a stable per-N accuracy estimate) renders as one point per model
 with error bars from seed-to-seed variance; a multi-N sweep renders the full
 capacity curve.
 
+Reads from and writes back to results/<batch_id>/ (not data/<batch_id>/) --
+run_comprehension_batch.py puts results.csv there specifically because
+results/ is git-tracked and data/ is gitignored, so the plot lands alongside
+it for the same reason.
+
 Usage:
-    uv run python scripts/plot_comprehension_results.py data/<batch_id>
+    uv run python scripts/plot_comprehension_results.py results/<batch_id>
 """
 
 import argparse
@@ -125,7 +130,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "batch_dir",
-        help="Path to a data/<batch_id> directory produced by run_comprehension_batch.py",
+        help="Path to a results/<batch_id> directory produced by run_comprehension_batch.py",
     )
     args = parser.parse_args()
 

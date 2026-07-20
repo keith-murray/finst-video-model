@@ -168,12 +168,19 @@ objects correctly.
 - `scripts/run_comprehension_batch.py` — sweeps `n_circles` x `seeds` x
   `models` (all as CLI args), running the same pipeline as
   `run_comprehension_trial.py` for every combination via its imported
-  `build_question`. Unlike the one-off script, every trial from a single
-  invocation shares one `data/<batch_id>/` directory — per-trial artifacts
-  under `data/<batch_id>/trials/<trial_id>/`, plus `config.json` and one
-  aggregate `results.csv` at the top — instead of scattering a top-level
-  `data/<trial_id>/` folder per trial, so a whole sweep is one thing to
-  find or delete.
+  `build_question`. Every trial from one invocation shares a single
+  `batch_id`, split across two locations by git-tracking status: large,
+  regeneratable per-trial artifacts (video, ground truth, question,
+  response) go under `data/<batch_id>/trials/<trial_id>/` (`data/` is
+  gitignored), while the small analysis output — `config.json` and one
+  aggregate `results.csv` — goes to `results/<batch_id>/`, which *is*
+  tracked in git.
+- `scripts/plot_comprehension_results.py` — reads a `results/<batch_id>/`
+  directory's `results.csv` and writes `accuracy_plot.png` back into that
+  same directory: accuracy (exact-match rate) and mean recall vs.
+  `n_circles`, one color per model, aggregated (mean ± SEM) across seeds.
+  Works for a single-N pilot (one point per model with error bars from
+  seed variance) or a full multi-N sweep (the capacity curve).
 - `scripts/run_extend_trial.py` — a sibling script for a different model
   class: instead of asking a VLM a text question, this renders the same
   cue -> tracking motion with `use_label_phase=False` (no frozen/labeled

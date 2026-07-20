@@ -6,11 +6,11 @@ every trial's result as one row in a single results.csv.
 
 Unlike run_comprehension_trial.py (one trial per invocation, its own
 data/<trial_id>/ directory), every trial launched by one invocation of this
-script shares a single data/<batch_id>/ directory: individual trial
-artifacts (video, ground truth, question, result) live under
-data/<batch_id>/trials/<trial_id>/, with config.json and results.csv at the
-top level -- so a whole sweep is one thing to find, archive, or delete
-instead of dozens of loose top-level trial folders.
+script shares a single batch_id, split across two gitignore-aware locations:
+individual trial artifacts (video, ground truth, question, result -- large,
+regeneratable) live under data/<batch_id>/trials/<trial_id>/ (data/ is
+gitignored), while config.json and results.csv (small, the actual analysis
+output) go to results/<batch_id>/ so they're tracked in git.
 
 The question-building logic is imported from run_comprehension_trial.py
 rather than duplicated, since both scripts ask the exact same
@@ -117,9 +117,11 @@ def main():
 
     batch_id = uuid.uuid4().hex[:8]
     batch_dir = os.path.join("data", batch_id)
+    results_dir = os.path.join("results", batch_id)
     os.makedirs(os.path.join(batch_dir, "trials"), exist_ok=True)
+    os.makedirs(results_dir, exist_ok=True)
 
-    with open(os.path.join(batch_dir, "config.json"), "w") as f:
+    with open(os.path.join(results_dir, "config.json"), "w") as f:
         json.dump({
             "batch_id": batch_id,
             "n_circles": args.n_circles,
@@ -138,13 +140,14 @@ def main():
                 print(f"[{done}/{total}] model={model} n_circles={n_circles} seed={seed}")
                 rows.append(run_one_trial(batch_dir, model, n_circles, args.n_cued, seed))
 
-    results_csv = os.path.join(batch_dir, "results.csv")
+    results_csv = os.path.join(results_dir, "results.csv")
     with open(results_csv, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=RESULT_FIELDS)
         writer.writeheader()
         writer.writerows(rows)
 
     print(f"\nWrote {len(rows)} trial results to {results_csv}")
+    print(f"Raw trial artifacts (video/ground_truth/response) in {batch_dir}/trials/")
 
 
 if __name__ == "__main__":
