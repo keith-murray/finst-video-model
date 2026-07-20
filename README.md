@@ -133,6 +133,16 @@ objects correctly.
   next to launch code, not in the shared package) and runs stimulus
   generation end to end, writing `video.mp4` / `ground_truth.json` /
   `question.txt` into `data/<trial_id>/`.
+- `scripts/run_extend_trial.py` — a sibling script for a different model
+  class: instead of asking a VLM a text question, this renders the same
+  cue -> tracking motion with `use_label_phase=False` (no frozen/labeled
+  ending) and writes an `extend_prompt.txt` asking a video-*extension* model
+  (one that continues an existing video from its last frame) to bring the
+  circles to a stop and recolor only the originally-cued ones red — closer
+  to the original Veo generation-arm task, but handing off only the re-cue
+  step instead of the whole clip. No model call is wired up yet (OpenRouter
+  video-extend support is still beta/sparse per
+  `claude/2026_07_20/TODO.md`) — this only produces the base video + prompt.
 
 **What's NOT implemented yet for this arm**:
 
