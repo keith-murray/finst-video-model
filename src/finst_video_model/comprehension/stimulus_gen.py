@@ -66,8 +66,12 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
     n_label_frames = int(round(cfg.label_s * cfg.fps)) if cfg.use_label_phase else 0
 
     video_path = f"{out_dir}/video.mp4"
+    # avc1 (H.264) rather than mp4v (raw MPEG-4 Part 2) -- mp4v is valid but
+    # QuickTime/macOS's default player often can't decode it correctly
+    # (renders as solid green), even though standards-compliant decoders
+    # (e.g. the ffmpeg backend cv2.VideoCapture itself uses) read it fine.
     writer = cv2.VideoWriter(
-        video_path, cv2.VideoWriter_fourcc(*"mp4v"), cfg.fps,
+        video_path, cv2.VideoWriter_fourcc(*"avc1"), cfg.fps,
         (cfg.image_width, cfg.image_height)
     )
 

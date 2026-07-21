@@ -1,12 +1,14 @@
 """
-Plots accuracy vs n_circles -- the FINST/MOT capacity-limit signal this whole
-project is testing for -- from a run_comprehension_batch.py results.csv, one
-color-coded series per model, aggregated (mean +/- SEM) across seeds.
+Plots accuracy vs an independent variable -- n_circles (the FINST/MOT
+capacity-limit signal this whole project is testing for) by default, but
+any swept column in results.csv (fps, speed_px_s) via --x-axis -- from a
+run_comprehension_batch.py results.csv, one color-coded series per model,
+aggregated (mean +/- SEM) across seeds.
 
-Works for any sweep shape: a single-n_circles pilot (one seed range at one
-N, to get a stable per-N accuracy estimate) renders as one point per model
-with error bars from seed-to-seed variance; a multi-N sweep renders the full
-capacity curve.
+Works for any sweep shape: a single-value pilot (one seed range at one x
+value, to get a stable accuracy estimate) renders as one point per model
+with error bars from seed-to-seed variance; a multi-value sweep renders the
+full curve.
 
 Reads from and writes back to results/<batch_id>/ (not data/<batch_id>/) --
 run_comprehension_batch.py puts results.csv there specifically because
@@ -15,6 +17,8 @@ it for the same reason.
 
 Usage:
     uv run python scripts/plot_comprehension_results.py results/<batch_id>
+    uv run python scripts/plot_comprehension_results.py results/<batch_id> --x-axis fps
+    uv run python scripts/plot_comprehension_results.py results/<batch_id> --x-axis speed_px_s
 """
 
 import argparse
@@ -40,15 +44,15 @@ def load_rows(results_csv: str) -> list[dict]:
         return list(csv.DictReader(f))
 
 
-def aggregate(rows: list[dict]) -> dict:
-    """Groups trials by (model, n_circles) and reduces each group to
+def aggregate(rows: list[dict], x_axis: str) -> dict:
+    """Groups trials by (model, x_axis value) and reduces each group to
     mean/SEM for exact-match rate and mean recall. Trials with a recorded
     `error` (failed API calls) are excluded rather than counted as wrong."""
     groups = defaultdict(list)
     for row in rows:
         if row["error"]:
             continue
-        key = (row["model"], int(row["n_circles"]))
+        key = (row["model"], float(row[x_axis]))
         groups[key].append({
             "exact_match": row["exact_match"] == "True",
             "recall": float(row["recall"]),
@@ -69,9 +73,9 @@ def aggregate(rows: list[dict]) -> dict:
     return summary
 
 
-def plot(summary: dict, out_path: str):
+def plot(summary: dict, out_path: str, x_axis: str):
     models = sorted({model for model, _ in summary})
-    all_n_circles = sorted({n for _, n in summary})
+    all_x = sorted({x for _, x in summary})
     fig, (ax_exact, ax_recall) = plt.subplots(1, 2, figsize=(11, 4.5), facecolor="#fcfcfb")
 
     for ax in (ax_exact, ax_recall):
@@ -83,9 +87,9 @@ def plot(summary: dict, out_path: str):
             ax.spines[spine].set_color(BASELINE)
         ax.tick_params(colors=INK_MUTED)
         ax.set_ylim(-0.05, 1.05)
-        ax.set_xticks(all_n_circles)
-        pad = 0.5 if len(all_n_circles) > 1 else 1.0
-        ax.set_xlim(min(all_n_circles) - pad, max(all_n_circles) + pad)
+        ax.set_xticks(all_x)
+        pad = (max(all_x) - min(all_x)) * 0.08 if len(all_x) > 1 else 1.0
+        ax.set_xlim(min(all_x) - pad, max(all_x) + pad)
 
     for i, model in enumerate(models):
         color = MODEL_COLORS[i % len(MODEL_COLORS)]
@@ -111,7 +115,7 @@ def plot(summary: dict, out_path: str):
         (ax_exact, "Exact identity match", "Fraction of trials correct"),
         (ax_recall, "Recall (partial credit)", "Mean recall"),
     ):
-        ax.set_xlabel("n_circles", color=INK_SECONDARY)
+        ax.set_xlabel(x_axis, color=INK_SECONDARY)
         ax.set_ylabel(ylabel, color=INK_SECONDARY)
         ax.set_title(title, color=INK_PRIMARY, fontsize=11)
 
@@ -132,14 +136,19 @@ def main():
         "batch_dir",
         help="Path to a results/<batch_id> directory produced by run_comprehension_batch.py",
     )
+    parser.add_argument(
+        "--x-axis", type=str, default="n_circles",
+        help="results.csv column to use as the x-axis (n_circles, fps, or speed_px_s)",
+    )
     args = parser.parse_args()
 
     results_csv = os.path.join(args.batch_dir, "results.csv")
     rows = load_rows(results_csv)
-    summary = aggregate(rows)
+    summary = aggregate(rows, args.x_axis)
 
-    out_path = os.path.join(args.batch_dir, "accuracy_plot.png")
-    plot(summary, out_path)
+    out_name = "accuracy_plot.png" if args.x_axis == "n_circles" else f"accuracy_plot_{args.x_axis}.png"
+    out_path = os.path.join(args.batch_dir, out_name)
+    plot(summary, out_path, args.x_axis)
 
 
 if __name__ == "__main__":

@@ -1,8 +1,14 @@
 """
-Batch runner for the comprehension arm: sweeps n_circles x seeds x models,
-running the same generate_stimulus -> ask_about_video -> score_answer
-pipeline as run_comprehension_trial.py for every combination, and collects
-every trial's result as one row in a single results.csv.
+Batch runner for the comprehension arm: sweeps n_circles x fps x speed_px_s x
+seeds x models, running the same generate_stimulus -> ask_about_video ->
+score_answer pipeline as run_comprehension_trial.py for every combination,
+and collects every trial's result as one row in a single results.csv.
+
+fps and speed_px_s default to single-value lists (TrialConfig's defaults),
+so passing multiple values for just one of them (leaving n_circles/the other
+axis fixed) sweeps only that axis -- e.g. to isolate an fps effect at fixed
+n_circles/speed, or a speed effect at fixed n_circles/fps, without touching
+the other axes.
 
 Unlike run_comprehension_trial.py (one trial per invocation, its own
 data/<trial_id>/ directory), every trial launched by one invocation of this
@@ -63,23 +69,26 @@ from run_comprehension_trial import build_question
 DEFAULT_MODELS = ["google/gemini-2.5-flash"]
 DEFAULT_N_CIRCLES = [3, 4, 6, 8, 10]
 DEFAULT_SEEDS = [0, 1, 2]
+DEFAULT_FPS = [TrialConfig().fps]
+DEFAULT_SPEED_PX_S = [TrialConfig().speed_px_s]
 
 RESULT_FIELDS = [
-    "trial_id", "model", "seed", "n_circles", "n_cued",
+    "trial_id", "model", "seed", "n_circles", "n_cued", "fps", "speed_px_s",
     "cued_letters", "predicted_letters", "exact_match", "correct_count",
     "precision", "recall", "error",
 ]
 
 
 def run_one_trial(
-    batch_dir: str, model: str, n_circles: int, n_cued: int, seed: int,
-    cue_flash_s: float, tracking_s: float, label_s: float,
+    batch_dir: str, model: str, n_circles: int, n_cued: int, fps: int,
+    speed_px_s: float, seed: int, cue_flash_s: float, tracking_s: float,
+    label_s: float,
 ) -> dict:
     """Runs one trial into data/<batch_id>/trials/<trial_id>/ and returns its
     results.csv row (as a dict)."""
     cfg = TrialConfig(
-        n_circles=n_circles, n_cued=n_cued, seed=seed,
-        cue_flash_s=cue_flash_s, tracking_s=tracking_s, label_s=label_s,
+        n_circles=n_circles, n_cued=n_cued, fps=fps, speed_px_s=speed_px_s,
+        seed=seed, cue_flash_s=cue_flash_s, tracking_s=tracking_s, label_s=label_s,
     )
     trial_dir = os.path.join(batch_dir, "trials", cfg.trial_id)
     os.makedirs(trial_dir, exist_ok=True)
@@ -103,6 +112,8 @@ def run_one_trial(
         "seed": seed,
         "n_circles": n_circles,
         "n_cued": n_cued,
+        "fps": fps,
+        "speed_px_s": speed_px_s,
         "cued_letters": ",".join(ground_truth["cued_letters"]),
         "predicted_letters": "",
         "exact_match": "",
@@ -139,6 +150,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--n-circles", type=int, nargs="+", default=DEFAULT_N_CIRCLES)
     parser.add_argument("--n-cued", type=int, default=2)
+    parser.add_argument("--fps", type=int, nargs="+", default=DEFAULT_FPS)
+    parser.add_argument("--speed-px-s", type=float, nargs="+", default=DEFAULT_SPEED_PX_S)
     parser.add_argument("--seeds", type=int, nargs="+", default=DEFAULT_SEEDS)
     parser.add_argument("--models", type=str, nargs="+", default=DEFAULT_MODELS)
     parser.add_argument("--cue-flash-s", type=float, default=1.0)
@@ -182,6 +195,8 @@ def main():
             cfg_saved = json.load(f)
         n_circles_list = cfg_saved["n_circles"]
         n_cued = cfg_saved["n_cued"]
+        fps_list = cfg_saved["fps"]
+        speed_px_s_list = cfg_saved["speed_px_s"]
         seeds_list = cfg_saved["seeds"]
         models_list = cfg_saved["models"]
         cue_flash_s = cfg_saved["cue_flash_s"]
@@ -195,6 +210,8 @@ def main():
         os.makedirs(results_dir, exist_ok=True)
         n_circles_list = args.n_circles
         n_cued = args.n_cued
+        fps_list = args.fps
+        speed_px_s_list = args.speed_px_s
         seeds_list = args.seeds
         models_list = args.models
         cue_flash_s = args.cue_flash_s
@@ -205,6 +222,8 @@ def main():
                 "batch_id": batch_id,
                 "n_circles": n_circles_list,
                 "n_cued": n_cued,
+                "fps": fps_list,
+                "speed_px_s": speed_px_s_list,
                 "seeds": seeds_list,
                 "models": models_list,
                 "cue_flash_s": cue_flash_s,
@@ -218,21 +237,29 @@ def main():
     if file_exists:
         with open(results_csv) as f:
             for r in csv.DictReader(f):
-                already_ran.add((r["model"], int(r["n_circles"]), int(r["seed"])))
+                already_ran.add((
+                    r["model"], int(r["n_circles"]), int(r["fps"]),
+                    float(r["speed_px_s"]), int(r["seed"]),
+                ))
 
     pending = [
-        (model, n_circles, seed)
+        (model, n_circles, fps, speed_px_s, seed)
         for n_circles in n_circles_list
+        for fps in fps_list
+        for speed_px_s in speed_px_s_list
         for seed in seeds_list
         for model in models_list
-        if (model, n_circles, seed) not in already_ran
+        if (model, n_circles, fps, speed_px_s, seed) not in already_ran
     ]
     remaining_after_limit = 0
     if args.limit is not None and len(pending) > args.limit:
         remaining_after_limit = len(pending) - args.limit
         pending = pending[: args.limit]
 
-    total = len(n_circles_list) * len(seeds_list) * len(models_list)
+    total = (
+        len(n_circles_list) * len(fps_list) * len(speed_px_s_list)
+        * len(seeds_list) * len(models_list)
+    )
     done = len(already_ran)
     with open(results_csv, "a", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=RESULT_FIELDS)
@@ -243,16 +270,19 @@ def main():
         with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
             futures = {
                 pool.submit(
-                    run_one_trial, batch_dir, model, n_circles, n_cued, seed,
-                    cue_flash_s, tracking_s, label_s,
-                ): (model, n_circles, seed)
-                for model, n_circles, seed in pending
+                    run_one_trial, batch_dir, model, n_circles, n_cued, fps,
+                    speed_px_s, seed, cue_flash_s, tracking_s, label_s,
+                ): (model, n_circles, fps, speed_px_s, seed)
+                for model, n_circles, fps, speed_px_s, seed in pending
             }
             for future in concurrent.futures.as_completed(futures):
-                model, n_circles, seed = futures[future]
+                model, n_circles, fps, speed_px_s, seed = futures[future]
                 row = future.result()
                 done += 1
-                print(f"[{done}/{total}] model={model} n_circles={n_circles} seed={seed}")
+                print(
+                    f"[{done}/{total}] model={model} n_circles={n_circles} "
+                    f"fps={fps} speed_px_s={speed_px_s} seed={seed}"
+                )
                 writer.writerow(row)
                 csv_file.flush()
 

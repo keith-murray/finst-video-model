@@ -1,0 +1,35 @@
+{
+  "batch_id": "52aac03d",
+  "n_circles": [
+    4
+  ],
+  "n_cued": 1,
+  "fps": [
+    1,
+    2,
+    4,
+    8,
+    24
+  ],
+  "speed_px_s": [
+    140.0
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "models": [
+    "qwen/qwen3.5-flash-02-23"
+  ],
+  "cue_flash_s": 2.0,
+  "tracking_s": 6.0,
+  "label_s": 2.0
+}

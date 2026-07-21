@@ -18,6 +18,13 @@ sliding-window limiter shared across all callers in this process, including
 concurrent ones (e.g. run_comprehension_batch.py's thread pool) -- this way
 the cap holds regardless of how many trials a caller runs in parallel,
 rather than relying on --concurrency alone to stay under it.
+
+The limiter is per-process, though, so it has no memory of requests made by
+a different, prior process invocation (e.g. a quick one-off smoke test run
+moments before a real batch) -- OpenRouter's actual account-level window can
+still be partway used up even though this process's own deque starts empty.
+To absorb that (and any other transient 429), ask_about_video retries on a
+429 response with a short backoff rather than failing the trial outright.
 """
 
 import base64
@@ -74,6 +81,9 @@ def _video_data_uri(video_path: str) -> str:
     return f"data:video/mp4;base64,{b64}"
 
 
+MAX_429_RETRIES = 3
+
+
 def ask_about_video(video_path: str, question: str, model: str, timeout_s: float = 180.0) -> str:
     """Sends `video_path` + `question` to `model` (an OpenRouter chat model
     slug with video input support, e.g. "google/gemini-2.5-flash") via
@@ -93,16 +103,21 @@ def ask_about_video(video_path: str, question: str, model: str, timeout_s: float
             }
         ],
     }
-    _rate_limiter.acquire()
-    response = requests.post(
-        f"{OPENROUTER_BASE_URL}/chat/completions",
-        headers={
-            "Authorization": f"Bearer {_api_key()}",
-            "Content-Type": "application/json",
-        },
-        json=payload,
-        timeout=timeout_s,
-    )
-    response.raise_for_status()
-    data = response.json()
-    return data["choices"][0]["message"]["content"]
+    for attempt in range(MAX_429_RETRIES + 1):
+        _rate_limiter.acquire()
+        response = requests.post(
+            f"{OPENROUTER_BASE_URL}/chat/completions",
+            headers={
+                "Authorization": f"Bearer {_api_key()}",
+                "Content-Type": "application/json",
+            },
+            json=payload,
+            timeout=timeout_s,
+        )
+        if response.status_code == 429 and attempt < MAX_429_RETRIES:
+            retry_after = float(response.headers.get("Retry-After", 15.0))
+            time.sleep(retry_after)
+            continue
+        response.raise_for_status()
+        data = response.json()
+        return data["choices"][0]["message"]["content"]
