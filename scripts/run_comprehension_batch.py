@@ -26,16 +26,27 @@ model/n_circles/seed combinations (read back from the existing results.csv)
 are skipped rather than re-run and re-paid-for, and the original run's grid
 and timing come from its saved config.json rather than being re-specified.
 
+Trials run concurrently, up to --concurrency at a time (default 5), via a
+thread pool: each trial's ask_about_video call is latency-bound (waiting on
+OpenRouter, not local CPU), so running several in flight at once cuts
+wall-clock time roughly proportionally. Stimulus generation and the VLM
+client use only local, per-call RNG/file state (no shared globals), so
+trials don't interfere with each other; results.csv is still only ever
+written from the main thread as each trial completes, so no locking is
+needed there. Progress printouts and the --limit cutoff are in
+completion order, not the original sweep order, when concurrency > 1.
+
 Usage:
     uv run python scripts/run_comprehension_batch.py
     uv run python scripts/run_comprehension_batch.py \\
         --n-circles 2 4 6 8 10 --seeds 0 1 2 \\
         --models google/gemini-2.5-flash qwen/qwen3.5-397b-a17b \\
         --cue-flash-s 2 --tracking-s 6 --label-s 2
-    uv run python scripts/run_comprehension_batch.py --resume ce675830
+    uv run python scripts/run_comprehension_batch.py --resume ce675830 --concurrency 10
 """
 
 import argparse
+import concurrent.futures
 import csv
 import json
 import os
@@ -145,6 +156,16 @@ def main():
              "(e.g. to stay under a background-task duration limit); "
              "resume with --resume <batch_id> to continue",
     )
+    parser.add_argument(
+        "--concurrency", type=int, default=5,
+        help="Number of trials to run at once via a thread pool (each trial's "
+             "OpenRouter call is latency-bound, so this cuts wall-clock time "
+             "roughly proportionally). Safe to raise above OpenRouter's 20 "
+             "requests/minute limit -- vlm_client.ask_about_video enforces "
+             "that cap itself across all threads, so --concurrency only "
+             "controls local parallelism (stimulus rendering etc.), not the "
+             "actual request rate",
+    )
     args = parser.parse_args()
 
     batch_dir_for = lambda bid: os.path.join("data", bid)
@@ -199,6 +220,18 @@ def main():
             for r in csv.DictReader(f):
                 already_ran.add((r["model"], int(r["n_circles"]), int(r["seed"])))
 
+    pending = [
+        (model, n_circles, seed)
+        for n_circles in n_circles_list
+        for seed in seeds_list
+        for model in models_list
+        if (model, n_circles, seed) not in already_ran
+    ]
+    remaining_after_limit = 0
+    if args.limit is not None and len(pending) > args.limit:
+        remaining_after_limit = len(pending) - args.limit
+        pending = pending[: args.limit]
+
     total = len(n_circles_list) * len(seeds_list) * len(models_list)
     done = len(already_ran)
     with open(results_csv, "a", newline="") as csv_file:
@@ -207,28 +240,28 @@ def main():
             writer.writeheader()
             csv_file.flush()
 
-        run_count = 0
-        for n_circles in n_circles_list:
-            for seed in seeds_list:
-                for model in models_list:
-                    if (model, n_circles, seed) in already_ran:
-                        continue
-                    if args.limit is not None and run_count >= args.limit:
-                        print(
-                            f"\nReached --limit {args.limit} new trials; stopping early. "
-                            f"Resume with --resume {batch_id} to continue."
-                        )
-                        print(f"results.csv up to date at {results_csv}")
-                        return
-                    done += 1
-                    run_count += 1
-                    print(f"[{done}/{total}] model={model} n_circles={n_circles} seed={seed}")
-                    row = run_one_trial(
-                        batch_dir, model, n_circles, n_cued, seed,
-                        cue_flash_s, tracking_s, label_s,
-                    )
-                    writer.writerow(row)
-                    csv_file.flush()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
+            futures = {
+                pool.submit(
+                    run_one_trial, batch_dir, model, n_circles, n_cued, seed,
+                    cue_flash_s, tracking_s, label_s,
+                ): (model, n_circles, seed)
+                for model, n_circles, seed in pending
+            }
+            for future in concurrent.futures.as_completed(futures):
+                model, n_circles, seed = futures[future]
+                row = future.result()
+                done += 1
+                print(f"[{done}/{total}] model={model} n_circles={n_circles} seed={seed}")
+                writer.writerow(row)
+                csv_file.flush()
+
+    if remaining_after_limit:
+        print(
+            f"\nReached --limit {args.limit} new trials; stopping early. "
+            f"Resume with --resume {batch_id} to continue "
+            f"({remaining_after_limit} trial(s) remaining)."
+        )
 
     print(f"\nresults.csv up to date at {results_csv}")
     print(f"Raw trial artifacts (video/ground_truth/response) in {batch_dir}/trials/")

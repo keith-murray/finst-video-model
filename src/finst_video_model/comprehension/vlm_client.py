@@ -12,10 +12,19 @@ This module is intentionally generic: it knows nothing about any particular
 experiment's question text or model choice. Each experiment script (in
 `scripts/`) owns its own question text and model name, then calls
 `ask_about_video` here.
+
+Enforces OpenRouter's rate limit (20 requests/minute, per their docs) via a
+sliding-window limiter shared across all callers in this process, including
+concurrent ones (e.g. run_comprehension_batch.py's thread pool) -- this way
+the cap holds regardless of how many trials a caller runs in parallel,
+rather than relying on --concurrency alone to stay under it.
 """
 
 import base64
 import os
+import threading
+import time
+from collections import deque
 
 import requests
 from dotenv import load_dotenv
@@ -23,6 +32,31 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+MAX_REQUESTS_PER_MINUTE = 20
+
+
+class _RateLimiter:
+    """Sliding-window limiter: blocks callers so no more than `max_per_minute`
+    acquisitions happen in any trailing 60s window, across all threads."""
+
+    def __init__(self, max_per_minute: int):
+        self.max_per_minute = max_per_minute
+        self._timestamps = deque()
+        self._lock = threading.Lock()
+
+    def acquire(self):
+        with self._lock:
+            while True:
+                now = time.monotonic()
+                while self._timestamps and now - self._timestamps[0] >= 60.0:
+                    self._timestamps.popleft()
+                if len(self._timestamps) < self.max_per_minute:
+                    self._timestamps.append(now)
+                    return
+                time.sleep(60.0 - (now - self._timestamps[0]))
+
+
+_rate_limiter = _RateLimiter(MAX_REQUESTS_PER_MINUTE)
 
 
 def _api_key() -> str:
@@ -59,6 +93,7 @@ def ask_about_video(video_path: str, question: str, model: str, timeout_s: float
             }
         ],
     }
+    _rate_limiter.acquire()
     response = requests.post(
         f"{OPENROUTER_BASE_URL}/chat/completions",
         headers={
