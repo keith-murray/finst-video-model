@@ -2,11 +2,11 @@
 Plots accuracy vs an independent variable -- n_circles (the FINST/MOT
 capacity-limit signal this whole project is testing for) by default, but
 any swept column in results.csv (fps, speed_px_s) via --x-axis -- from a
-run_comprehension_batch.py results.csv, one color-coded series per model,
-aggregated (mean +/- SEM) across seeds.
+run_comprehension_batch.py results.csv, one color-coded series per
+--series-by value (default: model), aggregated (mean +/- SEM) across seeds.
 
 Works for any sweep shape: a single-value pilot (one seed range at one x
-value, to get a stable accuracy estimate) renders as one point per model
+value, to get a stable accuracy estimate) renders as one point per series
 with error bars from seed-to-seed variance; a multi-value sweep renders the
 full curve.
 
@@ -18,7 +18,7 @@ it for the same reason.
 Usage:
     uv run python scripts/plot_comprehension_results.py results/<batch_id>
     uv run python scripts/plot_comprehension_results.py results/<batch_id> --x-axis fps
-    uv run python scripts/plot_comprehension_results.py results/<batch_id> --x-axis speed_px_s
+    uv run python scripts/plot_comprehension_results.py results/<batch_id> --x-axis n_circles --series-by speed_px_s
 """
 
 import argparse
@@ -29,9 +29,10 @@ from collections import defaultdict
 
 import matplotlib.pyplot as plt
 
-# Categorical palette slots 1-3 (fixed order; validated for adjacent CVD
-# separation and normal-vision floor at data-viz skill's references/palette.md).
-MODEL_COLORS = ["#2a78d6", "#008300", "#e87ba4"]  # blue, green, magenta
+# Categorical palette slots 1-5, fixed order (validated for adjacent CVD
+# separation and normal-vision floor at data-viz skill's references/palette.md;
+# re-validated for 5 slots via scripts/validate_palette.js, light + dark).
+SERIES_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]  # blue, orange, aqua, yellow, magenta
 INK_PRIMARY = "#0b0b0b"
 INK_SECONDARY = "#52514e"
 INK_MUTED = "#898781"
@@ -44,15 +45,15 @@ def load_rows(results_csv: str) -> list[dict]:
         return list(csv.DictReader(f))
 
 
-def aggregate(rows: list[dict], x_axis: str) -> dict:
-    """Groups trials by (model, x_axis value) and reduces each group to
-    mean/SEM for exact-match rate and mean recall. Trials with a recorded
+def aggregate(rows: list[dict], x_axis: str, series_by: str) -> dict:
+    """Groups trials by (series_by value, x_axis value) and reduces each group
+    to mean/SEM for exact-match rate and mean recall. Trials with a recorded
     `error` (failed API calls) are excluded rather than counted as wrong."""
     groups = defaultdict(list)
     for row in rows:
         if row["error"]:
             continue
-        key = (row["model"], float(row[x_axis]))
+        key = (row[series_by], float(row[x_axis]))
         groups[key].append({
             "exact_match": row["exact_match"] == "True",
             "recall": float(row["recall"]),
@@ -73,8 +74,14 @@ def aggregate(rows: list[dict], x_axis: str) -> dict:
     return summary
 
 
-def plot(summary: dict, out_path: str, x_axis: str):
-    models = sorted({model for model, _ in summary})
+def plot(summary: dict, out_path: str, x_axis: str, series_by: str):
+    def series_sort_key(s):
+        try:
+            return (0, float(s))
+        except ValueError:
+            return (1, s)
+
+    series_values = sorted({series for series, _ in summary}, key=series_sort_key)
     all_x = sorted({x for _, x in summary})
     fig, (ax_exact, ax_recall) = plt.subplots(1, 2, figsize=(11, 4.5), facecolor="#fcfcfb")
 
@@ -91,12 +98,19 @@ def plot(summary: dict, out_path: str, x_axis: str):
         pad = (max(all_x) - min(all_x)) * 0.08 if len(all_x) > 1 else 1.0
         ax.set_xlim(min(all_x) - pad, max(all_x) + pad)
 
-    for i, model in enumerate(models):
-        color = MODEL_COLORS[i % len(MODEL_COLORS)]
-        points = sorted((n, s) for (m, n), s in summary.items() if m == model)
-        xs = [n for n, _ in points]
+    if len(series_values) > len(SERIES_COLORS):
+        raise ValueError(
+            f"{len(series_values)} series values ({series_by}) exceeds the "
+            f"{len(SERIES_COLORS)} validated palette slots -- fold extras into "
+            f"'Other' or facet into separate plots instead of cycling colors."
+        )
+
+    for i, series in enumerate(series_values):
+        color = SERIES_COLORS[i]
+        points = sorted((x, s) for (ser, x), s in summary.items() if ser == series)
+        xs = [x for x, _ in points]
         n_trials = [s["n"] for _, s in points]
-        label = f"{model} (n={min(n_trials)})" if len(set(n_trials)) == 1 else model
+        label = f"{series_by}={series} (n={min(n_trials)})" if len(set(n_trials)) == 1 else f"{series_by}={series}"
 
         ax_exact.errorbar(
             xs, [s["exact_match_rate"] for _, s in points],
@@ -122,7 +136,7 @@ def plot(summary: dict, out_path: str, x_axis: str):
     handles, labels = ax_exact.get_legend_handles_labels()
     fig.legend(
         handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.02),
-        ncol=min(len(models), 3), frameon=False, labelcolor=INK_PRIMARY, fontsize=9,
+        ncol=min(len(series_values), 3), frameon=False, labelcolor=INK_PRIMARY, fontsize=9,
     )
 
     fig.tight_layout(rect=(0, 0, 1, 0.92))
@@ -140,15 +154,20 @@ def main():
         "--x-axis", type=str, default="n_circles",
         help="results.csv column to use as the x-axis (n_circles, fps, or speed_px_s)",
     )
+    parser.add_argument(
+        "--series-by", type=str, default="model",
+        help="results.csv column to split into separate colored lines (default: model)",
+    )
     args = parser.parse_args()
 
     results_csv = os.path.join(args.batch_dir, "results.csv")
     rows = load_rows(results_csv)
-    summary = aggregate(rows, args.x_axis)
+    summary = aggregate(rows, args.x_axis, args.series_by)
 
-    out_name = "accuracy_plot.png" if args.x_axis == "n_circles" else f"accuracy_plot_{args.x_axis}.png"
+    suffix_parts = [p for p in (args.x_axis, args.series_by) if p != "n_circles" and p != "model"]
+    out_name = "accuracy_plot.png" if not suffix_parts else f"accuracy_plot_{'_'.join(suffix_parts)}.png"
     out_path = os.path.join(args.batch_dir, out_name)
-    plot(summary, out_path, args.x_axis)
+    plot(summary, out_path, args.x_axis, args.series_by)
 
 
 if __name__ == "__main__":
