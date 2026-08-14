@@ -1,15 +1,22 @@
 """
 Deterministic constant-velocity circle motion with elastic wall bounces.
-No circle-circle collision physics -- circles may visually overlap/cross,
-which is intentional (crossing events are the MOT-relevant manipulation,
-not a bug to fix). Every position at every frame is exactly known, since
-we're generating the ground truth, not inferring it after the fact.
+Every position at every frame is exactly known, since we're generating the
+ground truth, not inferring it after the fact.
+
+A continuous minimum-separation constraint (`_resolve_separations`, applied
+every tracking-phase frame via `step_tracking_frame`) now keeps any two
+circles from passing through each other during motion -- matching
+Pylyshyn's explicit no-identity-ambiguity guarantee, per
+`claude/2026_08_14/TODO.md`'s "Updating the old task". `force_path_crossing`
+(see `build_circles`) still biases cued circles' headings toward a close
+encounter with the distractor crowd; the difference is that such encounters
+now resolve as an elastic deflection rather than a visual overlap/pass-through.
 """
 
 import math
 import random
 
-from finst_video_model.comprehension.config import TrialConfig
+from finst_video_model.comprehension.smooth_pursuit.config import TrialConfig
 
 
 class Circle:
@@ -94,3 +101,41 @@ def build_circles(cfg: TrialConfig) -> tuple[list[Circle], set[int]]:
         circles.append(Circle(x, y, vx, vy, cfg.circle_radius, i))
 
     return circles, cued_indices
+
+
+def _resolve_separations(circles: list[Circle], min_dist: float):
+    """Elastic collision response (reflect the line-of-centers velocity
+    component, push apart to exactly meet min_dist) for any pair of circles
+    that end up closer than min_dist after a step -- keeps identity
+    unambiguous during motion, not just at initial placement."""
+    for i in range(len(circles)):
+        for j in range(i + 1, len(circles)):
+            a, b = circles[i], circles[j]
+            dx, dy = b.x - a.x, b.y - a.y
+            dist = math.hypot(dx, dy)
+            if dist == 0 or dist >= min_dist:
+                continue
+
+            nx, ny = dx / dist, dy / dist
+
+            overlap = min_dist - dist
+            a.x -= nx * overlap / 2
+            a.y -= ny * overlap / 2
+            b.x += nx * overlap / 2
+            b.y += ny * overlap / 2
+
+            a_vn = a.vx * nx + a.vy * ny
+            b_vn = b.vx * nx + b.vy * ny
+            a.vx += (b_vn - a_vn) * nx
+            a.vy += (b_vn - a_vn) * ny
+            b.vx += (a_vn - b_vn) * nx
+            b.vy += (a_vn - b_vn) * ny
+
+
+def step_tracking_frame(cfg: TrialConfig, circles: list[Circle], dt: float):
+    """Advances all circles by one frame during the tracking phase, then
+    resolves any resulting close-approach violations."""
+    for c in circles:
+        c.step(dt, cfg.image_width, cfg.image_height)
+    min_dist = cfg.circle_radius * cfg.min_center_distance_factor
+    _resolve_separations(circles, min_dist)
