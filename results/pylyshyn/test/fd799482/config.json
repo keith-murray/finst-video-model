@@ -1,0 +1,37 @@
+{
+  "batch_id": "fd799482",
+  "arm": "pylyshyn",
+  "model": "google/gemini-3.7-flash",
+  "provider": {
+    "only": [
+      "google-vertex"
+    ],
+    "allow_fallbacks": false
+  },
+  "reasoning": {
+    "effort": "minimal"
+  },
+  "n_cued": 1,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}
