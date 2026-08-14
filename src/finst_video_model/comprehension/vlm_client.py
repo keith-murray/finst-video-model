@@ -84,10 +84,32 @@ def _video_data_uri(video_path: str) -> str:
 MAX_429_RETRIES = 3
 
 
-def ask_about_video(video_path: str, question: str, model: str, timeout_s: float = 180.0) -> str:
+def ask_about_video(
+    video_path: str, question: str, model: str, timeout_s: float = 180.0,
+    provider: dict | None = None, reasoning: dict | None = None,
+    return_usage: bool = False,
+) -> str | tuple[str, dict | None]:
     """Sends `video_path` + `question` to `model` (an OpenRouter chat model
     slug with video input support, e.g. "google/gemini-2.5-flash") via
-    /chat/completions. Returns the model's raw text response."""
+    /chat/completions. Returns the model's raw text response.
+
+    `provider` and `reasoning`, when given, are passed through verbatim as
+    the OpenRouter request body's `provider`/`reasoning` fields (e.g.
+    `provider={"only": ["google-vertex"], "allow_fallbacks": False}` to pin
+    a specific provider, `reasoning={"effort": "minimal"}` to cap reasoning
+    spend on models that default to heavy internal reasoning even for a
+    short answer -- some endpoints reject `"effort": "none"` outright with
+    a 400, "reasoning is mandatory," so `"minimal"` is the practical floor,
+    and even that isn't a hard token cap: OpenRouter's own docs note actual
+    reasoning-token counts for Gemini are decided internally by Google
+    regardless of the requested effort level). Omitted (the default) for
+    both, matching prior behavior exactly.
+
+    If `return_usage`, returns `(text, usage_dict_or_None)` instead of just
+    `text` -- `usage_dict` is the response's raw `usage` object (token
+    counts and `cost` in USD), useful for a batch runner to log actual
+    per-trial spend rather than relying on a pre-run estimate.
+    """
     payload = {
         "model": model,
         "messages": [
@@ -103,6 +125,11 @@ def ask_about_video(video_path: str, question: str, model: str, timeout_s: float
             }
         ],
     }
+    if provider is not None:
+        payload["provider"] = provider
+    if reasoning is not None:
+        payload["reasoning"] = reasoning
+
     for attempt in range(MAX_429_RETRIES + 1):
         _rate_limiter.acquire()
         response = requests.post(
@@ -120,4 +147,5 @@ def ask_about_video(video_path: str, question: str, model: str, timeout_s: float
             continue
         response.raise_for_status()
         data = response.json()
-        return data["choices"][0]["message"]["content"]
+        text = data["choices"][0]["message"]["content"]
+        return (text, data.get("usage")) if return_usage else text
