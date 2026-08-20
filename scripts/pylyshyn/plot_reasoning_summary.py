@@ -77,7 +77,7 @@ def main():
     for spine in ("left", "bottom"):
         ax.spines[spine].set_color(BASELINE)
     ax.tick_params(colors=INK_MUTED)
-    ax.set_ylim(-5, 105)
+    ax.set_ylim(-5, 65)
     ax.axhline(50, color=INK_MUTED, linewidth=1, linestyle="--", zorder=1, label="_chance")
 
     for model, color in zip(models, SERIES_COLORS):
