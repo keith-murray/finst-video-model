@@ -147,5 +147,15 @@ def ask_about_video(
             continue
         response.raise_for_status()
         data = response.json()
-        text = data["choices"][0]["message"]["content"]
+        message = data["choices"][0]["message"]
+        text = message["content"]
+        if text is None:
+            # Seen with reasoning-heavy models (e.g. qwen3.8-27b at "low"
+            # effort): the completion budget is spent entirely on
+            # `reasoning`, leaving no tokens for the actual answer.
+            finish_reason = data["choices"][0].get("finish_reason")
+            raise RuntimeError(
+                f"Model returned no content (finish_reason={finish_reason!r}); "
+                f"usage={data.get('usage')!r}"
+            )
         return (text, data.get("usage")) if return_usage else text

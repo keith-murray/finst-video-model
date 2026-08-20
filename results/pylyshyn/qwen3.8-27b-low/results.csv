@@ -1,0 +1,639 @@
+trial_id,model,n_objects,n_cued,seed,probe_on_target,probe_is_target,response,predicted,outcome,cost,error
+22b0a647,qwen/qwen3.8-27b,2,1,0,True,True,False,False,miss,0.0120142,
+f4cf4ca3,qwen/qwen3.8-27b,2,1,5,True,True,"
+
+True",True,hit,0.0062342,
+f10d848a,qwen/qwen3.8-27b,2,1,10,False,False,"
+
+True",True,false_alarm,0.0091462,
+79649d3e,qwen/qwen3.8-27b,2,1,6,True,True,"
+
+True",True,hit,0.00804716,
+1b685f1b,qwen/qwen3.8-27b,2,1,8,True,True,"
+
+True",True,hit,0.0083622,
+8c2cb10d,qwen/qwen3.8-27b,2,1,3,True,True,"
+
+True",True,hit,0.01412636,
+12c28046,qwen/qwen3.8-27b,2,1,2,True,True,"
+
+True",True,hit,0.010071,
+5e740db9,qwen/qwen3.8-27b,2,1,13,False,False,"
+
+False",False,correct_rejection,0.01084536,
+9aa8ec06,qwen/qwen3.8-27b,2,1,11,False,False,"
+
+False",False,correct_rejection,0.0064398,
+85857cd1,qwen/qwen3.8-27b,2,1,15,False,False,"
+
+False",False,correct_rejection,0.0062342,
+bf4da693,qwen/qwen3.8-27b,2,1,14,False,False,"
+
+False",False,correct_rejection,0.0062342,
+1e7ea1d9,qwen/qwen3.8-27b,2,1,17,False,False,"
+
+False",False,correct_rejection,0.0076614,
+3ee99ec1,qwen/qwen3.8-27b,2,1,7,True,True,True,True,hit,0.0122617,
+fd7f2ddb,qwen/qwen3.8-27b,2,1,9,True,True,False,False,miss,0.011935,
+4df6aeb9,qwen/qwen3.8-27b,4,1,0,True,True,"
+
+True",True,hit,0.0062342,
+9d351b5f,qwen/qwen3.8-27b,2,1,4,True,True,"
+
+True",True,hit,0.0091308,
+fff3c53d,qwen/qwen3.8-27b,2,1,12,False,False,"
+
+False",False,correct_rejection,0.0079638,
+fedff00b,qwen/qwen3.8-27b,4,1,5,True,True,"
+
+False",False,miss,0.0062342,
+cf4d1877,qwen/qwen3.8-27b,2,1,19,False,False,"
+
+False",False,correct_rejection,0.0071748,
+c8da9eaa,qwen/qwen3.8-27b,2,1,16,False,False,"
+
+False",False,correct_rejection,0.01075696,
+1e495021,qwen/qwen3.8-27b,2,1,1,True,True,"
+
+True",True,hit,0.0121998,
+a06dcce1,qwen/qwen3.8-27b,2,1,18,False,False,"
+
+False",False,correct_rejection,0.01066516,
+e09cd58b,qwen/qwen3.8-27b,4,1,9,True,True,"
+
+False",False,miss,0.0062342,
+e9ce2d50,qwen/qwen3.8-27b,4,1,3,True,True,True,True,hit,0.0124102,
+8c915341,qwen/qwen3.8-27b,4,1,1,True,True,"
+
+True",True,hit,0.0090278,
+e4aca279,qwen/qwen3.8-27b,4,1,2,True,True,True,True,hit,0.0118723,
+56be54f1,qwen/qwen3.8-27b,4,1,13,False,False,"
+
+False",False,correct_rejection,0.0089062,
+2af060de,qwen/qwen3.8-27b,4,1,7,True,True,False,False,miss,0.0126313,
+8f3e9976,qwen/qwen3.8-27b,4,1,16,False,False,"
+
+True",True,false_alarm,0.0062342,
+66daead6,qwen/qwen3.8-27b,4,1,15,False,False,"
+
+False",False,correct_rejection,0.010759,
+7de2bb8d,qwen/qwen3.8-27b,4,1,6,True,True,False,False,miss,0.0188518,
+ee397c45,qwen/qwen3.8-27b,4,1,11,False,False,"
+
+False",False,correct_rejection,0.0078738,
+2b6042be,qwen/qwen3.8-27b,4,1,14,False,False,"
+
+False",False,correct_rejection,0.0070968,
+a79cb7e8,qwen/qwen3.8-27b,6,1,1,True,True,"
+
+True",True,hit,0.007719,
+495e0a81,qwen/qwen3.8-27b,4,1,17,False,False,"
+
+False",False,correct_rejection,0.0080388,
+c48e6268,qwen/qwen3.8-27b,4,1,8,True,True,"
+
+True",True,hit,0.01158996,
+e5ca2eb1,qwen/qwen3.8-27b,4,1,12,False,False,"
+
+False",False,correct_rejection,0.01054956,
+96265d62,qwen/qwen3.8-27b,4,1,10,False,False,"
+
+False",False,correct_rejection,0.0090738,
+50a4b233,qwen/qwen3.8-27b,4,1,4,True,True,"
+
+False",False,miss,0.015127,
+6184430b,qwen/qwen3.8-27b,4,1,19,False,False,"
+
+False",False,correct_rejection,0.0091206,
+bdda52f4,qwen/qwen3.8-27b,4,1,18,False,False,"
+
+False",False,correct_rejection,0.0129254,
+911946ae,qwen/qwen3.8-27b,6,1,7,True,True,"
+
+True
+
+**True**",True,hit,0.0091334,
+5d74c236,qwen/qwen3.8-27b,6,1,8,True,True,"
+
+False",False,miss,0.0062342,
+9ee5b8a3,qwen/qwen3.8-27b,6,1,3,True,True,"
+
+True",True,hit,0.008535,
+df6ef8aa,qwen/qwen3.8-27b,6,1,0,True,True,"The cued cross that blinks at the start is the upper‑left one. Tracing its trajectory through the moving phase (upper‑left → left → top), it is the same object that briefly turns into a solid square around 11–13 s before reverting to a cross.
+
+True",True,hit,0.0118987,
+fe826e88,qwen/qwen3.8-27b,6,1,11,False,False,"
+
+False",False,correct_rejection,0.010327,
+44975830,qwen/qwen3.8-27b,6,1,14,False,False,"
+
+False",False,correct_rejection,0.0086854,
+6e205d23,qwen/qwen3.8-27b,6,1,6,True,True,"
+
+True",True,hit,0.008263,
+540d5c94,qwen/qwen3.8-27b,6,1,13,False,False,"
+
+False",False,correct_rejection,0.0123654,
+ab644c85,qwen/qwen3.8-27b,6,1,2,True,True,"
+
+True",True,hit,0.0091458,
+80784df8,qwen/qwen3.8-27b,6,1,12,False,False,"
+
+True",True,false_alarm,0.0161542,
+288e330e,qwen/qwen3.8-27b,6,1,16,False,False,"
+
+False",False,correct_rejection,0.0096838,
+5bbfa1ec,qwen/qwen3.8-27b,6,1,9,True,True,"
+
+False",False,miss,0.0085038,
+8b7c46c7,qwen/qwen3.8-27b,6,1,17,False,False,"
+
+True",True,false_alarm,0.0121478,
+f5ec8631,qwen/qwen3.8-27b,6,3,0,True,True,"
+
+False",False,miss,0.00623465,
+117ab54b,qwen/qwen3.8-27b,6,1,4,True,True,"
+
+False",False,miss,0.0122854,
+82353f5c,qwen/qwen3.8-27b,6,1,5,True,True,"
+
+True",True,hit,0.0107358,
+5bd7155d,qwen/qwen3.8-27b,6,1,15,False,False,"
+
+False",False,correct_rejection,0.0132614,
+26354402,qwen/qwen3.8-27b,6,3,1,True,True,"
+
+False",False,miss,0.01067584,
+fd4367f9,qwen/qwen3.8-27b,6,1,10,False,False,"
+
+False",False,correct_rejection,0.0101418,
+525611cd,qwen/qwen3.8-27b,6,3,2,True,True,"
+
+True",True,hit,0.01076084,
+72a90812,qwen/qwen3.8-27b,6,3,4,True,True,"
+
+True",True,hit,0.01075404,
+95674c27,qwen/qwen3.8-27b,6,3,6,True,True,"
+
+True",True,hit,0.00964265,
+00f33bec,qwen/qwen3.8-27b,6,3,8,True,True,"
+
+True",True,hit,0.00957545,
+2f59367e,qwen/qwen3.8-27b,6,1,19,False,False,"
+
+False",False,correct_rejection,0.0084648,
+f4d95b2b,qwen/qwen3.8-27b,6,3,5,True,True,") left
+- (1140, 455) right
+- (285, 515) center-left
+- (610, 630) bottom
+- (725, 645) bottom right
+
+That's 6 crosses. Hmm but description says 3 blink. In frame 4.4s, the left (140,335), right-middle (1140,455), center (285,515) disappeared — those are the 3 blinking ones (now in ""off"" phase). The remaining steady ones: top-right (875,110), bottom (610,630), bottom-right (725,645). So 3 steady + 3 blinking = 6 total.
+
+So the cued (blinking) crosses initially at: left (140,335), right-middle (1140,455), center (285,515).
+
+Now after blinking stops, all move. At ~8.5s they start moving. Now I need to track which cross becomes a square at ~14.6s-15.6s (the solid square on left around (110,240) at 14.6s and (165,230) at 15.6s).
+
+I need to determine if the square's identity was one of the 3 blinking crosses.
+
+Let me track motion. This is hard. Let's look at positions over time after movement begins.
+
+At 8.5s (movement start):
+- top-right (875,110)
+- left (140,355)
+- right-middle (1140,455)
+- center (285,515)
+- bottom (610,630)
+- bottom-right (725,645)
+
+These match initial positions roughly (small drift). Good, movement just started.
+
+Now track each.
+
+At 9.5s:
+- top-right (1130,40)
+- left (140,390)
+- right-middle (1140,455)
+- center (285,465)
+- bottom (480,650)
+- bottom-right (740,610)
+
+At 10.5s:
+- top-right (1130,110)
+- left (175,360)
+- right-middle (1060,455)
+- center (285,455)
+- bottom (520,660)
+- bottom-right (845,580)
+
+At 11.5s:
+- top-right (1180,110)
+- left (205,345)
+- right-middle (960,470)
+- center (235,480)
+- bottom (510,700)
+- bottom-right (840,580)
+
+At 12.5s:
+- top-right (1235,140)
+- left (140,310)
+- right-middle (835,565)
+- center (235,480)
+- bottom (495,690)
+- bottom-right (1070,140)?? wait there's one top-right (1235,140) and one (1070,140)? Let's look: frame 12.5s shows top-right (1235,140), left (140,310), center (235,480), bottom (495,690), and two in middle-right: (835,565) and (1070,140)? Actually (1070,140) top-right and (1235,140) also top-right? The image shows top-right corner (1235,140) and right (1070,565) and (835,565). Let's just say positions: top-right ~ (1235,140); left (140,310); center (235,480); middle (835,565); (1070,565); bottom (495,690).
+
+At 13.6s:
+- top-right (1235,110)
+- left (140,275)
+- center (235,455)
+- middle-right (995,640)
+- bottom (390,690)
+- another bottom-left (315,665)
+
+At 14.6s: square at left (110,240). Other crosses: top-right (1180,90), center (780,350), right (1070,550), bottom-mid (890,600), bottom-left (755,715), bottom (155,715).
+
+At 15.6s: square at (165,230). Others: top-right (1235,110), center (770,340), right-bottom (1070,630), bottom-mid (555,670), bottom-left (140,660).
+
+So the square is on the left side around (110-165, 230-240). Which cross is that? Track the ""left"" cross. At start left cross (140,335) was a blinking (cued) cross. Over time left cross: 8.5s (140,355), 9.5s (140,390), 10.5s (175,360), 11.5s (205,345), 12.5s (140,310), 13.6s (140,275), 14.6s square (110,240), 15.6s square (165,230). Yes! That trajectory matches the left cross that started at (140,335) which was one of the blinking cued crosses (it disappeared in frame 4.4s-7.4s).
+
+Thus the square corresponds to the originally-left cross which was cued/blinking. Therefore answer True.
+
+Let me double check that left cross was indeed blinking: in frames 4.4-7.4 the left (140,335) is absent, while top-right, bottom, bottom-right remain. Yes left was blinking. Good.
+
+Thus the cross that turned into square was a cued blinking cross. Answer True.
+
+Provide single word True.
+
+
+True",True,hit,0.01144105,
+4f0fe777,qwen/qwen3.8-27b,6,3,3,True,True,"
+
+True",True,hit,0.0077692,
+a4f96a92,qwen/qwen3.8-27b,6,3,9,True,True,"
+
+True",True,hit,0.00854825,
+b8597875,qwen/qwen3.8-27b,6,3,14,False,False,"
+
+False",False,correct_rejection,0.00893865,
+432a1b19,qwen/qwen3.8-27b,6,3,7,True,True,"Tracing the solid square (visible ~13–14 s at the screen centre) backwards through the motion shows it is the same object as the cross that started at the centre‑right position (≈1250, 265). That cross was not among the three that blinked during the initial cueing phase.
+
+False",False,miss,0.01159895,
+245cb607,qwen/qwen3.8-27b,6,3,16,False,False,"
+
+True",True,false_alarm,0.00623465,
+8f338af1,qwen/qwen3.8-27b,6,3,11,False,False,"
+
+False",False,correct_rejection,0.01088105,
+a145b14e,qwen/qwen3.8-27b,6,1,18,False,False,"
+
+False",False,correct_rejection,0.012631,
+972b123f,qwen/qwen3.8-27b,8,1,1,True,True,"
+
+False",False,miss,0.0062342,
+24b4c416,qwen/qwen3.8-27b,6,3,17,False,False,"
+
+False",False,correct_rejection,0.01097705,
+87c568c5,qwen/qwen3.8-27b,8,1,3,True,True,"
+
+True",True,hit,0.00916576,
+06a408a2,qwen/qwen3.8-27b,8,1,2,True,True,"
+
+True",True,hit,0.0133158,
+db031780,qwen/qwen3.8-27b,6,3,12,False,False,False,False,correct_rejection,0.01678985,
+05b6f36f,qwen/qwen3.8-27b,8,1,6,True,True,"
+
+False",False,miss,0.0062342,
+f1b97e1e,qwen/qwen3.8-27b,6,3,10,False,False,"
+
+True",True,false_alarm,0.0105082,
+ed9c771d,qwen/qwen3.8-27b,6,3,19,False,False,"
+
+False",False,correct_rejection,0.01429225,
+51cbbb8d,qwen/qwen3.8-27b,8,1,10,False,False,"
+
+True",True,false_alarm,0.0062342,
+457421f4,qwen/qwen3.8-27b,8,1,9,True,True,"
+
+True",True,hit,0.0099526,
+af171173,qwen/qwen3.8-27b,8,1,0,True,True,"
+
+False",False,miss,0.012583,
+a1c96535,qwen/qwen3.8-27b,6,3,15,False,False,"
+
+False",False,correct_rejection,0.01616425,
+691869b8,qwen/qwen3.8-27b,8,1,4,True,True,"
+
+True",True,hit,0.0142246,
+a49c5e73,qwen/qwen3.8-27b,8,1,5,True,True,False,False,miss,0.0096613,
+753adc3b,qwen/qwen3.8-27b,8,1,13,False,False,"
+
+False",False,correct_rejection,0.0062342,
+202693fa,qwen/qwen3.8-27b,8,1,8,True,True,"
+
+True",True,hit,0.0094662,
+bba43ccd,qwen/qwen3.8-27b,8,1,11,False,False,False,False,correct_rejection,0.0115819,
+e24b8fb7,qwen/qwen3.8-27b,8,1,16,False,False,"
+
+False",False,correct_rejection,0.01179056,
+78e585c4,qwen/qwen3.8-27b,8,1,15,False,False,False,False,correct_rejection,0.0124993,
+3b285b08,qwen/qwen3.8-27b,8,3,1,True,True,"
+
+True",True,hit,0.00764265,
+b659ad4a,qwen/qwen3.8-27b,8,1,18,False,False,"
+
+False",False,correct_rejection,0.00910796,
+49b6e3f2,qwen/qwen3.8-27b,8,1,17,False,False,True,True,false_alarm,0.0130075,
+73fa8c35,qwen/qwen3.8-27b,8,3,2,True,True,"
+
+True",True,hit,0.00924265,
+7bb30528,qwen/qwen3.8-27b,8,3,0,True,True,"
+
+True",True,hit,0.00932905,
+11b94592,qwen/qwen3.8-27b,8,3,3,True,True,"
+
+True",True,hit,0.01064745,
+dba025b3,qwen/qwen3.8-27b,8,3,4,True,True,"
+
+True",True,hit,0.01078185,
+7f9a95d5,qwen/qwen3.8-27b,8,3,6,True,True,"
+
+True",True,hit,0.01113065,
+9f285330,qwen/qwen3.8-27b,8,3,5,True,True,"
+
+True",True,hit,0.01294505,
+68116cbd,qwen/qwen3.8-27b,6,3,18,False,False,"
+
+False",False,correct_rejection,0.0145492,
+2033a7f3,qwen/qwen3.8-27b,8,1,14,False,False,"
+
+True",True,false_alarm,0.0118038,
+38fedaf9,qwen/qwen3.8-27b,8,3,10,False,False,"
+
+True",True,false_alarm,0.00623465,
+07d48461,qwen/qwen3.8-27b,8,3,8,True,True,"
+
+True",True,hit,0.01161084,
+2ab504cc,qwen/qwen3.8-27b,8,3,11,False,False,"
+
+False",False,correct_rejection,0.01108905,
+1f1f39b1,qwen/qwen3.8-27b,8,1,7,True,True,"
+
+False",False,miss,0.0153738,
+179f2503,qwen/qwen3.8-27b,8,1,12,False,False,"
+
+True",True,false_alarm,0.01444256,
+4c7d24b0,qwen/qwen3.8-27b,8,3,14,False,False,"
+
+True",True,false_alarm,0.01473065,
+5c75077c,qwen/qwen3.8-27b,8,1,19,False,False,"
+
+False",False,correct_rejection,0.01675796,
+b2afa3e7,qwen/qwen3.8-27b,8,3,12,False,False,False,False,correct_rejection,0.01047695,
+d67379ab,qwen/qwen3.8-27b,10,1,0,True,True,"
+
+True",True,hit,0.0062342,
+b966c0a0,qwen/qwen3.8-27b,10,1,2,True,True,"
+
+True",True,hit,0.0106982,
+a1601d8a,qwen/qwen3.8-27b,8,3,7,True,True,"
+
+False",False,miss,0.0113902,
+044e43c8,qwen/qwen3.8-27b,8,3,15,False,False,True,True,false_alarm,0.01357565,
+c8854218,qwen/qwen3.8-27b,10,1,1,True,True,"
+
+True",True,hit,0.0068538,
+4ceb5ead,qwen/qwen3.8-27b,8,3,18,False,False,False,False,correct_rejection,0.01259885,
+7a2c064b,qwen/qwen3.8-27b,8,3,9,True,True,"
+
+True",True,hit,0.0104962,
+3a13bfee,qwen/qwen3.8-27b,8,3,19,False,False,False,False,correct_rejection,0.01186295,
+7f826db4,qwen/qwen3.8-27b,8,3,16,False,False,"
+
+False",False,correct_rejection,0.01136425,
+fe3af804,qwen/qwen3.8-27b,10,1,6,True,True,"
+
+False",False,miss,0.0062342,
+449336f3,qwen/qwen3.8-27b,10,1,10,False,False,"
+
+False",False,correct_rejection,0.0062342,
+28950450,qwen/qwen3.8-27b,8,3,17,False,False,"
+
+False",False,correct_rejection,0.0091762,
+6b6c656e,qwen/qwen3.8-27b,10,1,8,True,True,"
+
+True",True,hit,0.0084038,
+ebe1bb78,qwen/qwen3.8-27b,10,1,9,True,True,")
+Let me list coordinates from 0.2s frame:
+- (325,110)
+- (1130,90)
+- (280,135)
+- (600,275)
+- (80,280)
+- (40,360)
+- (85,435)
+- (1150,275)
+- (200,595)
+- (650,635)
+
+Now 4.4s frame: I see (325,110),(1130,90),(280,135),(600,275),(80,280),(40,360),(85,435),(1150,275),(200,595) but the bottom (650,635) is MISSING. So the blinking cross is the one at approximately (650,635) — bottom middle.
+
+Check 5.4s: (650,635) missing again. 6.4s: present? 6.4s shows (650,635) present. 7.4s present. So yes the bottom-middle cross around (650,635) blinks (on/off). That's the cued cross.
+
+Now I need to track this cross as motion begins (around 8.5s onward) and see if it's the one that becomes a square (~13.6-15.6s).
+
+At 8.5s motion starts. The bottom cross (650,635) at 8.5s is at about (650,645) moving. Let's track frame by frame.
+
+8.5s: bottom cross ~ (650,645).
+9.5s: bottom ~ (620,685).
+10.5s: bottom ~ (605,685).
+11.5s: bottom ~ (625,685).
+12.6s: bottom ~ (630,680).
+13.6s: there's a square at (670,595)! And a cross at (670,635)? Let's look: 13.6s frame shows a small square at around (670,595) and a cross at (670,635). Hmm.
+
+Actually at 13.6s I see a square near (670,595) and below it a cross at (670,635). At 14.6s the square is at (700,585) and there's no cross below it. At 15.6s square at (720,575).
+
+So the square appears around the bottom-middle region, which is where the cued cross was. But I need to confirm the cued cross's trajectory leads to the square.
+
+Let's track the cued cross (starting bottom middle ~ (650,635)) through motion:
+8.5s (650,645)
+9.5s (620,685)
+10.5s (605,685)
+11.5s (625,685)
+12.6s (630,680)
+13.6s square at (670,595)? The cross at 12.6s (630,680) moving up-right could become square at (670,595) at 13.6s. Yes plausible.
+
+But wait, there might be other crosses in bottom region. Let's ensure no other cross is the square. The square is clearly in the lower-middle area, consistent with cued cross's path.
+
+Thus the square is the cued cross → answer True.
+
+Let me double check there isn't a separate cross that the square replaces. At 13.6s, the cued cross from 12.6s (630,680) — if it became square at (670,595), then the cross seen at (670,635) in 13.6s is a different cross that moved into that spot. That's fine.
+
+Given the cued cross's location (bottom middle) matches the square's location (bottom middle), answer True.
+
+I'm fairly confident. Provide ""True"".
+
+
+True",True,hit,0.0095686,
+e116a9f5,qwen/qwen3.8-27b,10,1,3,True,True,"
+
+True",True,hit,0.0081638,
+1dc78c38,qwen/qwen3.8-27b,10,1,14,False,False,"
+
+False",False,correct_rejection,0.0062342,
+35971cb4,qwen/qwen3.8-27b,10,1,15,False,False,"
+
+False",False,correct_rejection,0.0132646,
+5743d605,qwen/qwen3.8-27b,8,3,13,False,False,"
+
+True",True,false_alarm,0.0152692,
+bc07e2e5,qwen/qwen3.8-27b,10,1,4,True,True,True,True,hit,0.0174823,
+08acc990,qwen/qwen3.8-27b,10,1,19,False,False,"
+
+False",False,correct_rejection,0.008759,
+d731c3fd,qwen/qwen3.8-27b,10,1,7,True,True,"
+
+True",True,hit,0.0101478,
+c416030d,qwen/qwen3.8-27b,10,1,13,False,False,"
+
+False",False,correct_rejection,0.0105766,
+f69925c8,qwen/qwen3.8-27b,10,1,16,False,False,"
+
+False",False,correct_rejection,0.0104966,
+aabc168f,qwen/qwen3.8-27b,10,3,0,True,True,"
+
+True",True,hit,0.01067244,
+d657b320,qwen/qwen3.8-27b,10,3,1,True,True,"
+
+True",True,hit,0.01276905,
+ab22e0bc,qwen/qwen3.8-27b,10,3,3,True,True,"
+
+True",True,hit,0.00623465,
+341e18c8,qwen/qwen3.8-27b,10,1,12,False,False,"
+
+True",True,false_alarm,0.0108378,
+70651f46,qwen/qwen3.8-27b,10,1,5,True,True,"
+
+False",False,miss,0.0133968,
+b5d1f1a7,qwen/qwen3.8-27b,10,1,11,False,False,"
+
+False",False,correct_rejection,0.0120998,
+4a849e39,qwen/qwen3.8-27b,10,3,4,True,True,"
+
+False",False,miss,0.00623465,
+5cbcc89a,qwen/qwen3.8-27b,10,3,7,True,True,"
+
+True",True,hit,0.01019625,
+e52ec764,qwen/qwen3.8-27b,10,1,18,False,False,"
+
+False",False,correct_rejection,0.0097638,
+c1b4f7fa,qwen/qwen3.8-27b,10,3,12,False,False,"
+
+False",False,correct_rejection,0.00623465,
+8d2e4eda,qwen/qwen3.8-27b,10,3,14,False,False,"
+
+False",False,correct_rejection,0.00623465,
+0aba901a,qwen/qwen3.8-27b,10,3,5,True,True,"
+
+True",True,hit,0.01158505,
+9ebdd82a,qwen/qwen3.8-27b,10,3,6,True,True,"
+
+True",True,hit,0.0083392,
+42b05718,qwen/qwen3.8-27b,10,3,8,True,True,"
+
+False",False,miss,0.0084172,
+fab48a84,qwen/qwen3.8-27b,10,3,16,False,False,"
+
+False",False,correct_rejection,0.01016425,
+bba21557,qwen/qwen3.8-27b,10,3,17,False,False,"
+
+False",False,correct_rejection,0.00623465,
+94cb65ad,qwen/qwen3.8-27b,10,3,9,True,True,"
+
+True",True,hit,0.0092632,
+6063db9e,qwen/qwen3.8-27b,10,3,13,False,False,"
+
+False",False,correct_rejection,0.01060585,
+c30fc0ba,qwen/qwen3.8-27b,10,1,17,False,False,"
+
+The cross that blinked at the start, when followed through its continuous motion, ends up on a different trajectory than the object that momentarily solidifies into a square (the lower‑middle item around the 13–15 s mark). The two are distinct items.
+
+False",False,correct_rejection,0.0125478,
+2ac9bc1d,qwen/qwen3.8-27b,10,3,2,True,True,"
+
+False
+
+**Reasoning summary:** At the start, three crosses (upper‑middle‑right ≈(865,240), right‑middle ≈(1210,390), and lower‑right ≈(1065,515)) blink on/off while the other seven stay steady, identifying them as the cued set. After motion begins, those three cued crosses migrate toward the upper‑middle, right‑edge, and central regions by the time the square appears. The solid square (bottom‑right, ≈(1115–1190,680) at ~12.6–13.6 s) continues the trajectory of a cross that was in the lower‑right steady group, not any of the three originally blinking crosses. Hence the square‑transforming cross was **not** one of the cued blinking crosses.
+
+False",False,miss,0.01330985,
+12f04446,qwen/qwen3.8-27b,10,5,2,True,True,"
+
+False",False,miss,0.00623465,
+02373b86,qwen/qwen3.8-27b,10,3,18,False,False,"
+
+False",False,correct_rejection,0.01244905,
+13861bf1,qwen/qwen3.8-27b,10,5,6,True,True,"
+
+True",True,hit,0.00623465,
+0c4b843c,qwen/qwen3.8-27b,10,3,10,False,False,"
+
+True",True,false_alarm,0.0101572,
+a7eee7ea,qwen/qwen3.8-27b,10,5,7,True,True,"
+
+True",True,hit,0.00623465,
+b281b0b4,qwen/qwen3.8-27b,10,3,11,False,False,"
+
+False",False,correct_rejection,0.0111862,
+534e2a81,qwen/qwen3.8-27b,10,5,3,True,True,False,False,miss,0.01155935,
+d70a4f27,qwen/qwen3.8-27b,10,5,5,True,True,True,True,hit,0.01109735,
+29b9be26,qwen/qwen3.8-27b,10,3,15,False,False,"
+
+False",False,correct_rejection,0.01064105,
+488433d3,qwen/qwen3.8-27b,10,5,12,False,False,"
+
+True",True,false_alarm,0.00623465,
+e22e1620,qwen/qwen3.8-27b,10,5,11,False,False,"
+
+False",False,correct_rejection,0.00981904,
+d427cd3b,qwen/qwen3.8-27b,10,5,10,False,False,False,False,correct_rejection,0.00925265,
+0f73c161,qwen/qwen3.8-27b,10,3,19,False,False,"
+
+False",False,correct_rejection,0.01622804,
+65f2d4d8,qwen/qwen3.8-27b,10,5,8,True,True,"
+
+True",True,hit,0.01427625,
+2e2e71b8,qwen/qwen3.8-27b,10,5,0,True,True,"
+
+True",True,hit,0.01227945,
+9768dbda,qwen/qwen3.8-27b,10,5,9,True,True,"
+
+True",True,hit,0.01217705,
+0d756959,qwen/qwen3.8-27b,10,5,16,False,False,False,False,correct_rejection,0.01095545,
+3d2b1ef6,qwen/qwen3.8-27b,10,5,4,True,True,"
+
+True",True,hit,0.0135952,
+e45a28df,qwen/qwen3.8-27b,10,5,18,False,False,"
+
+True",True,false_alarm,0.01239284,
+f22929da,qwen/qwen3.8-27b,10,5,17,False,False,"
+
+True",True,false_alarm,0.01891625,
+85c03a40,qwen/qwen3.8-27b,10,5,15,False,False,"
+
+False",False,correct_rejection,0.0099052,
+b67565d8,qwen/qwen3.8-27b,10,5,13,False,False,"
+
+False",False,correct_rejection,0.0123922,
+afb02961,qwen/qwen3.8-27b,10,5,19,False,False,"
+
+False",False,correct_rejection,0.01228265,
+9f0cf248,qwen/qwen3.8-27b,10,5,14,False,False,"
+
+True",True,false_alarm,0.0144082,
+bf85c628,qwen/qwen3.8-27b,10,5,1,True,True,"
+
+True
+
+**True**",True,hit,0.0127192,
+07cb75da,qwen/qwen3.8-27b,6,3,13,False,False,"
+
+False",False,correct_rejection,0.01071465,

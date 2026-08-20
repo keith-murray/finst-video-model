@@ -1,0 +1,24 @@
+{
+  "run_name": "qwen3.8-27b",
+  "arm": "pylyshyn",
+  "models": [
+    "qwen/qwen3.8-27b"
+  ],
+  "reasoning": {
+    "qwen/qwen3.8-27b": {
+      "enabled": false
+    }
+  },
+  "n_objects": [
+    2
+  ],
+  "n_cued_by_n_objects": {
+    "2": [
+      1
+    ]
+  },
+  "seeds": [
+    0,
+    1
+  ]
+}
