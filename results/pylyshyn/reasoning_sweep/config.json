@@ -1,0 +1,54 @@
+{
+  "run_name": "reasoning_sweep",
+  "arm": "pylyshyn",
+  "models": [
+    "qwen/qwen3.8-27b",
+    "qwen/qwen3.8-max"
+  ],
+  "n_objects": 2,
+  "n_cued": 1,
+  "reasoning_levels_by_model": {
+    "qwen/qwen3.8-27b": [
+      "none",
+      "minimal",
+      "low",
+      "medium",
+      "high"
+    ],
+    "qwen/qwen3.8-max": [
+      "minimal",
+      "low",
+      "medium",
+      "high"
+    ]
+  },
+  "reasoning_level_order": [
+    "none",
+    "minimal",
+    "low",
+    "medium",
+    "high"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}
