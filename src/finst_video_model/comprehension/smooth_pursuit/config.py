@@ -50,10 +50,10 @@ class TrialConfig:
                                         # condition)
 
     # --- Timing (seconds) ---
-    fps: int = 24
-    cue_flash_s: float = 1.0    # initial red cue period; circles are
+    fps: int = 20
+    cue_flash_s: float = 2.0    # initial red cue period; circles are
                                  # stationary throughout this phase
-    tracking_s: float = 8.0     # de-cued phase, all circles identical gray
+    tracking_s: float = 6.0     # de-cued phase, all circles identical gray
 
     # Duration of the end-of-trial probe: motion freezes at the end of
     # tracking_s, one circle (probed_index) is recolored cued_color, and
@@ -72,16 +72,16 @@ class TrialConfig:
     probe_on_target: bool = True
 
     # --- Motion ---
-    speed_px_s: float = 140.0   # constant circle speed, pixels/second,
+    speed_px_s: float = 64.0   # constant circle speed, pixels/second,
                                  # unchanged for the whole tracking phase --
                                  # this single-heading-per-trial motion is
                                  # what distinguishes this task from
                                  # pylyshyn's frequently-redirecting walk
 
     # --- Stimulus geometry ---
-    image_width: int = 1280
-    image_height: int = 720
-    circle_radius: int = 28
+    image_width: int = 384
+    image_height: int = 384
+    circle_radius: int = 16
     min_center_distance_factor: float = 2.6  # * radius; enforced both at
                                                # initial placement and
                                                # continuously during motion
