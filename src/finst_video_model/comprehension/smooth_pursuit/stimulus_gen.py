@@ -18,9 +18,12 @@ Ground truth (which circles were cued, which one was probed, and whether
 that probe was actually cued) is known exactly, since we simulated every
 position ourselves.
 
-Writes `<out_dir>/video.mp4` and `<out_dir>/ground_truth.json`. `out_dir` is
-expected to already be trial-specific (e.g. `data/<trial_id>/`), matching
-the convention used elsewhere in this project.
+Writes `<out_dir>/video.mp4` and `<out_dir>/ground_truth.json`, and -- if
+`save_npy=True` -- also `<out_dir>/video.npy` (every rendered frame stacked
+into one `(n_frames, H, W, 3)` uint8 RGB array, for comparing against the
+mp4 to check for encoding-introduced artifacts). `out_dir` is expected to
+already be trial-specific (e.g. `data/<trial_id>/`), matching the convention
+used elsewhere in this project.
 """
 
 import json
@@ -56,7 +59,7 @@ def _choose_probe(cfg: TrialConfig, cued_indices: set[int], rng: random.Random) 
     return rng.choice(candidates)
 
 
-def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
+def generate_stimulus(cfg: TrialConfig, out_dir: str, save_npy: bool = False) -> dict:
     cfg.validate()
 
     circles, cued_indices = build_circles(cfg)
@@ -78,21 +81,33 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
         (cfg.image_width, cfg.image_height)
     )
 
+    frames = [] if save_npy else None
+
+    def _write(frame: np.ndarray):
+        writer.write(frame)
+        if frames is not None:
+            frames.append(frame[..., ::-1])  # BGR (cv2 convention) -> RGB
+
     # --- Cue phase: stationary, cued subset shown red ---
     for _ in range(n_cue_frames):
-        writer.write(_draw_frame(cfg, circles, cued_indices, show_cue=True))
+        _write(_draw_frame(cfg, circles, cued_indices, show_cue=True))
 
     # --- Tracking phase: all circles gray, moving ---
     for _ in range(n_track_frames):
-        writer.write(_draw_frame(cfg, circles, cued_indices))
+        _write(_draw_frame(cfg, circles, cued_indices))
         step_tracking_frame(cfg, circles, dt)
 
     # --- Probe phase: freeze, highlight probed_index, hold ---
     probe_frame = _draw_frame(cfg, circles, cued_indices, probed_index=probed_index)
     for _ in range(n_probe_frames):
-        writer.write(probe_frame)
+        _write(probe_frame)
 
     writer.release()
+
+    npy_path = None
+    if frames is not None:
+        npy_path = f"{out_dir}/video.npy"
+        np.save(npy_path, np.stack(frames, axis=0))
 
     circles_meta = [
         {
@@ -108,6 +123,7 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
         "trial_id": cfg.trial_id,
         "config": asdict(cfg),
         "video_path": video_path,
+        "npy_path": npy_path,
         "circles": circles_meta,
         "cued_indices": sorted(cued_indices),
         "probed_index": probed_index,

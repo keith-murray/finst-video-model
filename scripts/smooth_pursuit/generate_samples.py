@@ -25,6 +25,12 @@ def main():
     parser.add_argument("--n-cued", type=int, nargs="+", default=[1, 2, 4])
     parser.add_argument("--seeds-per-condition", type=int, default=1)
     parser.add_argument("--out-root", type=str, default="data/smooth_pursuit_samples")
+    parser.add_argument(
+        "--save-npy", action="store_true",
+        help="Also save each trial's raw frames as <trial_dir>/video.npy "
+             "(uint8 RGB, one array per trial) alongside video.mp4, for "
+             "comparing against the mp4 to check for encoding artifacts.",
+    )
     args = parser.parse_args()
 
     os.makedirs(args.out_root, exist_ok=True)
@@ -42,7 +48,7 @@ def main():
             trial_dir = os.path.join(args.out_root, cfg.trial_id)
             os.makedirs(trial_dir, exist_ok=True)
 
-            ground_truth = generate_stimulus(cfg, trial_dir)
+            ground_truth = generate_stimulus(cfg, trial_dir, save_npy=args.save_npy)
 
             print(
                 f"n_cued={n_cued} probe_on_target={probe_on_target} seed={seed} "
