@@ -17,10 +17,15 @@ pylyshyn/smooth_pursuit arms (see `claude/2026_08/2026_08_25/TODO.md`):
 Ground truth (every object's base angle, which index was cued, and which
 was probed) is known exactly, since we simulate every position ourselves.
 
-Always writes both `<out_dir>/video.mp4` (for human eyeballing/debugging)
-and `<out_dir>/video.npy` (every rendered frame stacked into one
+Always writes `<out_dir>/video.npy` (every rendered frame stacked into one
 `(n_frames, H, W, 3)` uint8 RGB array -- what the locally-hosted
-Qwen3.8-27B actually receives), plus `<out_dir>/ground_truth.json`.
+Qwen3.8-27B actually receives) and `<out_dir>/ground_truth.json`. Also
+writes `<out_dir>/video.mp4` (for human eyeballing/debugging) unless
+`save_mp4=False` -- the cluster's compute nodes have no GPU video-encode
+device and can't reliably produce the mp4 (see
+`claude/skills/cluster/qwen38_cluster_handoff.md`'s "skip video encoding
+entirely for synthetic data" note), so stimuli generated directly on the
+cluster should pass `save_mp4=False` / `--no-save-mp4`.
 """
 
 import json
@@ -62,7 +67,7 @@ def _choose_probe(cfg: TrialConfig, cued_index: int, rng: random.Random) -> int:
     return rng.choice([i for i in range(cfg.n_objects) if i != cued_index])
 
 
-def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
+def generate_stimulus(cfg: TrialConfig, out_dir: str, save_mp4: bool = True) -> dict:
     cfg.validate()
 
     objects, cued_index = build_objects(cfg)
@@ -73,17 +78,20 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
     n_track_frames = int(round(cfg.tracking_s * cfg.fps))
     n_probe_frames = int(round(cfg.probe_flash_s * cfg.fps))
 
-    video_path = f"{out_dir}/video.mp4"
-    # avc1 (H.264) rather than mp4v -- mp4v renders as solid green in
-    # QuickTime/macOS's default player even though the pixel data is fine.
-    writer = cv2.VideoWriter(
-        video_path, cv2.VideoWriter_fourcc(*"avc1"), cfg.fps,
-        (cfg.image_width, cfg.image_height)
-    )
+    video_path = f"{out_dir}/video.mp4" if save_mp4 else None
+    writer = None
+    if save_mp4:
+        # avc1 (H.264) rather than mp4v -- mp4v renders as solid green in
+        # QuickTime/macOS's default player even though the pixel data is fine.
+        writer = cv2.VideoWriter(
+            video_path, cv2.VideoWriter_fourcc(*"avc1"), cfg.fps,
+            (cfg.image_width, cfg.image_height)
+        )
     frames = []
 
     def _write(frame: np.ndarray):
-        writer.write(frame)
+        if writer is not None:
+            writer.write(frame)
         frames.append(frame[..., ::-1])  # BGR (cv2 convention) -> RGB
 
     # --- Cue phase: stationary, cued index shown red ---
@@ -101,7 +109,8 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
     for _ in range(n_probe_frames):
         _write(probe_frame)
 
-    writer.release()
+    if writer is not None:
+        writer.release()
 
     npy_path = f"{out_dir}/video.npy"
     np.save(npy_path, np.stack(frames, axis=0))

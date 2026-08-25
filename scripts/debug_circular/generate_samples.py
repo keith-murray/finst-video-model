@@ -31,6 +31,12 @@ def main():
     parser.add_argument("--probe-on-target", type=int, default=[True,False])
     parser.add_argument("--seeds-per-condition", type=int, default=1)
     parser.add_argument("--out-root", type=str, default="data/debug_circular/debug_circular_samples")
+    parser.add_argument(
+        "--save-mp4", action=argparse.BooleanOptionalAction, default=True,
+        help="Also render video.mp4 alongside video.npy. Pass --no-save-mp4 "
+             "when generating directly on the cluster, whose compute nodes "
+             "have no GPU video-encode device and can't reliably produce mp4s.",
+    )
     args = parser.parse_args()
 
     os.makedirs(args.out_root, exist_ok=True)
@@ -60,7 +66,7 @@ def main():
             trial_dir = os.path.join(args.out_root, cfg.trial_id)
             os.makedirs(trial_dir, exist_ok=True)
 
-            ground_truth = generate_stimulus(cfg, trial_dir)
+            ground_truth = generate_stimulus(cfg, trial_dir, save_mp4=args.save_mp4)
 
             print(
                 f"rotation_deg={rotation_deg} clockwise={clockwise} "
