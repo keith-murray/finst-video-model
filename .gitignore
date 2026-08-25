@@ -13,3 +13,4 @@ wheels/
 data/
 .env
 claude/skills/cluster/
+slurm/logs/*.out

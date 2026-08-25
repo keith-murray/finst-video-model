@@ -43,8 +43,8 @@ class TrialConfig:
     probe_flash_s: float = 1.0   # frozen at final position; one shown red
 
     # --- Stimulus geometry ---
-    image_width: int = 400
-    image_height: int = 400
+    image_width: int = 384
+    image_height: int = 384
     circle_radius: int = 140    # radius of the path objects travel along
     object_size: int = 14        # cross half-extent
     arm_thickness: int = 5       # cross arm thickness
