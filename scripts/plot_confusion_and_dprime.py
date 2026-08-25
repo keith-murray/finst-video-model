@@ -1,10 +1,10 @@
 """
 Reads a batch runner's results.csv (either arm -- both share the
 probe_is_target/predicted/outcome columns produced by
-finst_video_model.comprehension.scoring) and renders a two-panel figure:
+finst_video_model.scoring) and renders a two-panel figure:
 a 2x2 confusion matrix (target/distractor probe x model's True/False
 answer) and a hit-rate/false-alarm-rate bar panel annotated with d' and
-criterion (finst_video_model.comprehension.scoring.compute_d_prime).
+criterion (finst_video_model.scoring.compute_d_prime).
 
 Colors follow this project's dataviz convention: a single-hue sequential
 blue ramp for the confusion matrix (magnitude = trial count per cell), and
@@ -23,7 +23,7 @@ import csv
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 
-from finst_video_model.comprehension.scoring import compute_d_prime
+from finst_video_model.scoring import compute_d_prime
 
 INK_PRIMARY = "#0b0b0b"
 INK_SECONDARY = "#52514e"

@@ -45,10 +45,10 @@ import os
 
 import requests
 
-from finst_video_model.comprehension.pylyshyn.config import TrialConfig
-from finst_video_model.comprehension.pylyshyn.stimulus_gen import generate_stimulus
-from finst_video_model.comprehension.scoring import classify_trial, parse_boolean_answer
-from finst_video_model.comprehension.vlm_client import ask_about_video
+from finst_video_model.pylyshyn.config import TrialConfig
+from finst_video_model.pylyshyn.stimulus_gen import generate_stimulus
+from finst_video_model.scoring import classify_trial, parse_boolean_answer
+from finst_video_model.vlm_client import ask_about_video
 from run_pylyshyn_trial import build_question
 
 N_OBJECTS = 2

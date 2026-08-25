@@ -16,7 +16,7 @@ now resolve as an elastic deflection rather than a visual overlap/pass-through.
 import math
 import random
 
-from finst_video_model.comprehension.smooth_pursuit.config import TrialConfig
+from finst_video_model.smooth_pursuit.config import TrialConfig
 
 
 class Circle:

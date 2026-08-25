@@ -33,8 +33,8 @@ from dataclasses import asdict
 import cv2
 import numpy as np
 
-from finst_video_model.comprehension.smooth_pursuit.config import TrialConfig
-from finst_video_model.comprehension.smooth_pursuit.physics import build_circles, step_tracking_frame
+from finst_video_model.smooth_pursuit.config import TrialConfig
+from finst_video_model.smooth_pursuit.physics import build_circles, step_tracking_frame
 
 
 def _draw_frame(cfg: TrialConfig, circles, cued_indices, show_cue: bool = False,

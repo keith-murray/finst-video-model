@@ -3,7 +3,7 @@ Trial configuration for the Pylyshyn-faithful FINST/MOT reproduction (see
 `claude/2026_08_12/TODO.md` for the original experiment excerpts this is
 adapted from).
 
-Siloed from `finst_video_model.comprehension.config` because the design
+Siloed from `finst_video_model.config` because the design
 differs in ways that don't fit the same fields: the field size is fixed at
 n_objects (not swept), objects are stationary and blink during cueing rather
 than moving red circles, motion is a continuously-redirecting random walk

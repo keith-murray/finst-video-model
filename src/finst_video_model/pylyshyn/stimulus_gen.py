@@ -29,8 +29,8 @@ from dataclasses import asdict
 import cv2
 import numpy as np
 
-from finst_video_model.comprehension.pylyshyn.config import TrialConfig
-from finst_video_model.comprehension.pylyshyn.physics import build_objects, step_tracking_frame
+from finst_video_model.pylyshyn.config import TrialConfig
+from finst_video_model.pylyshyn.physics import build_objects, step_tracking_frame
 
 
 def _draw_cross(img, x, y, size, thickness, color):

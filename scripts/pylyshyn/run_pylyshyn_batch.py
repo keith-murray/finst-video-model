@@ -9,7 +9,7 @@ stopping once a value would exceed half of n_objects (see
 split evenly: the first half probed on-target (matching, for the hit rate),
 the second half on-distractor (non-matching, for the false-alarm rate) --
 20 seeds -> 20 trials/condition, as needed by
-finst_video_model.comprehension.scoring.compute_d_prime. This is a distinct
+finst_video_model.scoring.compute_d_prime. This is a distinct
 seed per trial, unlike the earlier fd799482/e97a6d18 batches (see
 scripts/prototype), which ran each seed twice (paired design, 2x the
 trials/condition).
@@ -62,10 +62,10 @@ import os
 
 import requests
 
-from finst_video_model.comprehension.pylyshyn.config import TrialConfig
-from finst_video_model.comprehension.pylyshyn.stimulus_gen import generate_stimulus
-from finst_video_model.comprehension.scoring import classify_trial, parse_boolean_answer
-from finst_video_model.comprehension.vlm_client import ask_about_video
+from finst_video_model.pylyshyn.config import TrialConfig
+from finst_video_model.pylyshyn.stimulus_gen import generate_stimulus
+from finst_video_model.scoring import classify_trial, parse_boolean_answer
+from finst_video_model.vlm_client import ask_about_video
 from run_pylyshyn_trial import build_question
 
 MODEL_CONFIGS = {

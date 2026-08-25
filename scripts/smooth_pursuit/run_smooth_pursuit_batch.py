@@ -7,7 +7,7 @@ underlying scene (placement/cueing/motion all derive from `seed` alone in
 smooth_pursuit.physics.build_circles; only which circle gets probed
 differs), giving a paired 40-trial design: 20 target-probe trials for the
 hit rate, 20 distractor-probe trials for the false-alarm rate, as needed by
-finst_video_model.comprehension.scoring.compute_d_prime.
+finst_video_model.scoring.compute_d_prime.
 
 Model is pinned to google/gemini-3.7-flash on the google-vertex provider
 specifically (half the price of the default google-ai-studio provider, per
@@ -40,10 +40,10 @@ import uuid
 
 import requests
 
-from finst_video_model.comprehension.smooth_pursuit.config import TrialConfig
-from finst_video_model.comprehension.smooth_pursuit.stimulus_gen import generate_stimulus
-from finst_video_model.comprehension.scoring import classify_trial, parse_boolean_answer
-from finst_video_model.comprehension.vlm_client import ask_about_video
+from finst_video_model.smooth_pursuit.config import TrialConfig
+from finst_video_model.smooth_pursuit.stimulus_gen import generate_stimulus
+from finst_video_model.scoring import classify_trial, parse_boolean_answer
+from finst_video_model.vlm_client import ask_about_video
 from run_smooth_pursuit_trial import build_question
 
 MODEL = "google/gemini-3.7-flash"

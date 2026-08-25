@@ -2,7 +2,7 @@
 Trial configuration for the "smooth pursuit" VLM (video-to-text) FINST/MOT
 capacity experiment -- the original comprehension-arm task, reformatted
 (per `claude/2026_08_14/TODO.md`'s "Updating the old task") to mirror the
-Pylyshyn reproduction's (`finst_video_model.comprehension.pylyshyn`) report
+Pylyshyn reproduction's (`finst_video_model.pylyshyn`) report
 format while keeping this task's defining feature: one constant heading per
 circle for the whole trial ("smooth" motion), rather than Pylyshyn's
 frequently-redirecting random walk. Differences from the original version
@@ -19,7 +19,7 @@ of this task:
 We fully simulate and render the video ourselves, so we have exact ground
 truth for every circle at every frame -- no reverse engineering required.
 
-Siloed from `finst_video_model.comprehension.pylyshyn.config` (a separate,
+Siloed from `finst_video_model.pylyshyn.config` (a separate,
 same-named `TrialConfig`) for the same reason `pylyshyn` is siloed from this
 module's old location: the fields don't overlap enough to share one
 dataclass. The probe/motion timing fields below are further constrained by

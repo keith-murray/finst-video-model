@@ -15,8 +15,8 @@ Usage:
 import argparse
 import os
 
-from finst_video_model.comprehension.pylyshyn.config import TrialConfig
-from finst_video_model.comprehension.pylyshyn.stimulus_gen import generate_stimulus
+from finst_video_model.pylyshyn.config import TrialConfig
+from finst_video_model.pylyshyn.stimulus_gen import generate_stimulus
 
 
 def main():

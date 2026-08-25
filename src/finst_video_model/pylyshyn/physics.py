@@ -1,6 +1,6 @@
 """
 Random-walk motion for the Pylyshyn reproduction, as opposed to
-`finst_video_model.comprehension.physics`'s single constant heading per
+`finst_video_model.smooth_pursuit.physics`'s single constant heading per
 object. Each object independently re-randomizes its direction (one of 8
 compass headings) and speed once per redirect interval, elastically bounces
 off walls every render frame, and is kept from ambiguous close approaches to
@@ -27,7 +27,7 @@ with how wall bounces are already handled here.
 import math
 import random
 
-from finst_video_model.comprehension.pylyshyn.config import TrialConfig
+from finst_video_model.pylyshyn.config import TrialConfig
 
 # 8 equal divisions of the compass, per the original.
 _COMPASS_HEADINGS = [i * (2 * math.pi / 8) for i in range(8)]

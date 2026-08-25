@@ -16,8 +16,8 @@ Usage:
 import argparse
 import os
 
-from finst_video_model.comprehension.smooth_pursuit.config import TrialConfig
-from finst_video_model.comprehension.smooth_pursuit.stimulus_gen import generate_stimulus
+from finst_video_model.smooth_pursuit.config import TrialConfig
+from finst_video_model.smooth_pursuit.stimulus_gen import generate_stimulus
 
 
 def main():

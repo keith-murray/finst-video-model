@@ -3,7 +3,7 @@ Runs one smooth-pursuit-arm trial end to end: renders a "cue -> track ->
 probe" video ourselves, builds the True/False question text, sends both to
 a video-understanding VLM via OpenRouter chat completions, and scores the
 response (hit/miss/false_alarm/correct_rejection -- see
-finst_video_model.comprehension.scoring.classify_trial) against ground
+finst_video_model.scoring.classify_trial) against ground
 truth.
 
 The prompt/question and model choice (MODEL) live here (not in the shared
@@ -20,10 +20,10 @@ import os
 
 import requests
 
-from finst_video_model.comprehension.smooth_pursuit.config import TrialConfig
-from finst_video_model.comprehension.smooth_pursuit.stimulus_gen import generate_stimulus
-from finst_video_model.comprehension.scoring import classify_trial, parse_boolean_answer
-from finst_video_model.comprehension.vlm_client import ask_about_video
+from finst_video_model.smooth_pursuit.config import TrialConfig
+from finst_video_model.smooth_pursuit.stimulus_gen import generate_stimulus
+from finst_video_model.scoring import classify_trial, parse_boolean_answer
+from finst_video_model.vlm_client import ask_about_video
 
 MODEL = "google/gemini-2.5-flash"
 

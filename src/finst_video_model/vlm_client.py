@@ -4,9 +4,8 @@ VLM a text question about a locally rendered video.
 
 Sends the video as a base64 data URL alongside a text question via
 POST /api/v1/chat/completions (per claude/openrouter/video_input.md), rather
-than the async submit/poll/download video-generation API used by
-finst_video_model.generation.client (this is a synchronous chat call, not a
-video generation job).
+than an async submit/poll/download video-generation API (this is a
+synchronous chat call, not a video generation job).
 
 This module is intentionally generic: it knows nothing about any particular
 experiment's question text or model choice. Each experiment script (in
