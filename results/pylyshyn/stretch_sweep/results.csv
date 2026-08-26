@@ -1,0 +1,513 @@
+trial_id,model,reasoning_level,variant,n_objects,n_cued,seed,probe_on_target,probe_is_target,response,predicted,outcome,prompt_tokens,completion_tokens,reasoning_tokens,cost,error
+859e7519,qwen/qwen3.8-27b,none,native,3,1,4,True,True,True,True,hit,1715,2,0,0.0006911,
+7c27ea4b,qwen/qwen3.8-27b,none,native,3,1,3,True,True,True,True,hit,2627,2,0,0.0010568,
+cd121b2e,qwen/qwen3.8-27b,none,native,3,1,2,True,True,False,False,miss,1715,2,0,0.0006911,
+570205cb,qwen/qwen3.8-27b,none,native,3,1,0,True,True,True,True,hit,1715,2,0,0.00077815,
+11679ffe,qwen/qwen3.8-27b,none,native,3,1,1,True,True,True,True,hit,1715,2,0,0.00077815,
+3f518ebf,qwen/qwen3.8-27b,none,native,3,1,5,True,True,False,False,miss,1715,2,0,0.00077815,
+5d5dd5d4,qwen/qwen3.8-27b,none,native,3,1,9,False,False,False,False,correct_rejection,1715,2,0,0.00077815,
+c2ca79c1,qwen/qwen3.8-27b,none,native,3,1,6,True,True,True,True,hit,1715,2,0,0.00060575,
+6b18241d,qwen/qwen3.8-27b,none,native,3,1,7,True,True,False,False,miss,1715,2,0,0.000692,
+d445e312,qwen/qwen3.8-27b,none,native,3,1,10,False,False,True,True,false_alarm,1715,2,0,0.00077815,
+9dd0d63b,qwen/qwen3.8-27b,none,native,3,1,12,False,False,False,False,correct_rejection,1715,2,0,0.00077815,
+5e8bfd26,qwen/qwen3.8-27b,none,native,3,1,11,False,False,True,True,false_alarm,1715,2,0,0.000692,
+099e6c87,qwen/qwen3.8-27b,none,native,3,1,15,False,False,False,False,correct_rejection,1715,2,0,0.0006911,
+a8325812,qwen/qwen3.8-27b,none,native,3,1,13,False,False,False,False,correct_rejection,1715,2,0,0.00060575,
+77b70a24,qwen/qwen3.8-27b,none,native,3,1,14,False,False,True,True,false_alarm,1715,2,0,0.00083,
+98bfdbef,qwen/qwen3.8-27b,none,native,3,1,8,False,False,True,True,false_alarm,1715,2,0,0.00083,
+4b3339c7,qwen/qwen3.8-27b,none,stretched,3,1,1,True,True,False,False,miss,7835,2,0,0.00353215,
+c4dfce9c,qwen/qwen3.8-27b,none,stretched,3,1,2,True,True,False,False,miss,7835,2,0,0.0031391,
+a8342b3b,qwen/qwen3.8-27b,none,stretched,3,1,0,True,True,False,False,miss,7835,2,0,0.00274775,
+ec46c0d9,qwen/qwen3.8-27b,none,stretched,3,1,3,True,True,False,False,miss,7835,2,0,0.00274775,
+c96c275f,qwen/qwen3.8-27b,none,stretched,3,1,8,False,False,False,False,correct_rejection,7835,2,0,0.00353215,
+726cee07,qwen/qwen3.8-27b,none,stretched,3,1,7,True,True,True,True,hit,7835,2,0,0.00353215,
+e20a6e43,qwen/qwen3.8-27b,none,stretched,3,1,5,True,True,False,False,miss,7835,2,0,0.00353215,
+54d33d56,qwen/qwen3.8-27b,none,stretched,3,1,6,True,True,True,True,hit,2640,2,0,0.001062,
+49c7b176,qwen/qwen3.8-27b,none,stretched,3,1,10,False,False,False,False,correct_rejection,7835,2,0,0.00353215,
+c41d1d10,qwen/qwen3.8-27b,none,stretched,3,1,12,False,False,False,False,correct_rejection,7835,2,0,0.00353215,
+0a97adef,qwen/qwen3.8-27b,none,stretched,3,1,11,False,False,False,False,correct_rejection,7835,2,0,0.0031391,
+6c1d019e,qwen/qwen3.8-27b,none,stretched,3,1,4,True,True,False,False,miss,7835,2,0,0.00274775,
+9603657b,qwen/qwen3.8-27b,none,stretched,3,1,13,False,False,True,True,false_alarm,7835,2,0,0.0037676,
+2a779e63,qwen/qwen3.8-27b,none,stretched,3,1,9,False,False,False,False,correct_rejection,7835,2,0,0.00274775,
+09423ff4,qwen/qwen3.8-27b,none,stretched,3,1,14,False,False,False,False,correct_rejection,7835,2,0,0.00274775,
+e0f71698,qwen/qwen3.8-27b,none,stretched,3,1,15,False,False,True,True,false_alarm,7835,2,0,0.00274775,
+ff0c7157,qwen/qwen3.8-max,low,native,3,1,1,True,True,True,True,hit,1663,534,529,0.00653,
+3bf34c66,qwen/qwen3.8-max,low,native,3,1,0,True,True,True,True,hit,1663,590,585,0.006866,
+a70ad08f,qwen/qwen3.8-max,low,native,3,1,2,True,True,True,True,hit,1663,1103,1098,0.009944,
+1cc9b1f4,qwen/qwen3.8-max,low,native,3,1,3,True,True,True,True,hit,1663,1092,1087,0.009878,
+84dbb561,qwen/qwen3.8-max,low,native,3,1,5,True,True,True,True,hit,1663,607,602,0.006968,
+a6496c51,qwen/qwen3.8-max,low,native,3,1,6,True,True,True,True,hit,1663,635,630,0.007136,
+9c7e32fe,qwen/qwen3.8-max,low,native,3,1,7,True,True,True,True,hit,1663,881,877,0.008612,
+c5366372,qwen/qwen3.8-max,low,native,3,1,4,True,True,True,True,hit,1663,1176,1171,0.010382,
+fbf6ab8c,qwen/qwen3.8-max,low,native,3,1,8,False,False,False,False,correct_rejection,1663,1045,1041,0.009596,
+8cc43462,qwen/qwen3.8-max,low,native,3,1,11,False,False,False,False,correct_rejection,1663,707,702,0.007568,
+a0b4772c,qwen/qwen3.8-max,low,native,3,1,9,False,False,False,False,correct_rejection,1663,861,856,0.008492,
+2806fa86,qwen/qwen3.8-max,low,native,3,1,10,False,False,False,False,correct_rejection,1663,990,985,0.009266,
+27510194,qwen/qwen3.8-max,low,native,3,1,13,False,False,False,False,correct_rejection,1663,726,722,0.007682,
+5c171336,qwen/qwen3.8-max,low,native,3,1,12,False,False,False,False,correct_rejection,1663,736,731,0.007742,
+dd04757e,qwen/qwen3.8-max,low,native,3,1,15,False,False,False,False,correct_rejection,1663,691,687,0.007472,
+9767659d,qwen/qwen3.8-max,low,native,3,1,14,False,False,False,False,correct_rejection,1663,743,739,0.007784,
+e0e0ef0d,qwen/qwen3.8-max,low,stretched,3,1,0,True,True,True,True,hit,7423,1192,1188,0.021998,
+9b57ad59,qwen/qwen3.8-max,low,stretched,3,1,2,True,True,True,True,hit,7423,1270,1266,0.022466,
+3f83e886,qwen/qwen3.8-max,low,stretched,3,1,4,True,True,True,True,hit,7423,1271,1267,0.022472,
+02cb13df,qwen/qwen3.8-max,low,stretched,3,1,5,True,True,True,True,hit,7423,773,768,0.019484,
+c313f332,qwen/qwen3.8-max,low,stretched,3,1,1,True,True,True,True,hit,7423,1940,1935,0.026486,
+1d4ddcab,qwen/qwen3.8-max,low,stretched,3,1,6,True,True,True,True,hit,7423,851,847,0.019952,
+f7ec0493,qwen/qwen3.8-max,low,stretched,3,1,3,True,True,True,True,hit,7423,2668,2663,0.030854,
+b473f741,qwen/qwen3.8-max,low,stretched,3,1,10,False,False,False,False,correct_rejection,7423,1246,1241,0.022322,
+ce19a524,qwen/qwen3.8-max,low,stretched,3,1,8,False,False,False,False,correct_rejection,7423,1719,1714,0.02516,
+1442b832,qwen/qwen3.8-max,low,stretched,3,1,7,True,True,True,True,hit,7423,1838,1833,0.025874,
+f84b0110,qwen/qwen3.8-max,low,stretched,3,1,9,False,False,False,False,correct_rejection,7423,2375,2371,0.029096,
+91e30ec3,qwen/qwen3.8-max,low,stretched,3,1,11,False,False,False,False,correct_rejection,7423,1382,1377,0.023138,
+48c1919f,qwen/qwen3.8-max,low,stretched,3,1,13,False,False,False,False,correct_rejection,7423,1416,1411,0.023342,
+c079ff4d,qwen/qwen3.8-max,medium,native,3,1,0,True,True,True,True,hit,1637,946,941,0.00895,
+bee83857,qwen/qwen3.8-max,low,stretched,3,1,14,False,False,False,False,correct_rejection,7423,1785,1780,0.025556,
+e59b6bda,qwen/qwen3.8-max,medium,native,3,1,1,True,True,True,True,hit,1637,161,158,0.00424,
+64b28d61,qwen/qwen3.8-max,low,stretched,3,1,12,False,False,False,False,correct_rejection,7423,2203,2198,0.028064,
+dbad297a,qwen/qwen3.8-max,low,stretched,3,1,15,False,False,False,False,correct_rejection,7423,1659,1654,0.0248,
+f6672c1d,qwen/qwen3.8-max,medium,native,3,1,4,True,True,True,True,hit,1637,1428,1423,0.011842,
+9feb6c56,qwen/qwen3.8-max,medium,native,3,1,6,True,True,True,True,hit,1637,1038,1033,0.009502,
+db1d4f34,qwen/qwen3.8-max,medium,native,3,1,3,True,True,True,True,hit,1637,1869,1864,0.014488,
+bc4f8ee8,qwen/qwen3.8-max,medium,native,3,1,5,True,True,True,True,hit,1637,1641,1636,0.01312,
+8f5a2b78,qwen/qwen3.8-max,medium,native,3,1,2,True,True,True,True,hit,1637,2382,2378,0.017566,
+b0c459a3,qwen/qwen3.8-max,medium,native,3,1,8,False,False,False,False,correct_rejection,1637,1233,1228,0.010672,
+f30009a7,qwen/qwen3.8-max,medium,native,3,1,7,True,True,True,True,hit,1637,1396,1391,0.01165,
+1660829b,qwen/qwen3.8-max,medium,native,3,1,10,False,False,False,False,correct_rejection,1637,1759,1754,0.013828,
+ad463f38,qwen/qwen3.8-max,medium,native,3,1,12,False,False,False,False,correct_rejection,1637,1069,1065,0.009688,
+771ff3c4,qwen/qwen3.8-max,medium,native,3,1,11,False,False,False,False,correct_rejection,1637,1752,1747,0.013786,
+02ec5450,qwen/qwen3.8-max,medium,native,3,1,9,False,False,False,False,correct_rejection,1637,2387,2382,0.017596,
+3ab3ce1a,qwen/qwen3.8-max,medium,native,3,1,13,False,False,False,False,correct_rejection,1637,1525,1520,0.012424,
+cdddee30,qwen/qwen3.8-max,medium,native,3,1,14,False,False,False,False,correct_rejection,1637,911,906,0.00874,
+e32d94dd,qwen/qwen3.8-max,medium,native,3,1,15,False,False,False,False,correct_rejection,1637,854,849,0.008398,
+09c89706,qwen/qwen3.8-max,medium,stretched,3,1,1,True,True,True,True,hit,7397,2207,2203,0.028036,
+0490651d,qwen/qwen3.8-max,medium,stretched,3,1,2,True,True,True,True,hit,7397,1994,1990,0.026758,
+5d06ab86,qwen/qwen3.8-max,medium,stretched,3,1,4,True,True,True,True,hit,7397,1971,1967,0.02662,
+08a966df,qwen/qwen3.8-max,medium,stretched,3,1,3,True,True,True,True,hit,7397,2439,2434,0.029428,
+26d2bda2,qwen/qwen3.8-max,medium,stretched,3,1,0,True,True,True,True,hit,7397,3259,3254,0.034348,
+73a02d08,qwen/qwen3.8-max,medium,stretched,3,1,5,True,True,True,True,hit,7397,2186,2181,0.02791,
+aca74c3c,qwen/qwen3.8-max,medium,stretched,3,1,8,False,False,False,False,correct_rejection,7397,2668,2663,0.030802,
+f67b0a4a,qwen/qwen3.8-max,medium,stretched,3,1,6,True,True,True,True,hit,7397,3430,3425,0.035374,
+8bacb6d2,qwen/qwen3.8-max,medium,stretched,3,1,7,True,True,True,True,hit,7397,4272,4267,0.040426,
+9fd49107,qwen/qwen3.8-max,medium,stretched,3,1,10,False,False,False,False,correct_rejection,7397,2766,2762,0.03139,
+2bdaa788,qwen/qwen3.8-max,medium,stretched,3,1,12,False,False,False,False,correct_rejection,7397,1555,1550,0.024124,
+124ac1ec,qwen/qwen3.8-max,medium,stretched,3,1,11,False,False,False,False,correct_rejection,7397,1678,1673,0.024862,
+1b142305,qwen/qwen3.8-max,medium,stretched,3,1,15,False,False,False,False,correct_rejection,7397,1785,1780,0.025504,
+f1288fd9,qwen/qwen3.8-max,medium,stretched,3,1,9,False,False,False,False,correct_rejection,7397,7145,7140,0.057664,
+a95564be,qwen/qwen3.8-max,medium,stretched,3,1,13,False,False,False,False,correct_rejection,7397,2809,2804,0.031648,
+af918502,qwen/qwen3.8-max,medium,stretched,3,1,14,False,False,False,False,correct_rejection,7397,2910,2905,0.032254,
+b2b3baf5,qwen/qwen3.8-27b,low,native,3,1,0,True,True,"
+
+False",False,miss,1795,68,65,0.000922,
+bbd12b43,qwen/qwen3.8-27b,low,native,3,1,3,True,True,"
+
+True",True,hit,1795,68,65,0.000858,
+b0fc3bab,qwen/qwen3.8-27b,low,native,3,1,1,True,True,"
+
+False",False,miss,1795,68,65,0.000858,
+4dbc2b46,qwen/qwen3.8-27b,low,native,3,1,4,True,True,"
+
+False",False,miss,1795,68,65,0.000858,
+f7db6d6a,qwen/qwen3.8-27b,low,native,3,1,6,True,True,"
+
+False",False,miss,1795,68,65,0.000858,
+e2ca3d00,qwen/qwen3.8-27b,low,native,3,1,7,True,True,"
+
+False",False,miss,1795,68,65,0.000858,
+9aee4e9f,qwen/qwen3.8-27b,low,native,3,1,5,True,True,"
+
+False",False,miss,1795,68,65,0.000858,
+ec2382cc,qwen/qwen3.8-27b,low,native,3,1,9,False,False,"
+
+False",False,correct_rejection,1795,68,65,0.000858,
+f14bdf97,qwen/qwen3.8-27b,low,native,3,1,10,False,False,"
+
+False",False,correct_rejection,1795,68,65,0.000858,
+353f0934,qwen/qwen3.8-27b,low,native,3,1,11,False,False,"
+
+False",False,correct_rejection,1795,68,65,0.000858,
+9af67e0a,qwen/qwen3.8-27b,low,native,3,1,12,False,False,"
+
+False",False,correct_rejection,1795,68,65,0.000858,
+1d20c352,qwen/qwen3.8-27b,low,native,3,1,13,False,False,"
+
+False",False,correct_rejection,1795,68,65,0.000858,
+d25e820e,qwen/qwen3.8-27b,low,native,3,1,14,False,False,"
+
+False",False,correct_rejection,1795,68,65,0.000858,
+3a00d5d7,qwen/qwen3.8-27b,low,native,3,1,15,False,False,"
+
+True",True,false_alarm,1795,68,65,0.000858,
+bb1a1b28,qwen/qwen3.8-27b,low,native,3,1,2,True,True,"
+
+)
+Frame 1.2s: All white. Top-left (~85,65). Middle (~185,285). Bottom (~200,340).
+Frame 2.3s: Top-left (~100,60). Middle-right (~235,285). Bottom (~235,340).
+Frame 3.4s: Top-left (~110,55). Middle-right (~235,285). Bottom (~235,340).
+Frame 4.3s: Top-left (~100,55). Middle-right (~235,285). Bottom (~165,340) RED.
+Frame 5.5s: Top-left (~135,55). Middle (~200,325). Bottom (~235,340) RED.
+Frame 6.5s: Top-left (~185,55). Bottom two (~235,340) and (~285,340).
+Frame 7.5s: Top-left (~185,55). Bottom (~165,340) and (~285,340).
+Frame 8.6s: Top-left (~135,55). Bottom (~185,340) and (~285,340).
+Frame 9.6s: Top-left (~135,55). Bottom (~235,340) and (~285,340).
+
+Hmm, this is hard. Let me think about the initial cued cross: bottom-right red at (235,340). At frame 0.2s it's at bottom-right corner area (~235,340). At frame 1.2s all white; the bottom one is at (~200,340) and middle at (~185,285). So the cued cross moved left a bit to (200,340)? Or did the middle (185,285) come from the middle (250,285)? Yes middle stayed middle-ish. The cued cross at (235,340) moved to (200,340).
+
+Now track cued cross: 0.2s (235,340) → 1.2s (200,340) → 2.3s (235,340) → 3.4s (235,340) → 4.3s (165,340) RED? Wait at 4.3s the red is at bottom (~165,340). The cued cross at 3.4s was at (235,340). At 4.3s there's a red at (165,340) and white at (235,285). Hmm.
+
+This is too uncertain. Let's think about typical design of these tasks: often the answer is ""True"" when the cued one is the one that turns red again, but they make you track. Let's look at the red flash at 4.3s and 5.5s: at 4.3s red at (165,340); at 5.5s red at (235,340). So the red cross moved from (165,340) to (235,340). At 5.5s there's also a white at (200,325). At 4.3s white at (235,285). So between 4.3 and 5.5: red went (165,340)→(235,340); white (235,285)→(200,325)? plausible.
+
+Now was the red-flashing cross the original cued one? Original cued at 0.2s (235,340). At 1.2s we have (200,340) and (185,285). The cued likely → (200,340). At 2.3s we have (235,285) and (235,340). Hmm (200,340)→(235,340) plausible; (185,285)→(235,285) plausible. At 3.4s same positions (235,285)&(235,340). At 4.3s red appears at (165,340) which would come from (235,340) moving left. That matches cued cross path (235,340)→(165,340). Then 5.5s red (235,340) from (165,340) moving right. So the red-flashing cross is the same as the bottom cued one. Thus answer True.
+
+But wait, need to ensure the (235,340) at 2.3/3.4 is the cued, not the other. The other was middle (250,285)→(185,285)→(235,285). So middle track stays around y=285. Bottom track stays around y=340. Cued was at y=340. So yes cued = bottom track = the one that flashed red. Therefore True.
+
+Thus answer: True.
+</think>
+
+True",True,hit,1795,1361,65,0.004737,
+cba72aaf,qwen/qwen3.8-27b,low,native,3,1,8,False,False,"
+
+False",False,correct_rejection,1743,1128,617,0.00467184,
+87c098b4,qwen/qwen3.8-27b,low,stretched,3,1,3,True,True,"
+
+False",False,miss,7915,68,65,0.003306,
+a2a80fd0,qwen/qwen3.8-27b,low,stretched,3,1,1,True,True,"
+
+False",False,miss,7915,68,65,0.003306,
+eb6f0614,qwen/qwen3.8-27b,low,stretched,3,1,2,True,True,"
+
+False",False,miss,7915,68,65,0.003306,
+59d463e9,qwen/qwen3.8-27b,low,stretched,3,1,0,True,True,") and middle (~170, 130).
+
+So the cued red cross is the bottom-right one.
+
+Then they all turn white and start moving (~5s onward). I need to track the originally-red (bottom-right) cross through its motion, and see which cross turns red again around 21-25s.
+
+Let me track positions frame by frame.
+
+At 5s: top (~130,90), middle (~155,125), bottom (~215,220). The bottom-right one is the originally red cross (it moved slightly left/up from (210,235) to (215,220)? Actually original red was ~(210,235). At 5s bottom is ~(215,220). Close.
+
+Let me define three crosses: A = top white initially, B = middle white initially, C = red initially (bottom-right).
+
+Track C: start (210,235). 5s (215,220). 6s (210,215). 7s (205,210). 8s (205,205). 9s (200,200). 10s (195,195). 11s (190,195). 12s (185,195). 13s (185,195). 14s (185,195). 15s (185,195). 16s (185,195). 17s (185,195). 18s (185,195). 19s (185,195). 20s (185,195). 21s: bottom-right turns red at (210,235)! Wait at 21s the red cross is at bottom (~210,235). Hmm.
+
+Let me look more carefully. Actually the motion seems slow. Let me re-examine positions over time for the bottom cross.
+
+5s bottom ~ (215,220)
+6s (210,215)
+7s (205,210)
+8s (205,205)
+9s (200,200)
+10s (195,195)
+11s (190,195)
+12s (185,195)
+13s (185,195)
+14s (185,195)
+15s (185,195)
+16s (185,195)
+17s (185,195)
+18s (185,195)
+19s (185,195)
+20s (185,195)
+21s red at (210,235)
+
+Hmm that's a big jump. Maybe my reading is off. The frames are small. Let's think about the structure: this is a typical tracking task where the answer is often ""True"" or ""False"" based on whether identity was preserved. The motion is slow and the crosses keep roughly their relative arrangement (top, middle, bottom). The bottom cross is the one that turns red at the end (21-25s). The originally red cross was the bottom one. So it's the same cross → True.
+
+But wait, the motion might cause swaps. However the layout stays consistent: there's always a top, middle, bottom cross maintaining vertical ordering. The bottom one becomes red at 21-25s. The originally red was bottom. So same cross.
+
+Thus answer True.
+
+Let me double check there's no crossing of positions that would swap identity. The top cross moves leftward over time (from 130 to ~100 to ~80). The middle moves left too. The bottom moves left then the red appears at bottom right at 21s... hmm.
+
+Actually at 21s the red is at bottom-right (210,235) which is roughly the original red position. That suggests the bottom cross returned? This is too detailed.
+
+Given the design, the simplest consistent reading: the cued cross (bottom-right) is the same one that flashes red later. So True.
+
+I'll answer True.
+</think>
+
+True",,unparseable,7915,1093,65,0.006381,
+aa822dc6,qwen/qwen3.8-27b,low,stretched,3,1,8,False,False,"
+
+True",True,false_alarm,7915,68,65,0.003306,
+b61a6f96,qwen/qwen3.8-27b,low,stretched,3,1,6,True,True,"
+
+True",True,hit,7915,68,65,0.003306,
+c1fdc5f5,qwen/qwen3.8-27b,low,stretched,3,1,7,True,True,"
+
+False",False,miss,7915,68,65,0.003306,
+1923da29,qwen/qwen3.8-27b,low,stretched,3,1,5,True,True,"
+
+False",False,miss,7915,68,65,0.003306,
+e2dfa2c6,qwen/qwen3.8-27b,low,stretched,3,1,4,True,True,"
+
+False",False,miss,7915,68,65,0.003306,
+db4b1c33,qwen/qwen3.8-27b,low,stretched,3,1,11,False,False,"
+
+False",False,correct_rejection,7915,68,65,0.003306,
+37b7d95e,qwen/qwen3.8-27b,low,stretched,3,1,9,False,False,"
+
+False",False,correct_rejection,7915,68,65,0.003306,
+88cf2cb2,qwen/qwen3.8-27b,low,stretched,3,1,13,False,False,"
+
+False",False,correct_rejection,7915,68,65,0.003306,
+2b0230f4,qwen/qwen3.8-27b,low,stretched,3,1,12,False,False,"
+False",False,correct_rejection,7915,68,65,0.003306,
+e2a81400,qwen/qwen3.8-27b,low,stretched,3,1,10,False,False,"
+
+False",False,correct_rejection,7915,68,65,0.003306,
+617570e3,qwen/qwen3.8-27b,low,stretched,3,1,14,False,False,"
+
+False",False,correct_rejection,7915,68,65,0.003306,
+bc56aa32,qwen/qwen3.8-27b,medium,native,3,1,0,True,True,"
+
+True
+
+",True,hit,1753,261,257,0.0014362,
+062dd237,qwen/qwen3.8-27b,medium,native,3,1,1,True,True,"
+
+True",True,hit,1753,260,257,0.0014332,
+8720047d,qwen/qwen3.8-27b,low,stretched,3,1,15,False,False,"
+
+False",False,correct_rejection,7915,68,65,0.003306,
+ec54d0c3,qwen/qwen3.8-27b,medium,native,3,1,2,True,True,"
+
+False
+
+",False,miss,1753,261,257,0.0014362,
+827fb80b,qwen/qwen3.8-27b,medium,native,3,1,3,True,True,"
+
+True
+
+",True,hit,1753,261,257,0.0014362,
+d0fe2a75,qwen/qwen3.8-27b,medium,native,3,1,4,True,True,"
+
+True",True,hit,1753,260,257,0.0014332,
+6e3920db,qwen/qwen3.8-27b,medium,native,3,1,5,True,True,"
+
+False",False,miss,1753,260,257,0.0014332,
+8164b441,qwen/qwen3.8-27b,medium,native,3,1,7,True,True,"
+
+True",True,hit,1753,260,257,0.0014332,
+a291a950,qwen/qwen3.8-27b,medium,native,3,1,6,True,True,"
+
+True",True,hit,1753,260,257,0.0014332,
+c5254aa7,qwen/qwen3.8-27b,medium,native,3,1,8,False,False,"
+
+True",True,false_alarm,1753,260,257,0.0014332,
+c4a8135c,qwen/qwen3.8-27b,medium,native,3,1,10,False,False,"
+
+False",False,correct_rejection,1753,260,257,0.0014332,
+fd9ce5c7,qwen/qwen3.8-27b,medium,native,3,1,11,False,False,"
+
+True",True,false_alarm,1753,260,257,0.0014332,
+abe242af,qwen/qwen3.8-27b,medium,native,3,1,12,False,False,"
+
+Tracing each cross from the start: the initially red (cued) cross at the top‑right moves continuously, and at around the 5.5‑second mark it is the cross in the central‑lower region that flashes red, which is a different cross than the top‑right cued one.
+
+False",False,correct_rejection,1753,324,257,0.0016252,
+9c309bca,qwen/qwen3.8-27b,medium,native,3,1,13,False,False,"
+
+True",True,false_alarm,1753,260,257,0.0014332,
+46ce2abb,qwen/qwen3.8-27b,medium,native,3,1,14,False,False,"
+
+True",True,false_alarm,1753,260,257,0.0014332,
+c0499a98,qwen/qwen3.8-27b,medium,stretched,3,1,0,True,True,"
+
+False",False,miss,7873,260,257,0.0038812,
+d74beeeb,qwen/qwen3.8-27b,medium,native,3,1,15,False,False,"
+
+False",False,correct_rejection,1753,260,257,0.0014332,
+8944164a,qwen/qwen3.8-27b,medium,stretched,3,1,2,True,True,"
+
+False",False,miss,7873,260,257,0.0038812,
+0480d149,qwen/qwen3.8-27b,medium,stretched,3,1,4,True,True,"
+
+False",False,miss,7873,260,257,0.0038812,
+7f60241f,qwen/qwen3.8-27b,medium,stretched,3,1,3,True,True,"
+
+True",True,hit,7873,260,257,0.0038812,
+cfc33d39,qwen/qwen3.8-27b,medium,native,3,1,9,False,False,")
+
+Wait, I need to look more carefully. Let me list coordinates for each frame.
+
+Frame 0.2s:
+- Red: (90, 270)
+- White: (270, 235)
+- White: (160, 390)
+
+Frame 1.2s:
+- (35, 320)
+- (270, 240)
+- (145, 415)
+
+Frame 2.3s:
+- (215, 250)
+- (75, 350)
+- (140, 390)
+
+Frame 3.4s:
+- (210, 250)
+- (80, 380)
+- (140, 385)
+
+Frame 4.3s:
+- (230, 250)
+- (130, 360)
+- (75, 410)
+
+Frame 5.5s:
+- (250, 265)
+- (165, 375) [red]
+- (75, 435)
+
+Frame 6.5s:
+- (240, 280)
+- (120, 385) [red]
+- (50, 445)
+
+Frame 7.5s:
+- (220, 290)
+- (200, 370)
+- (60, 455)
+
+Frame 8.6s:
+- (200, 320)
+- (230, 360)
+- (75, 455)
+
+Frame 9.6s:
+- (150, 370)
+- (235, 395)
+- (130, 450)
+
+This is tricky. Let me think about continuity. The motion is continuous. Let me track the red cross from start.
+
+At 0.2s red is at (90,270). At 1.2s, which cross is closest / continuing? The red turned white. The leftmost cross at 1.2s is (35,320). That's a move left-down from (90,270). Plausible.
+
+At 2.3s, the leftmost-ish is (75,350). From (35,320) moving right-down to (75,350). Plausible.
+
+At 3.4s, (80,380). From (75,350) down to (80,380). Plausible.
+
+At 4.3s, (75,410). From (80,380) down-left to (75,410). Plausible.
+
+At 5.5s, (75,435). From (75,410) down to (75,435). Plausible. So this is the originally red cross, now at bottom-left (75,435).
+
+At 6.5s, (50,445). From (75,435) left-down. Plausible.
+
+At 7.5s, (60,455). From (50,445) right-down. Plausible.
+
+At 8.6s, (75,455). From (60,455) right. Plausible.
+
+At 9.6s, (130,450). From (75,455) right-up. Plausible.
+
+So originally-red cross ends at (130,450) bottom area.
+
+Now the red flash at 5.5s and 6.5s is at (165,375) and (120,385). Which cross is that? Let's trace that cross back.
+
+At 5.5s red at (165,375). At 4.3s, the cross near there is (130,360). At 3.4s, near (130,360) is (140,385)? or (80,380)? Hmm.
+
+Let's consider the three trajectories more systematically. There seem to be three ""tracks"":
+
+Track 1 (top one): around (270,235)->(270,240)->(215,250)->(210,250)->(230,250)->(250,265)->(240,280)->(220,290)->(200,320)->(150,370). This is the right/top cross moving leftward over time.
+
+Track 2 (the red-flash one): (160,390) at 0.2s? Let's see. At 0.2s we have (160,390) bottom-middle. At 1.2s (145,415). At 2.3s (140,390). At 3.4s (140,385). At 4.3s (130,360). At 5.5s (165,375) RED. At 6.5s (120,385) RED. At 7.5s (200,370). At 8.6s (230,360). At 9.6s (235,395).
+
+Track 3 (the originally red): (90,270)->(35,320)->(75,350)->(80,380)->(75,410)->(75,435)->(50,445)->(60,455)->(75,455)->(130,450).
+
+So the red flash is on Track 2, which started at (160,390) — a white cross at start, NOT the red one.
+
+Thus the answer is False.
+
+Let me double check the start: red at (90,270) left-middle. White at (270,235) right. White at (160,390) bottom-middle. Yes.
+
+The originally red cross becomes Track 3 (leftmost, ending bottom). The red flash is on Track 2 (the middle/bottom one that started at (160,390)). So they are different.
+
+Therefore answer: False.
+
+Verification: At 5.5s red is at (165,375). Track 3 at 5.5s is at (75,435) (white). So red is not on track 3. Good. At 6.5s red at (120,385); track 3 at (50,445) white. Good.
+
+Thus the cross that turned red briefly is not the original red cross. Answer False.
+
+I'll output ""False"".
+</think>
+
+False",False,correct_rejection,1753,1938,257,0.0064672,
+4bd7d960,qwen/qwen3.8-27b,medium,stretched,3,1,6,True,True,"
+
+True",True,hit,7873,260,257,0.0038812,
+fe4ee1bd,qwen/qwen3.8-27b,medium,stretched,3,1,7,True,True,"
+
+True",True,hit,7873,260,257,0.0038812,
+736d3bc0,qwen/qwen3.8-27b,medium,stretched,3,1,5,True,True,"
+
+True",True,hit,7873,260,257,0.0038812,
+17b4cc8e,qwen/qwen3.8-27b,medium,stretched,3,1,8,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+9457b8a3,qwen/qwen3.8-27b,medium,stretched,3,1,1,True,True,")
+
+Let me track carefully.
+
+5.2s: positions approx: (280,100) UR, (210,160) C, (100,330) BL.
+6.2s: (290,100), (210,160), (90,330).
+7.2s: (300,110), (210,160), (80,340).
+8.2s: (300,120), (210,160), (70,340).
+9.2s: (310,130), (210,160), (60,340).
+10.2s: (310,130), (210,160), (60,340).
+11.2s: (310,140), (210,150), (60,340).
+12.2s: (310,150), (210,140), (60,340).
+13.2s: (310,160), (210,130), (60,340).
+14.2s: (310,160), (210,130), (60,340).
+15.2s: (310,160), (210,130), (50,350).
+16.2s: (310,160), (210,130), (40,350).
+17.2s: (310,160), (210,130), (30,350).
+18.2s: (310,160), (210,130), (20,350).
+19.2s: (310,160), (210,130), (10,350).
+20.2s: (310,160), (210,130), (10,350).
+21.2s: (310,160), (210,130), (20,350).
+22.2s: (310,160), (210,130), (30,340).
+23.2s: (310,160), (210,130), (40,340).
+24.2s: (310,160), (210,130), (50,340).
+25.2s: (310,160), (210,130), (60,340).
+26.2s: red appears at bottom-left (40,340)! That's the BL cross turning red.
+27.2s: red at (40,340).
+28.2s: red at (40,340).
+29.2s: red at (40,340).
+30.2s: red at (40,350).
+31.2s: all white again, BL at (40,350).
+
+So the cross that briefly turned red (around 26-30s) is the bottom-left cross, which is exactly the one that was red at the start (the cued cross).
+
+Thus the answer is True.
+
+Let me double check the start: at 0.0s red cross is at bottom-left (110,320). Throughout motion, the bottom-left cross is the one that ends up at leftmost/bottom. At 26s the red one is at bottom-left (40,340), which is the same identity as the original BL cross (it has been drifting left and down then back). Yes.
+
+Therefore the cross that turned red mid-video is the same as the initially red cross. Answer: True.
+
+Verification: initial red = BL. Mid red = BL position. Same. True.
+</think>
+
+True",True,hit,7873,1263,257,0.0068902,
+2663798f,qwen/qwen3.8-27b,medium,stretched,3,1,9,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+d53b5fd4,qwen/qwen3.8-27b,medium,stretched,3,1,10,False,False,"
+
+False
+
+",False,correct_rejection,7873,261,257,0.0038842,
+dcf0ccb8,qwen/qwen3.8-27b,medium,stretched,3,1,11,False,False,"
+
+True",True,false_alarm,7873,260,257,0.0038812,
+e869d526,qwen/qwen3.8-27b,medium,stretched,3,1,13,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+5bdc53a2,qwen/qwen3.8-27b,medium,stretched,3,1,12,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+1aaf29b4,qwen/qwen3.8-27b,medium,stretched,3,1,15,False,False,"
+
+True",True,false_alarm,7873,260,257,0.0038812,
+fb3e6a68,qwen/qwen3.8-27b,medium,stretched,3,1,14,False,False,"
+
+True",True,false_alarm,7873,260,257,0.0038812,
