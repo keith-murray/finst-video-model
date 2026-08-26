@@ -86,7 +86,7 @@ MAX_429_RETRIES = 3
 def ask_about_video(
     video_path: str, question: str, model: str, timeout_s: float = 180.0,
     provider: dict | None = None, reasoning: dict | None = None,
-    return_usage: bool = False,
+    max_tokens: int | None = None, return_usage: bool = False,
 ) -> str | tuple[str, dict | None]:
     """Sends `video_path` + `question` to `model` (an OpenRouter chat model
     slug with video input support, e.g. "google/gemini-2.5-flash") via
@@ -103,6 +103,28 @@ def ask_about_video(
     reasoning-token counts for Gemini are decided internally by Google
     regardless of the requested effort level). Omitted (the default) for
     both, matching prior behavior exactly.
+
+    `max_tokens`, when given, is passed through as the request body's
+    `max_tokens` field -- without it, the endpoint's own default applies.
+    Investigated 2026-08-26 on qwen3.8-27b: `usage.completion_tokens_details.
+    reasoning_tokens` came back pinned at a near-constant value across
+    dozens of genuinely different trials at reasoning effort "low" (~65
+    tokens) and "medium" (~257 tokens), unlike qwen3.8-max's organic
+    per-trial variation at the same settings. Initially suspected as
+    `max_tokens` truncation, but setting `max_tokens=8192` here did NOT
+    raise the pinned values for most trials, and `reasoning: {"max_tokens":
+    N}` (the alternative, mutually-exclusive-with-`effort` field -- the API
+    rejects both at once with a 400) proved unreliable/non-monotonic at
+    raising it either (100/1000/4000-token requests all still landed at
+    ~65; only an 8000-token request, close to the overall ceiling, broke
+    through to ~558 once). Conclusion: `reasoning.effort`'s "low"/"medium"
+    tiers on this model+endpoint appear to map to a genuinely small,
+    reproducible internal reasoning-token budget that neither top-level nor
+    nested `max_tokens` reliably overrides -- not a truncation bug to fix,
+    just a real (if smaller-than-expected) property of this reasoning
+    control on qwen3.8-27b via /chat/completions. Still useful to set for
+    its ordinary purpose (bounding total response length); just don't
+    expect it to raise the reasoning-effort ceiling.
 
     If `return_usage`, returns `(text, usage_dict_or_None)` instead of just
     `text` -- `usage_dict` is the response's raw `usage` object (token
@@ -128,6 +150,8 @@ def ask_about_video(
         payload["provider"] = provider
     if reasoning is not None:
         payload["reasoning"] = reasoning
+    if max_tokens is not None:
+        payload["max_tokens"] = max_tokens
 
     for attempt in range(MAX_429_RETRIES + 1):
         _rate_limiter.acquire()

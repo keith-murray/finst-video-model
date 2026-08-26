@@ -100,7 +100,7 @@ def run_one_trial(
     trial_dir = os.path.join(batch_dir, "trials", cfg.trial_id)
     os.makedirs(trial_dir, exist_ok=True)
 
-    ground_truth = generate_stimulus(cfg, trial_dir)
+    ground_truth, _frames = generate_stimulus(cfg, trial_dir)
     question = build_question(cfg)
     with open(os.path.join(trial_dir, "question.txt"), "w") as f:
         f.write(question)

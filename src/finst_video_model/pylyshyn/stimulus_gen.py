@@ -1,25 +1,31 @@
 """
 Renders the complete trial video for the Pylyshyn reproduction:
   1. Cue phase (cfg.cue_s): all objects stationary, drawn as crosses. The
-     cued subset blinks (on/off every cfg.cue_blink_period_s); distractors
-     stay steadily drawn. No motion during this phase, matching the
-     original ("After 10 seconds the flashing stopped and all 10 objects
-     began moving").
+     cued subset is drawn steadily in cfg.cued_color (red); distractors stay
+     cfg.neutral_color (white) -- no blinking (see config.py's "Part 3" note:
+     visual design ported from debug_circular).
   2. Tracking phase (cfg.tracking_s): all objects move identically (no
-     color/blink distinction -- cueing information must be tracked purely
-     by motion from here on), via continuously-redirecting random-walk
-     physics (see `physics.py`). At a single randomly chosen moment within
-     this phase, one object -- either a cued target or a distractor,
-     depending on cfg.probe_on_target -- is drawn as a solid square instead
-     of a cross for cfg.probe_flash_s, then reverts to a cross and motion
-     continues to the end of the phase.
+     color distinction -- cueing information must be tracked purely by
+     motion from here on), via continuously-redirecting random-walk physics
+     (see `physics.py`, unchanged). At a single randomly chosen moment
+     within this phase, one object -- either a cued target or a distractor,
+     depending on cfg.probe_on_target -- is drawn in cfg.cued_color (still a
+     cross, not a different shape) for cfg.probe_flash_s, then reverts to
+     white and motion continues to the end of the phase.
 
 Ground truth (which objects were cued, which one was probed, and whether
 that probe was a target) is known exactly, since we simulated every
 position ourselves.
 
 Writes `<out_dir>/video.mp4` and `<out_dir>/ground_truth.json`, matching the
-convention used by the other arms.
+convention used by the other arms. Also returns the rendered RGB frame
+array in-memory (not persisted to disk -- at cfg.fps=24/~18s this would be
+~190MB/trial as a raw .npy, unlike debug_circular's much shorter clips)
+so a caller can immediately re-encode a duration-stretched mp4 variant from
+the same lossless source (see scripts/pylyshyn/run_pylyshyn_stretch_sweep.py
+and finst_video_model.debug_circular.stimulus_gen.write_mp4) without a
+lossy decode-recompress round trip through the already-compressed native
+video.mp4.
 """
 
 import json
@@ -46,26 +52,11 @@ def _draw_cross(img, x, y, size, thickness, color):
     )
 
 
-def _draw_square(img, x, y, size, color):
-    center = (int(round(x)), int(round(y)))
-    cv2.rectangle(
-        img, (center[0] - size, center[1] - size), (center[0] + size, center[1] + size),
-        color[::-1], thickness=-1,
-    )
-
-
-def _draw_frame(cfg: TrialConfig, objects, blink_on: bool, cued_indices,
-                 probed_index: int | None = None) -> np.ndarray:
+def _draw_frame(cfg: TrialConfig, objects, highlighted_indices: set[int]) -> np.ndarray:
     img = np.full((cfg.image_height, cfg.image_width, 3), cfg.background_color, dtype=np.uint8)
-
     for obj in objects:
-        if probed_index is not None and obj.index == probed_index:
-            _draw_square(img, obj.x, obj.y, cfg.object_size, cfg.probe_color)
-            continue
-        if obj.index in cued_indices and not blink_on:
-            continue  # cued object mid-blink-off: not drawn
-        _draw_cross(img, obj.x, obj.y, cfg.object_size, cfg.arm_thickness, cfg.object_color)
-
+        color = cfg.cued_color if obj.index in highlighted_indices else cfg.neutral_color
+        _draw_cross(img, obj.x, obj.y, cfg.object_size, cfg.arm_thickness, color)
     return img
 
 
@@ -76,7 +67,7 @@ def _choose_probe(cfg: TrialConfig, cued_indices: set[int], rng: random.Random):
     return probed_index, t_probe
 
 
-def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
+def generate_stimulus(cfg: TrialConfig, out_dir: str) -> tuple[dict, np.ndarray]:
     cfg.validate()
 
     objects, cued_indices = build_objects(cfg)
@@ -94,20 +85,22 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
         video_path, cv2.VideoWriter_fourcc(*"avc1"), cfg.fps,
         (cfg.image_width, cfg.image_height)
     )
+    frames = []
 
-    # --- Cue phase: stationary, cued subset blinks ---
-    for frame_i in range(n_cue_frames):
-        t = frame_i * dt
-        blink_on = int(t / cfg.cue_blink_period_s) % 2 == 0
-        writer.write(_draw_frame(cfg, objects, blink_on, cued_indices))
+    def _write(frame: np.ndarray):
+        writer.write(frame)
+        frames.append(frame[..., ::-1])  # BGR (cv2 convention) -> RGB
+
+    # --- Cue phase: stationary, cued subset shown red (steady, no blink) ---
+    for _ in range(n_cue_frames):
+        _write(_draw_frame(cfg, objects, highlighted_indices=cued_indices))
 
     # --- Tracking phase: all objects move; one probe flash mid-phase ---
     for frame_i in range(n_track_frames):
         t = frame_i * dt
         is_probing = probe_start_frame <= frame_i < probe_start_frame + n_probe_frames
-        writer.write(_draw_frame(
-            cfg, objects, blink_on=True, cued_indices=cued_indices,
-            probed_index=probed_index if is_probing else None,
+        _write(_draw_frame(
+            cfg, objects, highlighted_indices={probed_index} if is_probing else set(),
         ))
         step_tracking_frame(cfg, objects, t, dt)
 
@@ -138,4 +131,4 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str) -> dict:
     with open(gt_path, "w") as f:
         json.dump(ground_truth, f, indent=2)
 
-    return ground_truth
+    return ground_truth, np.stack(frames, axis=0)

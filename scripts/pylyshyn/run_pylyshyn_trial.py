@@ -31,23 +31,23 @@ MODEL = "google/gemini-2.5-flash"
 def build_question(cfg: TrialConfig) -> str:
     k = cfg.n_cued
     plural = "cross" if k == 1 else "crosses"
-    blink_verb = "blinks" if k == 1 else "blink"
+    verb = "is" if k == 1 else "are"
+    pronoun = "it turns" if k == 1 else "they turn"
 
     return (
-        f"You will watch a video of white crosses (+) on a black background. "
-        f"At the start of the video, all crosses are stationary, and {k} of "
-        f"them -- the cued {plural} -- {blink_verb} on and off, while the "
-        f"rest stay steadily visible the whole time. Once the blinking stops, every "
-        f"cross begins moving continuously, "
-        f"independently, and unpredictably -- there is no more color or "
-        f"blinking difference between crosses once they start moving, so you "
-        f"can only keep track of which cross is which by following its "
-        f"motion. At some point while the crosses are moving, exactly one of "
-        f"them briefly turns into a solid square for about two seconds, then "
-        f"turns back into a cross, and all crosses keep moving until the "
-        f"video ends.\n\n"
-        f"Question: was the cross that briefly turned into a solid square "
-        + ("the cross that was blinking" if k == 1 else "one of the crosses that were blinking")
+        f"You will watch a video of {cfg.n_objects} white crosses (+) on a "
+        f"black background. At the start of the video, all crosses are "
+        f"stationary, and {k} of them -- the cued {plural} -- {verb} colored "
+        f"red, while the rest stay white. After a moment {pronoun} white "
+        f"too, and every cross begins moving continuously, independently, "
+        f"and unpredictably -- there is no more color difference between "
+        f"crosses once they start moving, so you can only keep track of "
+        f"which cross is which by following its motion. At some point while "
+        f"the crosses are moving, exactly one of them briefly turns red for "
+        f"about two seconds, then turns back to white, and all crosses keep "
+        f"moving until the video ends.\n\n"
+        f"Question: was the cross that briefly turned red "
+        + ("the cross that was red" if k == 1 else "one of the crosses that were red")
         + f" at the very start of the video?\n\n"
         f"Answer with only the single word True or False. Do not include "
         f"any other text in your answer."
@@ -70,7 +70,7 @@ def main():
     trial_dir = os.path.join("data", cfg.trial_id)
     os.makedirs(trial_dir, exist_ok=True)
 
-    ground_truth = generate_stimulus(cfg, trial_dir)
+    ground_truth, _frames = generate_stimulus(cfg, trial_dir)
     question = build_question(cfg)
     with open(os.path.join(trial_dir, "question.txt"), "w") as f:
         f.write(question)

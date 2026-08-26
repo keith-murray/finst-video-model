@@ -1,15 +1,24 @@
 """
-Generates a handful of sample Pylyshyn-reproduction videos so the stimulus
-(blinking cue phase, random-walk tracking motion, mid-trial probe flash) can
-be eyeballed before any VLM is wired up.
+Generates pylyshyn sample videos (no VLM calls) so the stimulus's timing
+and motion speed can be eyeballed directly -- see
+claude/2026_08/2026_08_26/TODO.md's "Part 3" and the timing/speed changes
+made to finst_video_model.pylyshyn.config on 2026-08-26 at the user's
+request ("I wish I had more guidelines as to how fast the stimulus should
+be, but let's generate some samples and I can provide feedback").
 
-Sweeps n_cued and probe_on_target (the two conditions needed for a d'
-computation later) across a few seeds each, writing every trial to its own
-`data/pylyshyn_samples/<trial_id>/` directory.
+Sweeps probe_on_target x --speed-scale, where --speed-scale is a multiplier
+on TrialConfig's baseline speed_min_px_s/speed_max_px_s (16.0/33.0, itself
+already a "slow it down" guess) -- letting several candidate speeds be
+eyeballed side by side in one batch rather than guessing a single value
+blind. redirect_min_s/redirect_max_s (2.0s) are left at the config default
+for every sample; only pixel speed is swept here.
+
+Writes every trial to its own
+data/pylyshyn/pylyshyn_samples/<trial_id>/{video.mp4,ground_truth.json}.
 
 Usage:
     uv run python scripts/pylyshyn/generate_samples.py
-    uv run python scripts/pylyshyn/generate_samples.py --n-cued 1 3 5 --seeds-per-condition 2
+    uv run python scripts/pylyshyn/generate_samples.py --speed-scale 0.5 1.0 1.5 --seeds-per-condition 2
 """
 
 import argparse
@@ -21,32 +30,39 @@ from finst_video_model.pylyshyn.stimulus_gen import generate_stimulus
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--n-cued", type=int, nargs="+", default=[1, 3, 5])
+    parser.add_argument("--speed-scale", type=float, nargs="+", default=[0.5, 1.0, 1.5, 2.0])
+    parser.add_argument("--probe-on-target", type=int, nargs="+", default=[1, 0])
     parser.add_argument("--seeds-per-condition", type=int, default=1)
-    parser.add_argument("--out-root", type=str, default="data/pylyshyn_samples")
+    parser.add_argument("--out-root", type=str, default="data/pylyshyn/pylyshyn_samples")
     args = parser.parse_args()
 
     os.makedirs(args.out_root, exist_ok=True)
 
+    base = TrialConfig()
     conditions = [
-        (n_cued, probe_on_target)
-        for n_cued in args.n_cued
-        for probe_on_target in (True, False)
+        (scale, bool(probe_on_target))
+        for scale in args.speed_scale
+        for probe_on_target in args.probe_on_target
     ]
 
-    for n_cued, probe_on_target in conditions:
+    for scale, probe_on_target in conditions:
         for rep in range(args.seeds_per_condition):
-            seed = n_cued * 1000 + (0 if probe_on_target else 500) + rep
-            cfg = TrialConfig(n_cued=n_cued, probe_on_target=probe_on_target, seed=seed)
+            seed = int(scale * 1000) + (0 if probe_on_target else 500) + rep
+            cfg = TrialConfig(
+                probe_on_target=probe_on_target,
+                speed_min_px_s=base.speed_min_px_s * scale,
+                speed_max_px_s=base.speed_max_px_s * scale,
+                seed=seed,
+            )
             trial_dir = os.path.join(args.out_root, cfg.trial_id)
             os.makedirs(trial_dir, exist_ok=True)
 
-            ground_truth = generate_stimulus(cfg, trial_dir)
+            ground_truth, _frames = generate_stimulus(cfg, trial_dir)
 
             print(
-                f"n_cued={n_cued} probe_on_target={probe_on_target} seed={seed} "
-                f"-> {trial_dir} (probed_index={ground_truth['probed_index']}, "
-                f"probe_is_target={ground_truth['probe_is_target']})"
+                f"speed_scale={scale} probe_on_target={probe_on_target} seed={seed} "
+                f"speed_px_s=[{cfg.speed_min_px_s:.1f},{cfg.speed_max_px_s:.1f}] -> {trial_dir} "
+                f"(probe_is_target={ground_truth['probe_is_target']})"
             )
 
 

@@ -5,63 +5,74 @@ adapted from).
 
 Siloed from `finst_video_model.config` because the design
 differs in ways that don't fit the same fields: the field size is fixed at
-n_objects (not swept), objects are stationary and blink during cueing rather
-than moving red circles, motion is a continuously-redirecting random walk
+n_objects (not swept), motion is a continuously-redirecting random walk
 rather than one constant heading, and the report is a single True/False
 judgment about a brief mid-trial probe flash rather than an end-of-clip
 letter identification.
 
-The cue/probe/motion timing fields below are further constrained by the
-downstream VLM's video ingestion (OpenRouter backends, e.g. Gemini,
-effectively downsample to ~1 fps regardless of our render fps) -- not just
-by Pylyshyn-fidelity -- see the comment on each affected field.
+min_probe_delay_s/min_post_probe_s below are further constrained by the
+original paper's own probe-timing requirements, not just by convenience --
+see the comment on that field. (Earlier versions of this file also derived
+redirect/probe-flash timing from an assumed downstream VLM sampling rate;
+that derivation was superseded 2026-08-26 -- see below.)
+
+Visual design (resolution, cross size, colors, and color-based cueing/
+probing rather than blinking/shape-changing) was ported over from
+`finst_video_model.debug_circular.config` on 2026-08-26
+(claude/2026_08/2026_08_26/TODO.md's "Part 3") once the debug_circular work
+confirmed a duration-stretched mp4 encoding gets OpenRouter to retain far
+more frames -- this stimulus should look nearly identical to
+debug_circular's except for the motion, which is unchanged (continuously-
+redirecting random walk, not debug_circular's rigid rotation).
+
+Timing was further slowed down and matched to debug_circular's exact
+cue/track/fps numbers on the same date, per explicit user request (fps=10,
+cue_s=1.0, tracking_s=9.0 -> 100 total frames, probe_flash_s=1.0) -- this
+superseded the original ASSUMED_VLM_SAMPLE_PERIOD_S=1.0-driven redirect/
+probe-margin derivation below (kept only where it still reflects the
+original Pylyshyn paper's own fidelity requirements, e.g.
+min_probe_delay_s/min_post_probe_s). redirect_min_s/max_s and
+speed_min/max_px_s are a first-pass "slow it down" guess (redirect period
+2.0s, speed roughly halved) explicitly pending the user's visual feedback
+on generated samples, not a re-derived-from-geometry value like the
+original 40/90 (later 31/65) bounds were.
 """
 
 from dataclasses import dataclass, field, asdict
 import json
 import uuid
 
-# Assumed effective sampling period of the downstream VLM's video ingestion.
-# This is an external fact about the model (we don't control or observe its
-# exact rate/phase), not a render parameter -- fields below that are sized
-# around it reference this constant in their comments.
-ASSUMED_VLM_SAMPLE_PERIOD_S = 1.0
-
 
 @dataclass
 class TrialConfig:
     # --- Core independent variables ---
-    n_objects: int = 10   # total field size, fixed at 10 in the original
-    n_cued: int = 3        # number of targets cued (flashed), 1-5 in the original
+    # Field size fixed at 10 in the original; reduced to 3 to start (see
+    # module docstring's "Part 3") -- kept as a swept-capable field (not
+    # hardcoded) so future work can scale it back up.
+    n_objects: int = 3
+    n_cued: int = 1        # number of targets cued (colored red), 1-5 in the original
 
     # --- Timing (seconds) ---
-    fps: int = 24
-    cue_s: float = 8.0                # objects stationary; cued subset blinks
-    # Blinks at 4x ASSUMED_VLM_SAMPLE_PERIOD_S (i.e. much faster than the
-    # VLM's sampling rate, not matched to it) so each ~1s-spaced sample
-    # lands on an effectively independent random on/off phase -- a
-    # dithered 50/50 draw decorrelated from sampling phase. Matching the
-    # blink rate to the sampling rate instead would risk aliasing (a
-    # sampled frame could phase-lock onto "always on" or "always off",
-    # making a cued object indistinguishable from a steady distractor).
-    # With cue_s=8.0 (~8 samples), the chance any one cued object's
-    # samples all land on the same state is 2*(0.5)^8 ~= 0.8%.
-    cue_blink_period_s: float = 0.125  # on/off half-period during cue_s
-    tracking_s: float = 10.0         # motion phase (7-15s in the original)
-    # Long enough to be guaranteed caught by at least one sample regardless
-    # of unknown sampling phase: for periodic sampling of period T, an
-    # event of duration >= T can't be slotted entirely between two
-    # samples. Using a conservative T_max ~= 1.3*ASSUMED_VLM_SAMPLE_PERIOD_S
-    # (since the true rate is only approximate) and rounding up for margin
-    # gives 2.0s; at the nominal rate this generically catches two samples.
-    probe_flash_s: float = 2.0
+    # fps/cue_s/tracking_s match debug_circular's own cue_flash_s=1.0/
+    # tracking_s=8.0 numbers as closely as the mid-tracking-probe design
+    # allows -- cue_s=1.0 + tracking_s=9.0 at fps=10 gives exactly 100
+    # total frames, same as debug_circular's 100-frame clips.
+    fps: int = 10
+    cue_s: float = 1.0                # objects stationary; cued subset colored red
+    tracking_s: float = 9.0          # motion phase, probe flash embedded partway through
+    # Matches debug_circular's probe_flash_s=1.0 exactly (was 2.0, derived
+    # from a now-superseded VLM-sampling-margin guarantee -- see module
+    # docstring).
+    probe_flash_s: float = 1.0
 
     # Probe must occur at least this far into tracking_s, and tracking_s
     # must continue at least this long after it ends, matching the
     # original's "at least 3 seconds after the start of the animation" /
-    # "at least 4s after the target-flash" constraints. Expressed in
-    # ASSUMED_VLM_SAMPLE_PERIOD_S terms, these are now ~3 and ~4 tracking
-    # hops (see redirect_min_s/redirect_max_s below).
+    # "at least 4s after the target-flash" constraints (unchanged --
+    # grounded in the original paper's own fidelity requirement, not in the
+    # redirect cadence). With tracking_s=9.0 this leaves only a 2s window
+    # for t_probe to be drawn from (see _choose_probe in stimulus_gen.py) --
+    # revisit if that proves too narrow once real samples are eyeballed.
     min_probe_delay_s: float = 3.0
     min_post_probe_s: float = 4.0
 
@@ -71,45 +82,37 @@ class TrialConfig:
     probe_on_target: bool = True
 
     # --- Motion ---
-    # The VLM only ever perceives two static endpoint positions per sample
-    # interval, not the path between them -- it can't tell "one 1s straight
-    # leg" from "several sub-second legs summing to the same net
-    # displacement" (unlike the original's "every few hundred
-    # milliseconds" redirect rate, which assumed a human perceiving
-    # continuous motion). So instead, both bounds are fixed at
-    # ASSUMED_VLM_SAMPLE_PERIOD_S: redirect_min_s == redirect_max_s makes
-    # physics.py's rng.uniform(...) deterministically return that value,
-    # so each object holds one (direction, speed) draw per assumed VLM
-    # sample interval -- one explicit, controllable step instead of an
-    # unpredictable random-walk sum. Direction is still one of 8 compass
-    # headings, as in the original.
-    redirect_min_s: float = ASSUMED_VLM_SAMPLE_PERIOD_S
-    redirect_max_s: float = ASSUMED_VLM_SAMPLE_PERIOD_S
-    # Since each redirect interval is exactly ASSUMED_VLM_SAMPLE_PERIOD_S,
-    # speed_px_s is numerically the per-sample hop distance in pixels.
-    # Bounds are sized against field geometry (image_width/height,
-    # n_objects below): mean nearest-neighbor distance for n_objects=10
-    # scattered over a 1280x720 field, treated as ~Poisson, is
-    # 0.5*sqrt(area/n) ~= 152px. 40px (~2.2x object_size) is unambiguously
-    # a real hop, not noise; 90px (~59% of 152px) leaves ~40% margin
-    # against ambiguous frame-to-frame nearest-neighbor matches between
-    # samples (with _resolve_separations in physics.py as a second layer
-    # of defense in denser local configurations). Recompute if n_objects
-    # or the image dimensions change.
-    speed_min_px_s: float = 40.0
-    speed_max_px_s: float = 90.0
+    # redirect_min_s == redirect_max_s makes physics.py's rng.uniform(...)
+    # deterministically return that value, so each object holds one
+    # (direction, speed) draw per redirect interval -- one explicit,
+    # controllable step rather than an unpredictable random-walk sum.
+    # Direction is still one of 8 compass headings, as in the original.
+    #
+    # 2.0s here (was 1.0s, tied to the now-superseded
+    # ASSUMED_VLM_SAMPLE_PERIOD_S assumption -- see module docstring) is a
+    # first-pass "slow the motion down" guess per explicit user request
+    # 2026-08-26, pending feedback on generated samples -- not re-derived
+    # from any sampling-rate assumption.
+    redirect_min_s: float = 2.0
+    redirect_max_s: float = 2.0
+    # Roughly halved from the geometry-derived 31/65 (see git history for
+    # that derivation) as part of the same 2026-08-26 "slow it down" pass --
+    # also a first-pass guess pending sample feedback, not re-derived from
+    # field geometry (which hasn't changed).
+    speed_min_px_s: float = 16.0
+    speed_max_px_s: float = 33.0
 
-    # --- Stimulus geometry ---
-    image_width: int = 1280
-    image_height: int = 720
-    object_size: int = 18       # cross half-extent / probe square half-extent
-    arm_thickness: int = 7      # cross arm thickness
+    # --- Stimulus geometry (ported from debug_circular.config) ---
+    image_width: int = 384
+    image_height: int = 384
+    object_size: int = 14       # cross half-extent
+    arm_thickness: int = 5      # cross arm thickness
     min_center_distance_factor: float = 2.6  # * object_size, min separation
 
-    # --- Colors (RGB) ---
-    background_color: tuple = (15, 15, 15)     # original: black background
-    object_color: tuple = (235, 235, 235)      # original: white crosses
-    probe_color: tuple = (235, 235, 235)       # solid white square flash
+    # --- Colors (RGB, ported from debug_circular.config) ---
+    background_color: tuple = (0, 0, 0)
+    cued_color: tuple = (255, 0, 0)      # cued crosses during cue_s; probed cross during its flash
+    neutral_color: tuple = (255, 255, 255)
 
     # --- Misc / bookkeeping ---
     seed: int = 0
