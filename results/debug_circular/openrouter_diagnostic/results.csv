@@ -1,0 +1,406 @@
+trial_id,video_variant,model,reasoning_level,n_objects,rotation_deg,clockwise,probe_on_target,seed,probe_is_target,response,predicted,outcome,prompt_tokens,completion_tokens,reasoning_tokens,cost,error
+0f64beac,native,qwen/qwen3.8-27b,none,3,360,True,False,8600,False,False,False,correct_rejection,1728,2,0,0.0006972,
+1808d7c4,stretched,qwen/qwen3.8-27b,none,3,45,False,True,100450,True,False,False,miss,7408,2,0,0.0031535,
+84a6995d,native,qwen/qwen3.8-27b,none,3,45,True,False,5450,False,False,False,correct_rejection,1728,2,0,0.0006963,
+89f6ae81,native,qwen/qwen3.8-27b,none,3,90,True,True,900,True,False,False,miss,1728,2,0,0.000784,
+333ab716,native,qwen/qwen3.8-27b,none,3,180,False,False,106800,False,False,False,correct_rejection,1728,2,0,0.000784,
+55a72242,native,qwen/qwen3.8-27b,none,3,90,False,False,105900,False,False,False,correct_rejection,1728,2,0,0.0006103,
+96a5c499,native,qwen/qwen3.8-27b,none,3,360,True,True,3600,True,True,True,hit,1728,2,0,0.0006103,
+ad509fbb,native,qwen/qwen3.8-27b,none,3,90,True,False,5900,False,False,False,correct_rejection,1728,2,0,0.00083624,
+9b061c63,native,qwen/qwen3.8-27b,none,3,180,True,True,1800,True,False,False,miss,1728,2,0,0.0006103,
+ad0504fa,native,qwen/qwen3.8-27b,none,3,180,True,False,6800,False,True,True,false_alarm,1728,2,0,0.0006103,
+e1ba0af3,native,qwen/qwen3.8-27b,none,3,45,False,False,105450,False,False,False,correct_rejection,1648,2,0,0.0007055,
+d84963ec,native,qwen/qwen3.8-27b,none,3,180,False,True,101800,True,False,False,miss,1728,2,0,0.0006103,
+f8b9913b,native,qwen/qwen3.8-27b,none,3,45,True,True,450,True,True,True,hit,1728,2,0,0.0006963,
+fbf39c7f,native,qwen/qwen3.8-27b,none,3,360,False,False,108600,False,False,False,correct_rejection,1728,2,0,0.000784,
+fe205fc4,native,qwen/qwen3.8-27b,none,3,90,False,True,100900,True,False,False,miss,1728,2,0,0.0006963,
+a9f066df,native,qwen/qwen3.8-27b,none,3,45,False,True,100450,True,True,True,hit,1648,2,0,0.0007055,
+2f7a347e,stretched,qwen/qwen3.8-27b,none,3,45,True,False,5450,False,True,True,false_alarm,7848,2,0,0.003538,
+520ca143,stretched,qwen/qwen3.8-27b,none,3,90,True,True,900,True,False,False,miss,7408,2,0,0.0031535,
+56d77c12,stretched,qwen/qwen3.8-27b,none,3,360,False,False,108600,False,False,False,correct_rejection,7848,2,0,0.0027523,
+a4f0ee1f,stretched,qwen/qwen3.8-27b,none,3,180,True,False,6800,False,False,False,correct_rejection,7848,2,0,0.0027523,
+f1cc3a83,native,qwen/qwen3.8-27b,none,3,360,False,True,103600,True,True,True,hit,1728,2,0,0.0006972,
+1a04d71d,stretched,qwen/qwen3.8-27b,none,3,360,True,False,8600,False,False,False,correct_rejection,2653,2,0,0.0010672,
+af42cce3,stretched,qwen/qwen3.8-27b,none,3,180,False,True,101800,True,False,False,miss,7848,2,0,0.0031443,
+b8a7850e,stretched,qwen/qwen3.8-27b,none,3,45,True,True,450,True,False,False,miss,7408,2,0,0.0031535,
+b48d794b,stretched,qwen/qwen3.8-27b,none,3,180,True,True,1800,True,False,False,miss,7848,2,0,0.0031443,
+c3e30c52,stretched,qwen/qwen3.8-27b,none,3,360,True,True,3600,True,True,True,hit,7848,2,0,0.0031443,
+aa022070,stretched,qwen/qwen3.8-27b,none,3,90,False,True,100900,True,False,False,miss,7848,2,0,0.0030972,
+c022aeb4,stretched,qwen/qwen3.8-27b,none,3,90,False,False,105900,False,True,True,false_alarm,7848,2,0,0.0030972,
+d454942b,stretched,qwen/qwen3.8-27b,none,3,45,False,False,105450,False,False,False,correct_rejection,7848,2,0,0.003538,
+cb1e8e97,stretched,qwen/qwen3.8-27b,none,3,180,False,False,106800,False,False,False,correct_rejection,7848,2,0,0.003538,
+e22a4276,stretched,qwen/qwen3.8-27b,none,3,360,False,True,103600,True,True,True,hit,7848,2,0,0.0030972,
+cfd281d2,stretched,qwen/qwen3.8-27b,none,3,90,True,False,5900,False,False,False,correct_rejection,7848,2,0,0.0027523,
+89f6ae81,native,qwen/qwen3.8-27b,medium,3,90,True,True,900,True,"
+
+True",True,hit,1726,2658,1723,0.00986568,
+84a6995d,native,qwen/qwen3.8-27b,medium,3,45,True,False,5450,False,"
+
+False",False,correct_rejection,1726,1922,0,0.0058896,
+0f64beac,native,qwen/qwen3.8-27b,medium,3,360,True,False,8600,False,"
+
+False",False,correct_rejection,1726,1939,0,0.00593635,
+55a72242,native,qwen/qwen3.8-27b,medium,3,90,False,False,105900,False,False,False,correct_rejection,1646,3287,3282,0.0090814,
+a9f066df,native,qwen/qwen3.8-27b,medium,3,45,False,True,100450,True,"
+
+True",True,hit,1726,2051,1247,0.0073399,
+333ab716,native,qwen/qwen3.8-27b,medium,3,180,False,False,106800,False,True,True,false_alarm,1646,3523,3519,0.0096832,
+9b061c63,native,qwen/qwen3.8-27b,medium,3,180,True,True,1800,True,True,True,hit,1646,2606,2602,0.00734485,
+e1ba0af3,native,qwen/qwen3.8-27b,medium,3,45,False,False,105450,False,"
+
+False",False,correct_rejection,1726,1995,1290,0.0071607,
+ad0504fa,native,qwen/qwen3.8-27b,medium,3,180,True,False,6800,False,"
+
+True",True,false_alarm,1726,5000,3082,0.01782848,
+ad509fbb,native,qwen/qwen3.8-27b,medium,3,90,True,False,5900,False,"
+
+False",False,correct_rejection,1726,3172,3168,0.0109271,
+f1cc3a83,native,qwen/qwen3.8-27b,medium,3,360,False,True,103600,True,"
+
+False",False,miss,1726,2051,1664,0.0073399,
+d84963ec,native,qwen/qwen3.8-27b,medium,3,180,False,True,101800,True,"
+
+True",True,hit,1726,4559,0,0.01314135,
+fe205fc4,native,qwen/qwen3.8-27b,medium,3,90,False,True,100900,True,"
+
+Let me track the red cross's angular position relative to the rotating group.
+
+Initial positions (center ≈ (190, 203)):
+- Top-left white: ≈ (-40, -93) → ~113° (measuring CCW from +x, image-y-up)
+- Red right: ≈ (40, -33) → ~320°
+- Bottom white: ≈ (0, 127) → ~270°
+
+The red is at 320°, and the two whites are at 113° and 270°. The cross that is ""next"" to red clockwise (decreasing angle) is the bottom (270°); the one next counterclockwise is top-left (113°).
+
+Now track rotation direction across frames. At 1.2s the group has rotated CCW (top-left cross moved up-left, red cross moved up). Let's just track the red cross's identity by following the rigid body. The red cross at start is the one at the ""right"" position. As the group rotates CCW, that same physical cross moves to top, then left, etc.
+
+Let me follow the physical cross that started at right (red). At 0s: right (320°). At 1.2s: it's the one near top-right (the red turned white). At 2.3s: top-right. At 3.4s: top-right moving to top. At 4.3s: top. At 5.5s: top. At 6.5s: top. At 7.5s: top. At 8.6s: top. At 9.6s (final): the red is at top.
+
+Now I need to see whether the top position at the end corresponds to the same physical cross that was red at start. Since the whole group rotates rigidly, the physical cross that was at ""right"" at start will, after some total rotation, end at some position. The final red is at top.
+
+Let me measure total rotation. Track a feature: the starting red (right, 320°). At each frame estimate the angle of the cross that is the continuation.
+
+0s: right cross at 320°.
+1.2s: crosses at approx top-left(130,130)->dx=-60,dy=-73 ~150°?; right(225,175)->dx=35,dy=-28~322°; bottom(175,340)->dx=-15,dy=137~276°. Hmm that's barely rotated. Actually at 1.2s the right cross still ~322°, similar.
+
+This is too noisy. Let's think about net rotation. The pattern at 0s and at 9.6s look very similar in orientation! At 0s: white top-left, red right, white bottom. At 9.6s: red top-left-ish (top), white right, white bottom-left. Hmm orientation at 9.6s: red at top (~100°?), white right (~320°), white bottom-left (~250°).
+
+Compare 0s orientation set {113, 270, 320}. 9.6s set {~100, ~250, ~320}? Let's read 9.6s: red top (150,70) dx=-40,dy=-133 ~107°; white right (260,235) dx=70,dy=32 ~205°? hmm y down so dy positive means below center: angle = -? Let's keep image-y-down convention consistently: angle = atan2(dy, dx) with dy down. Then top = -90° (or 270°), bottom=+90°, left=180°, right=0°.
+
+Redo 0s: top-left (-40,-93): atan2(-93,-40)= ~243° (third quadrant in this y-down? atan2(-93,-40) both neg → between 180 and 270 → ~243°). Right (40,-33): atan2(-33,40)=~-39°=321°. Bottom (0,127): atan2(127,0)=90°.
+
+9.6s: red top (-40,-133): atan2(-133,-40)=~253°. white right (70,32): atan2(32,70)=~24°. white bottom-left (-20,130): atan2(130,-20)=~99°.
+
+So 0s set {243, 321, 90}. 9.6s set {253, 24, 99}. Differences: 243→253 (+10), 90→99 (+9), 321→? 24 is 321+? 321+10=331 not 24. 24-321 = -297 ≡ +63 mod360. Not consistent.
+
+Hmm my reading is imprecise. Let's think differently: track rotation direction and total.
+
+Look at the bottom white cross at 0s (90°). Follow it: 1.2s bottom (175,340)~ still ~95°. 2.3s bottom (210,330)~ ~80°. 3.4s bottom (220,340)~ ~70°. 4.3s bottom (200,330)~ ~85°. 5.5s bottom-right (240,320)~ ~45°. 6.5s bottom-right (250,330)~ ~50°. 7.5s bottom-right (280,330)~ ~30°. 8.6s bottom (180,330)~ ~95°. 9.6s bottom-left (160,320)~ ~105°.
+
+This is going around. The rotation seems to be clockwise in image (y-down) meaning angle increasing? bottom 90→ ... → 105 after many frames, that's slow. Meanwhile top-left 243→253 also +10. Right 321→24 is +? 321→24 = +63 (mod360) which would mean it passed 360/0. So total rotation about +60°? Then the right cross (321) ends at 321+60=381=21°, which matches white right at 9.6s (~24°). The top-left (243) ends at 303°? but red at 9.6 is at 253, not 303. Hmm.
+
+I'm overanalyzing pixel guesses. Let's consider the simpler intended solution: The group rotates by some total angle; we need whether the final red cross equals initial red cross. If total rotation is a multiple of 120°, then yes same; else no (since 3-fold symmetry, any multiple of 120 maps set to itself and a specific cross returns to its slot only if rotation multiple of 360; rotation of 120 or 240 maps the red's starting slot to a different physical cross).
+
+Actually careful: The question is identity of physical cross, not slot. If the group rotates by 120°, then the physical cross that was at slot A moves to slot B. At the end, the red is at some slot. We ask if that physical cross is the original red.
+
+Let original red = physical cross R0 at slot S0 (right). After total rotation θ, R0 is at slot S0 rotated by θ. The final red is at some slot Sf (top). For final red to be R0, we need S0 rotated by θ = Sf, i.e., the physical cross at top now started at the slot that is top rotated by -θ.
+
+Given 3-fold spacing, if θ mod 120 ≠ 0 then R0 is not at its original slot; but it could still be at top if top = S0 rotated by θ.
+
+This is too detailed for pixel noise. Let's look at overall rotation magnitude by watching one cross clearly. Track the cross that at 0s is at bottom (90°). It seems to drift: 0s bottom, 3.4s bottom slightly right, 5.5s bottom-right, 7.5s bottom-right more right, 8.6s bottom, 9.6s bottom-left. So it went from 90° clockwise? In y-down, increasing angle = clockwise visually? Eh.
+
+Given the difficulty, maybe the intended answer is simply False (the typical trick: after rotation the red ends on a different cross). Many of these benchmark videos are designed so that the answer is often False when rotation isn't a full turn.
+
+Let's estimate total rotation by the top-left cross: 0s top-left (243°). 9.6s red top (253°). If the red at end is the same physical cross as the top-left white at start, then rotation = +10°, but that's too small given the visible large motion (the group clearly went around a lot). Actually the group's apparent motion: at 0s right cross at 3 o'clock; at 4.3s there's a cross at 12 o'clock and one at 9 o'clock and one at 6-7 o'clock; at 7.5s cross at 12, and 4-5 o'clock and 7-8 o'clock; at 9.6s cross at 11-12, 4, 7-8. So orientation at 9.6s is close to orientation at 0s but rotated a bit. That suggests total rotation ≈ 360° + small, i.e., nearly full turn. If nearly full turn, then the same physical cross returns near its original slot. Original red was at right (3 o'clock). At end red is at top (12). That's not the same slot. So if total rotation ≈ 360°, the red cross (physical) would be back at right, but the red color is at top → different cross → False.
+
+But if total rotation ≈ 360°+90°? Then right→top, meaning physical red now at top → red color at top = same cross → True.
+
+Look at orientation at 0s vs 9.6s: 0s has a cross at 3 o'clock (right). 9.6s has a cross at ~4 o'clock (right-ish) and at 12 and 7-8. The set at 9.6 {12, 4, 7-8} vs 0s {10-11, 3, 6}. That's a shift of about +2 hours? 10→12 (+2h=+60°), 3→4(+1h), 6→7-8(+1-2h). So total rotation ~ +60° beyond a full turn? Then physical red (started at 3 o'clock) ends at 3+? if +60° then at 5 o'clock, but red is at 12 → not same → False. If the visible orientation shift is ~ +60° (i.e., total 420°), then red physical at 5 o'clock, colored red at 12 → different → False.
+
+Thus likely False.
+
+I'll commit to False.
+
+Verification: The starting red is at the right (3 o'clock). The ending red is at top (12 o'clock). For these to be the same physical cross, the group would have to rotate by exactly 90° (mod 360°) net (since 3→12 is -90° or +270). But the observed net orientation of the three-cross pattern at the end is much closer to the start orientation (only ~60° off, not 90°, and definitely the pattern didn't rotate by a clean 90° because 90° isn't a multiple of 120° so the pattern would look rotated by 90° which is not symmetry). Actually a 90° rotation of a 3-fold symmetric set gives a set rotated 90°, which looks different from original by 90°. The end set {12,4,8} vs start {11,3,6}: that's ~ +1 hour = +30°? Hmm 11→12 +1, 3→4 +1, 6→8 +2. About +30-60°. Not 90. So not same cross. False.
+
+Thus answer False.
+</think>
+
+False",,unparseable,1766,3177,257,0.0102374,
+1808d7c4,stretched,qwen/qwen3.8-27b,medium,3,45,False,True,100450,True,True,True,hit,7406,1797,1792,0.0077299,
+1a04d71d,stretched,qwen/qwen3.8-27b,medium,3,360,True,False,8600,False,"
+
+True",True,false_alarm,7846,2051,1404,0.0100939,
+2f7a347e,stretched,qwen/qwen3.8-27b,medium,3,45,True,False,5450,False,"
+
+False",False,correct_rejection,7846,2051,1290,0.0100939,
+520ca143,stretched,qwen/qwen3.8-27b,medium,3,90,True,True,900,True,"
+
+True",True,hit,7846,2063,0,0.00841935,
+f8b9913b,native,qwen/qwen3.8-27b,medium,3,45,True,True,450,True,"
+
+False",False,miss,1726,6193,0,0.01763485,
+aa022070,stretched,qwen/qwen3.8-27b,medium,3,90,False,True,100900,True,"
+
+True",True,hit,7846,3038,1786,0.01409528,
+a4f0ee1f,stretched,qwen/qwen3.8-27b,medium,3,180,True,False,6800,False,"
+
+False",False,correct_rejection,7846,2253,2249,0.0107403,
+fbf39c7f,native,qwen/qwen3.8-27b,medium,3,360,False,False,108600,False,"
+
+False",False,correct_rejection,1726,5725,4846,0.01528915,
+af42cce3,stretched,qwen/qwen3.8-27b,medium,3,180,False,True,101800,True,"
+
+False",False,miss,7846,2051,1297,0.0100939,
+b8a7850e,stretched,qwen/qwen3.8-27b,medium,3,45,True,True,450,True,"
+
+True",True,hit,7846,2291,1332,0.0108619,
+56d77c12,stretched,qwen/qwen3.8-27b,medium,3,360,False,False,108600,False,"
+
+False",False,correct_rejection,7846,6860,0,0.0216111,
+b48d794b,stretched,qwen/qwen3.8-27b,medium,3,180,True,True,1800,True,True,True,hit,7406,4298,4293,0.01410745,
+c022aeb4,stretched,qwen/qwen3.8-27b,medium,3,90,False,False,105900,False,"
+
+False",False,correct_rejection,7846,2923,1876,0.0128843,
+cb1e8e97,stretched,qwen/qwen3.8-27b,medium,3,180,False,False,106800,False,True,True,false_alarm,7406,3654,3649,0.01246525,
+96a5c499,native,qwen/qwen3.8-27b,medium,3,360,True,True,3600,True,"
+
+False",False,miss,1726,3957,3079,0.01078075,
+cfd281d2,stretched,qwen/qwen3.8-27b,medium,3,90,True,False,5900,False,"
+
+False",False,correct_rejection,7846,4371,4362,0.0175179,
+d454942b,stretched,qwen/qwen3.8-27b,medium,3,45,False,False,105450,False,"
+
+False",False,correct_rejection,7846,3950,0,0.0136086,
+e22a4276,stretched,qwen/qwen3.8-27b,medium,3,360,False,True,103600,True,"
+
+True",True,hit,7846,5282,0,0.0172716,
+c3e30c52,stretched,qwen/qwen3.8-27b,medium,3,360,True,True,3600,True,"
+
+True",True,hit,7846,6465,4208,0.01962415,
+84a6995d,native,qwen/qwen3.8-max,medium,3,45,True,False,5450,False,False,False,correct_rejection,1650,2190,2185,0.01644,
+89f6ae81,native,qwen/qwen3.8-max,medium,3,90,True,True,900,True,True,True,hit,1650,3309,3304,0.023154,
+55a72242,native,qwen/qwen3.8-max,medium,3,90,False,False,105900,False,False,False,correct_rejection,1650,3960,3955,0.02706,
+333ab716,native,qwen/qwen3.8-max,medium,3,180,False,False,106800,False,False,False,correct_rejection,1650,4012,4008,0.027372,
+0f64beac,native,qwen/qwen3.8-max,medium,3,360,True,False,8600,False,False,False,correct_rejection,1650,7722,7717,0.049632,
+a9f066df,native,qwen/qwen3.8-max,medium,3,45,False,True,100450,True,True,True,hit,1650,4502,4497,0.030312,
+ad0504fa,native,qwen/qwen3.8-max,medium,3,180,True,False,6800,False,False,False,correct_rejection,1650,5136,5132,0.034116,
+ad509fbb,native,qwen/qwen3.8-max,medium,3,90,True,False,5900,False,False,False,correct_rejection,1650,2101,2096,0.015906,
+9b061c63,native,qwen/qwen3.8-max,medium,3,180,True,True,1800,True,True,True,hit,1650,6650,6645,0.0432,
+96a5c499,native,qwen/qwen3.8-max,medium,3,360,True,True,3600,True,True,True,hit,1650,8418,8414,0.053808,
+e1ba0af3,native,qwen/qwen3.8-max,medium,3,45,False,False,105450,False,False,False,correct_rejection,1650,2737,2732,0.019722,
+f8b9913b,native,qwen/qwen3.8-max,medium,3,45,True,True,450,True,True,True,hit,1650,2199,2195,0.016494,
+d84963ec,native,qwen/qwen3.8-max,medium,3,180,False,True,101800,True,True,True,hit,1650,4654,4649,0.031224,
+fe205fc4,native,qwen/qwen3.8-max,medium,3,90,False,True,100900,True,True,True,hit,1650,4072,4067,0.027732,
+1808d7c4,stretched,qwen/qwen3.8-max,medium,3,45,False,True,100450,True,True,True,hit,7410,4791,4786,0.043566,
+1a04d71d,stretched,qwen/qwen3.8-max,medium,3,360,True,False,8600,False,False,False,correct_rejection,7410,9281,9277,0.070506,
+520ca143,stretched,qwen/qwen3.8-max,medium,3,90,True,True,900,True,True,True,hit,7410,5111,5106,0.045486,
+fbf39c7f,native,qwen/qwen3.8-max,medium,3,360,False,False,108600,False,False,False,correct_rejection,1650,16572,16568,0.102732,
+2f7a347e,stretched,qwen/qwen3.8-max,medium,3,45,True,False,5450,False,False,False,correct_rejection,7410,11721,11717,0.085146,
+f1cc3a83,native,qwen/qwen3.8-max,medium,3,360,False,True,103600,True,True,True,hit,1650,19975,19970,0.12315,
+aa022070,stretched,qwen/qwen3.8-max,medium,3,90,False,True,100900,True,True,True,hit,7410,5484,5479,0.047724,
+a4f0ee1f,stretched,qwen/qwen3.8-max,medium,3,180,True,False,6800,False,False,False,correct_rejection,7410,9884,9879,0.074124,
+56d77c12,stretched,qwen/qwen3.8-max,medium,3,360,False,False,108600,False,False,False,correct_rejection,7410,11439,11435,0.083454,
+af42cce3,stretched,qwen/qwen3.8-max,medium,3,180,False,True,101800,True,True,True,hit,7410,6739,6734,0.055254,
+c022aeb4,stretched,qwen/qwen3.8-max,medium,3,90,False,False,105900,False,False,False,correct_rejection,7410,3227,3222,0.034182,
+b48d794b,stretched,qwen/qwen3.8-max,medium,3,180,True,True,1800,True,True,True,hit,7410,7149,7144,0.057714,
+cfd281d2,stretched,qwen/qwen3.8-max,medium,3,90,True,False,5900,False,False,False,correct_rejection,7410,4290,4285,0.04056,
+e22a4276,stretched,qwen/qwen3.8-max,medium,3,360,False,True,103600,True,True,True,hit,7410,4755,4751,0.04335,
+b8a7850e,stretched,qwen/qwen3.8-max,medium,3,45,True,True,450,True,True,True,hit,7410,13633,13629,0.096618,
+cb1e8e97,stretched,qwen/qwen3.8-max,medium,3,180,False,False,106800,False,False,False,correct_rejection,7410,11568,11563,0.084228,
+d454942b,stretched,qwen/qwen3.8-max,medium,3,45,False,False,105450,False,False,False,correct_rejection,7410,14142,14137,0.099672,
+c3e30c52,stretched,qwen/qwen3.8-max,medium,3,360,True,True,3600,True,True,True,hit,7410,17825,17821,0.12177,
+84a6995d,native,qwen/qwen3.8-27b,low,3,45,True,False,5450,False,"
+
+False",False,correct_rejection,1756,259,199,0.001619,
+84a6995d,native,qwen/qwen3.8-max,low,3,45,True,False,5450,False,False,False,correct_rejection,1676,1317,1312,0.011254,
+55a72242,native,qwen/qwen3.8-max,low,3,90,False,False,105900,False,False,False,correct_rejection,1676,1508,1504,0.0124,
+55a72242,native,qwen/qwen3.8-27b,low,3,90,False,False,105900,False,"
+
+False",False,correct_rejection,1756,2661,1688,0.00989028,
+89f6ae81,native,qwen/qwen3.8-max,low,3,90,True,True,900,True,True,True,hit,1676,1853,1848,0.01447,
+89f6ae81,native,qwen/qwen3.8-27b,low,3,90,True,True,900,True,True,True,hit,1672,2246,2241,0.0064379,
+333ab716,native,qwen/qwen3.8-max,low,3,180,False,False,106800,False,False,False,correct_rejection,1676,2540,2535,0.018592,
+0f64beac,native,qwen/qwen3.8-max,low,3,360,True,False,8600,False,False,False,correct_rejection,1676,2986,2982,0.021268,
+9b061c63,native,qwen/qwen3.8-max,low,3,180,True,True,1800,True,True,True,hit,1676,1766,1761,0.013948,
+a9f066df,native,qwen/qwen3.8-27b,low,3,45,False,True,100450,True,"
+
+True",True,hit,2668,1924,1061,0.0068392,
+96a5c499,native,qwen/qwen3.8-max,low,3,360,True,True,3600,True,True,True,hit,1676,2392,2388,0.017704,
+ad0504fa,native,qwen/qwen3.8-27b,low,3,180,True,False,6800,False,"
+
+False",False,correct_rejection,1808,68,65,0.0009112,
+a9f066df,native,qwen/qwen3.8-max,low,3,45,False,True,100450,True,True,True,hit,1676,2116,2111,0.016048,
+ad509fbb,native,qwen/qwen3.8-27b,low,3,90,True,False,5900,False,"
+
+False",False,correct_rejection,1808,68,65,0.0009112,
+d84963ec,native,qwen/qwen3.8-27b,low,3,180,False,True,101800,True,"
+
+False",False,miss,1808,68,65,0.0008632,
+ad509fbb,native,qwen/qwen3.8-max,low,3,90,True,False,5900,False,False,False,correct_rejection,1676,1175,1170,0.010402,
+e1ba0af3,native,qwen/qwen3.8-27b,low,3,45,False,False,105450,False,"
+
+False",False,correct_rejection,1808,68,65,0.0008632,
+96a5c499,native,qwen/qwen3.8-27b,low,3,360,True,True,3600,True,"
+
+True",True,hit,2668,4208,3024,0.0136912,
+f1cc3a83,native,qwen/qwen3.8-27b,low,3,360,False,True,103600,True,"
+
+False",False,miss,1808,68,65,0.0008632,
+ad0504fa,native,qwen/qwen3.8-max,low,3,180,True,False,6800,False,True,True,false_alarm,1676,1969,1965,0.015166,
+fbf39c7f,native,qwen/qwen3.8-27b,low,3,360,False,False,108600,False,"
+
+True",True,false_alarm,1808,68,65,0.0008632,
+d84963ec,native,qwen/qwen3.8-max,low,3,180,False,True,101800,True,True,True,hit,1676,1952,1948,0.015064,
+e1ba0af3,native,qwen/qwen3.8-max,low,3,45,False,False,105450,False,False,False,correct_rejection,1676,1779,1775,0.014026,
+f8b9913b,native,qwen/qwen3.8-max,low,3,45,True,True,450,True,True,True,hit,1676,1509,1504,0.012406,
+fe205fc4,native,qwen/qwen3.8-max,low,3,90,False,True,100900,True,True,True,hit,1676,1228,1223,0.01072,
+f1cc3a83,native,qwen/qwen3.8-max,low,3,360,False,True,103600,True,True,True,hit,1676,2678,2674,0.01942,
+1808d7c4,stretched,qwen/qwen3.8-max,low,3,45,False,True,100450,True,True,True,hit,7436,1696,1692,0.025048,
+fe205fc4,native,qwen/qwen3.8-27b,low,3,90,False,True,100900,True,"
+
+True",True,hit,1756,2533,0,0.00758035,
+1808d7c4,stretched,qwen/qwen3.8-27b,low,3,45,False,True,100450,True,"
+
+True",True,hit,7928,68,65,0.0033112,
+1a04d71d,stretched,qwen/qwen3.8-27b,low,3,360,True,False,8600,False,"
+
+False",False,correct_rejection,7928,68,65,0.0033112,
+2f7a347e,stretched,qwen/qwen3.8-27b,low,3,45,True,False,5450,False,"
+
+False",False,correct_rejection,7928,68,65,0.0033112,
+520ca143,stretched,qwen/qwen3.8-27b,low,3,90,True,True,900,True,"
+
+False",False,miss,7928,68,65,0.0033112,
+f8b9913b,native,qwen/qwen3.8-27b,low,3,45,True,True,450,True,"
+
+True",True,hit,1756,1716,0,0.0053336,
+520ca143,stretched,qwen/qwen3.8-max,low,3,90,True,True,900,True,True,True,hit,7436,1636,1631,0.024688,
+a4f0ee1f,stretched,qwen/qwen3.8-27b,low,3,180,True,False,6800,False,"
+
+False",False,correct_rejection,7928,68,65,0.0033112,
+333ab716,native,qwen/qwen3.8-27b,low,3,180,False,False,106800,False,"
+
+False",False,correct_rejection,1756,3287,0,0.00965385,
+fbf39c7f,native,qwen/qwen3.8-max,low,3,360,False,False,108600,False,False,False,correct_rejection,1676,4203,4198,0.02857,
+aa022070,stretched,qwen/qwen3.8-27b,low,3,90,False,True,100900,True,"
+
+False",False,miss,7928,68,65,0.0033112,
+af42cce3,stretched,qwen/qwen3.8-27b,low,3,180,False,True,101800,True,"
+
+True",True,hit,7928,68,65,0.0033112,
+2f7a347e,stretched,qwen/qwen3.8-max,low,3,45,True,False,5450,False,False,False,correct_rejection,7436,2191,2186,0.028018,
+b48d794b,stretched,qwen/qwen3.8-27b,low,3,180,True,True,1800,True,"
+
+False",False,miss,7928,68,65,0.0033112,
+0f64beac,native,qwen/qwen3.8-27b,low,3,360,True,False,8600,False,"
+
+False",False,correct_rejection,1756,5696,0,0.0162786,
+b8a7850e,stretched,qwen/qwen3.8-27b,low,3,45,True,True,450,True,"
+
+False",False,miss,7928,68,65,0.0033112,
+c022aeb4,stretched,qwen/qwen3.8-27b,low,3,90,False,False,105900,False,"
+
+False",False,correct_rejection,7928,68,65,0.0033112,
+c3e30c52,stretched,qwen/qwen3.8-27b,low,3,360,True,True,3600,True,"
+
+True",True,hit,7928,68,65,0.0033112,
+1a04d71d,stretched,qwen/qwen3.8-max,low,3,360,True,False,8600,False,False,False,correct_rejection,7436,3341,3336,0.034918,
+cb1e8e97,stretched,qwen/qwen3.8-27b,low,3,180,False,False,106800,False,"
+
+False",False,correct_rejection,7928,68,65,0.0033112,
+cfd281d2,stretched,qwen/qwen3.8-27b,low,3,90,True,False,5900,False,"
+
+True",True,false_alarm,7928,68,65,0.0033112,
+d454942b,stretched,qwen/qwen3.8-27b,low,3,45,False,False,105450,False,"
+
+False",False,correct_rejection,7928,68,65,0.0033112,
+e22a4276,stretched,qwen/qwen3.8-27b,low,3,360,False,True,103600,True,"
+
+True",True,hit,7928,68,65,0.0033112,
+56d77c12,stretched,qwen/qwen3.8-27b,low,3,360,False,False,108600,False,", let me look at pixel positions). The image is 512x512. At start: red cross at top center ~ (256, 75). White cross at right ~ (285, 305). White cross at bottom-left ~ (165, 405). So three crosses equally spaced around a circle.
+
+Let me define angles relative to center (256,256). Top red: vector (0, -181) -> angle ~ 270° (using standard math with y up? Let's use clock positions). Let's use clock: top = 12 o'clock. Right cross at (285,305): vector (29,49) -> down-right, about 4-5 o'clock. Bottom-left (165,405): vector (-91,149) -> about 7-8 o'clock. Hmm these are roughly 120° apart? 12 o'clock, ~4:30, ~7:30. Yes roughly equal.
+
+So initial red at 12 o'clock.
+
+Now during rotation, the group rotates rigidly. I need to track the red cross's position over time. At 5s, the crosses are at: top ~ (285,75) which is slightly right of top, right ~ (285,335), bottom-left ~ (165,435). Hmm the top one moved right a bit -> clockwise rotation? Let's see: top cross moved from x=256 to x=285 (right). The right cross moved from (285,305) to (285,335) (down). The bottom-left from (165,405) to (165,435) (down). That's consistent with clockwise rotation? Top moving right = clockwise. Right moving down = clockwise. Bottom-left moving down-left? bottom-left at 7-8 o'clock moving clockwise would go toward 6 o'clock i.e., up-right. Hmm not matching. Let's reconsider direction.
+
+Let's compute angles properly with math convention (x right, y down). Angle = atan2(dy, dx) with y down.
+
+Initial:
+Top red: (256-256, 75-256) = (0, -181). atan2(-181,0) = -90° (i.e., 270°).
+Right white: (285-256,305-256)=(29,49). atan2(49,29)= ~59°.
+Bottom-left white: (165-256,405-256)=(-91,149). atan2(149,-91)= ~121°.
+
+Differences: from -90 to 59 is 149; from 59 to 121 is 62; from 121 to 270(-90) is 149. Not equal. Hmm my pixel reads are rough. The arrangement might not be perfectly 120 but ""equally spaced"" claimed. My reads are imprecise. Let's instead just track the red cross by continuity of motion across frames, since it's rigid rotation with constant angular speed.
+
+Track top cross position over time:
+0-4s: (256,75)
+5s: (285,75)
+6s: (285,95)
+7s: (285,135)
+8s: (256,135)
+9s: (227,135)
+10s: (227,175)
+11s: (256,175)?? wait 11s top cross at (285,115)? Let's look frame by frame carefully.
+
+This is too imprecise from description. Let's think about total rotation. The motion seems to go: top cross goes right then down then left then up... It's rotating. Over the whole video it likely completes some number of full turns plus an offset. At the end (45-49s) the red cross is at right position (~305,365) which corresponds to the original ""right white"" initial position! Indeed at end: top white (165,75), right red (305,365), bottom-left white (165,405). Compare initial: top red (256,75), right white (285,305), bottom-left white (165,405). Not same arrangement.
+
+Hmm the end configuration: top (165,75), right (305,365), bottom-left (165,405). That's a different orientation than initial.
+
+I think the cleanest approach: determine rotation angle per frame and total rotation, then map initial red's final position, compare to where red appears at end.
+
+Given complexity and that this is a known type of puzzle, likely the answer is False (the red at end is a different cross) or True. Let's reason about total rotation by tracking one cross clearly.
+
+Track the cross that started at top (initial red). Record its approximate (x,y) each second:
+t0: (256,75)
+t5: (285,75)
+t6: (285,95)
+t7: (285,135)
+t8: (256,135)
+t9: (227,135)
+t10: (227,175)
+t11: (256,175)?? at 11s the crosses are top-right (285,115), left (115,225), bottom (256,375). Hmm the top one moved to right side. So between t10 and t11 the top cross (227,175) moved to (285,115)? That's up-right, plausible clockwise? I'm spending too long.
+
+Let's think about angular speed: From t0 to t5 it moved from angle -90° to maybe -60°? small. Over 45 seconds maybe it does ~1.5 rotations. Hard.
+
+Alternative: Use the fact that it's rigid and equal spacing; at the end the configuration orientation can be compared to initial orientation to find net rotation modulo 120°. Since three identical crosses equally spaced, a rotation by 120° maps the set to itself, so we can't distinguish which physical cross is where unless we track continuously. But we did track the top one continuously; we need its final position.
+
+Given the difficulty, maybe the intended answer is simply False because the red at end is at a position that, given net rotation, corresponds to a different initial cross.
+
+Let's estimate net rotation by looking at initial vs final set orientation. Initial set angles (approx): -90°, +59°, +121° (the set). Final set angles: top (165,75): (-91,-181) -> atan2(-181,-91)= -116° (~244°). right (305,365):(49,109)-> atan2(109,49)= ~66°. bottom-left (165,405): same as initial bottom-left ~121°. So final set ≈ {244°,66°,121°} vs initial {-90(270),59,121}. The 121° element present in both! So one cross stayed near same angle? That suggests net rotation ~0 mod 120? If net rotation is ~0 (or 120,240), then the cross at 121° at end is same physical cross as at 121° start. The red at end is at 66°, which at start corresponded to the cross at 59° (the right white). So red at end = initial right white = NOT initial red. Therefore False.
+
+But wait if net rotation is ~0, then top cross at end should be initial top (red). But end top is white. Contradiction. If net rotation ~120°, then each cross moved to next slot. Then end red at 66° would be the cross that was at 66-120=-54° at start? not in set. Hmm.
+
+Let's compute net rotation by matching sets: initial set I={270,59,121} (degrees). final set F={244,66,121}. The rotation R such that I+R = F mod 360 (as sets). Try R=0: I={270,59,121} vs F={244,66,121} not equal (270 vs244 off by 26, 59 vs66 off 7, 121 match). Not good.
+
+My angle reads are too noisy. This is taking too long. Given typical design of these VQA tracking puzzles, the answer is often ""False"" to ensure you track. I'll commit to False.
+
+Actually let's think differently: The rotation appears to be clockwise and by the end it has rotated roughly one full turn plus a bit, returning near start orientation but the red ended on a different cross because of the extra rotation? Ugh.
+
+Let's look at final frame orientation vs first: first had red at top, white at right-mid, white at bottom-left. Final has white at top-left, red at right-mid, white at bottom-left. The bottom-left white is in same place in both! So net rotation is close to 0 (the bottom-left cross didn't move much). If net rotation ~0, then the cross at top in final is the same physical cross that was at top initially = the original red. But final top is white, and final right is red. The original right cross (white) would now be at right; original top (red) at top. So red at end at right would be the original right cross, not original red. Hence False.
+
+But if bottom-left truly unmoved while others moved, that's not rigid rotation. In rigid rotation all move same angle. If bottom-left moved little, then net angle small, then top also moved little, so final top ≈ original top = original red → final top should be red, but it's white. Contradiction means my pixel reads for final top (165,75) vs initial top (256,75) differ a lot (x 256→165). So bottom-left initial (165,405) vs final bottom-left (165,405) same. Top initial 256→ final 165. Right initial 285→ final 305. These are inconsistent with small rotation; they look like a reflection or different set.
+
+I'll make a final decision: The pattern of rotation over the video looks like it goes around and the red ends at a different physical cross. I'll answer False.
+
+Given uncertainty, choose False.
+</think>
+
+False",,unparseable,7928,2595,65,0.0108922,
+56d77c12,stretched,qwen/qwen3.8-max,low,3,360,False,False,108600,False,False,False,correct_rejection,7436,3435,3430,0.035482,
+aa022070,stretched,qwen/qwen3.8-max,low,3,90,False,True,100900,True,True,True,hit,7436,2251,2246,0.028378,
+af42cce3,stretched,qwen/qwen3.8-max,low,3,180,False,True,101800,True,False,False,miss,7436,2525,2521,0.030022,
+b48d794b,stretched,qwen/qwen3.8-max,low,3,180,True,True,1800,True,True,True,hit,7436,2803,2799,0.03169,
+b8a7850e,stretched,qwen/qwen3.8-max,low,3,45,True,True,450,True,True,True,hit,7436,1582,1578,0.024364,
+a4f0ee1f,stretched,qwen/qwen3.8-max,low,3,180,True,False,6800,False,False,False,correct_rejection,7436,4199,4195,0.040066,
+c3e30c52,stretched,qwen/qwen3.8-max,low,3,360,True,True,3600,True,True,True,hit,7436,1813,1809,0.02575,
+c022aeb4,stretched,qwen/qwen3.8-max,low,3,90,False,False,105900,False,True,True,false_alarm,7436,3334,3329,0.034876,
+d454942b,stretched,qwen/qwen3.8-max,low,3,45,False,False,105450,False,False,False,correct_rejection,7436,2192,2187,0.028024,
+cfd281d2,stretched,qwen/qwen3.8-max,low,3,90,True,False,5900,False,False,False,correct_rejection,7436,2717,2712,0.031174,
+9b061c63,native,qwen/qwen3.8-27b,low,3,180,True,True,1800,True,"
+
+True",True,hit,1756,4847,2844,0.01306225,
+cb1e8e97,stretched,qwen/qwen3.8-max,low,3,180,False,False,106800,False,True,True,false_alarm,7436,3365,3360,0.035062,
+e22a4276,stretched,qwen/qwen3.8-max,low,3,360,False,True,103600,True,True,True,hit,7436,2152,2147,0.027784,
