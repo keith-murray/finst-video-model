@@ -142,3 +142,20 @@ def generate_stimulus(cfg: TrialConfig, out_dir: str, save_mp4: bool = True) -> 
         json.dump(ground_truth, f, indent=2)
 
     return ground_truth
+
+
+def write_mp4(frames: np.ndarray, path: str, fps: float):
+    """Encodes an already-rendered (n_frames, H, W, 3) RGB uint8 array (e.g.
+    loaded back from a trial's video.npy) to an mp4 at an arbitrary fps,
+    decoupled from whatever fps the frames were originally generated at --
+    e.g. re-encoding a native fps=10 trial at fps=2 stretches its nominal
+    playback duration 5x without changing frame content, to test whether an
+    OpenRouter-hosted model's server-side frame sampling is duration/fps-
+    driven (see claude/2026_08/2026_08_26/TODO.md's "Part 2")."""
+    height, width = frames.shape[1], frames.shape[2]
+    # avc1 (H.264) rather than mp4v -- mp4v renders as solid green in
+    # QuickTime/macOS's default player even though the pixel data is fine.
+    writer = cv2.VideoWriter(path, cv2.VideoWriter_fourcc(*"avc1"), fps, (width, height))
+    for frame in frames:
+        writer.write(frame[..., ::-1])  # RGB -> BGR (cv2 convention)
+    writer.release()
