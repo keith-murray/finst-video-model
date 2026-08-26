@@ -57,7 +57,10 @@ def build_question(n_objects: int) -> str:
     )
 
 
-def prepare_input(processor, frames: np.ndarray, prompt: str, native_fps: float):
+def prepare_input(
+    processor, frames: np.ndarray, prompt: str, native_fps: float,
+    reasoning_effort: str | None = None, preserve_thinking: bool = False,
+):
     video_metadata = {
         "total_num_frames": frames.shape[0],
         "fps": native_fps,
@@ -68,13 +71,21 @@ def prepare_input(processor, frames: np.ndarray, prompt: str, native_fps: float)
     messages = [
         {"role": "user", "content": [{"type": "video"}, {"type": "text", "text": prompt}]}
     ]
+    if reasoning_effort is None:
+        template_kwargs = {"enable_thinking": False}
+    else:
+        template_kwargs = {
+            "enable_thinking": True,
+            "preserve_thinking": preserve_thinking,
+            "reasoning_effort": reasoning_effort,
+        }
     text = processor.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True, enable_thinking=False,
+        messages, tokenize=False, add_generation_prompt=True, **template_kwargs,
     )
     return {
         "prompt": text,
         "multi_modal_data": {"video": (frames, video_metadata)},
-        "chat_template_kwargs": {"enable_thinking": False},
+        "chat_template_kwargs": template_kwargs,
         "mm_processor_kwargs": {"do_sample_frames": False},
     }
 
@@ -111,6 +122,16 @@ def main():
     parser.add_argument(
         "--full-sweep-size", type=int, default=200,
         help="Total trial count to extrapolate the full job's time for",
+    )
+    parser.add_argument(
+        "--reasoning-effort", type=str, default=None, choices=["low", "medium", "xhigh"],
+        help="Enables thinking mode at this effort level. Omit for the nothink baseline. "
+             "Use a much larger --max-tokens (e.g. 8192) when set.",
+    )
+    parser.add_argument(
+        "--preserve-thinking", action="store_true",
+        help="Keep the reasoning trace in the printed response text, to eyeball actual "
+             "reasoning quality (only meaningful with --reasoning-effort).",
     )
     args = parser.parse_args()
 
@@ -150,7 +171,10 @@ def main():
     sampling_params = SamplingParams(temperature=0.0, top_p=1.0, max_tokens=args.max_tokens)
 
     all_inputs = [
-        prepare_input(processor, frames, build_question(gt["config"]["n_objects"]), gt["config"]["fps"])
+        prepare_input(
+            processor, frames, build_question(gt["config"]["n_objects"]), gt["config"]["fps"],
+            reasoning_effort=args.reasoning_effort, preserve_thinking=args.preserve_thinking,
+        )
         for _, frames, gt in trials
     ]
 
@@ -168,15 +192,22 @@ def main():
         prompt_tokens = [len(o.prompt_token_ids) for o in outputs]
         output_tokens = [len(o.outputs[0].token_ids) for o in outputs]
         has_think_tag = any("<think>" in o.outputs[0].text for o in outputs)
+        thinking_expected = args.reasoning_effort is not None
 
-        print(f"\n=== chunk_size={chunk_size} ===")
+        print(f"\n=== chunk_size={chunk_size} reasoning_effort={args.reasoning_effort} ===")
         print(f"  total {elapsed:.1f}s, {per_trial:.1f}s/trial")
         print(f"  prompt_tokens: {prompt_tokens} (should all match)")
-        print(f"  output_tokens: {output_tokens}")
-        print(
-            f"  any <think> tag found: {has_think_tag} "
-            f"({'THINKING NOT SUPPRESSED -- see TODO' if has_think_tag else 'looks suppressed'})"
-        )
+        print(f"  output_tokens: {output_tokens} (mean {sum(output_tokens) / len(output_tokens):.0f})")
+        if thinking_expected:
+            print(
+                f"  any <think> tag found: {has_think_tag} "
+                f"({'reasoning visible' if has_think_tag else 'not preserved (expected if --preserve-thinking omitted)'})"
+            )
+        else:
+            print(
+                f"  any <think> tag found: {has_think_tag} "
+                f"({'THINKING NOT SUPPRESSED -- see TODO' if has_think_tag else 'looks suppressed'})"
+            )
         for tid, o in zip(chunk_ids, outputs):
             print(f"    [{tid}] {o.outputs[0].text!r}")
 

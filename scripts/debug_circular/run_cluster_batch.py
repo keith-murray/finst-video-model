@@ -53,7 +53,10 @@ from vllm import LLM, SamplingParams
 
 MODEL_PATH = "/mnt/cup/people/km3199/models/qwen3.8-27b"
 ALLOWED_LOCAL_MEDIA_PATH = "/mnt/cup/people/km3199"
-MODEL_TAG = "qwen3.8-27b-nothink"
+
+
+def response_filename(reasoning_effort: str | None) -> str:
+    return "cluster_response.json" if reasoning_effort is None else f"cluster_response_{reasoning_effort}.json"
 
 
 def build_question(n_objects: int) -> str:
@@ -85,6 +88,10 @@ def discover_trials(trials_root: str) -> list[str]:
     )
 
 
+def already_done(trials_root: str, trial_id: str, response_file: str) -> bool:
+    return os.path.isfile(os.path.join(trials_root, trial_id, response_file))
+
+
 def load_trial(trials_root: str, trial_id: str):
     trial_dir = os.path.join(trials_root, trial_id)
     frames = np.load(os.path.join(trial_dir, "video.npy"))
@@ -93,7 +100,10 @@ def load_trial(trials_root: str, trial_id: str):
     return frames, ground_truth
 
 
-def prepare_input(processor, frames: np.ndarray, prompt: str, native_fps: float):
+def prepare_input(
+    processor, frames: np.ndarray, prompt: str, native_fps: float,
+    reasoning_effort: str | None = None, preserve_thinking: bool = False,
+):
     assert frames.dtype == np.uint8, f"Expected uint8, got {frames.dtype}"
     assert frames.ndim == 4 and frames.shape[-1] == 3, (
         f"Expected (num_frames, H, W, 3), got {frames.shape}"
@@ -116,19 +126,29 @@ def prepare_input(processor, frames: np.ndarray, prompt: str, native_fps: float)
             ],
         }
     ]
-    # enable_thinking=False passed at render time too (belt-and-suspenders
+    # enable_thinking (and, when reasoning is on, preserve_thinking/
+    # reasoning_effort) passed at render time too (belt-and-suspenders
     # alongside chat_template_kwargs below): `prompt` is already a rendered
     # string by the time llm.generate() sees it, so it's unconfirmed
     # whether a top-level chat_template_kwargs on the request dict has any
-    # effect through that path -- see claude/2026_08/2026_08_25/TODO.md.
+    # effect through that path -- see claude/2026_08/2026_08_25/TODO.md and
+    # claude/2026_08/2026_08_26/TODO.md.
+    if reasoning_effort is None:
+        template_kwargs = {"enable_thinking": False}
+    else:
+        template_kwargs = {
+            "enable_thinking": True,
+            "preserve_thinking": preserve_thinking,
+            "reasoning_effort": reasoning_effort,
+        }
     text = processor.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True, enable_thinking=False,
+        messages, tokenize=False, add_generation_prompt=True, **template_kwargs,
     )
 
     return {
         "prompt": text,
         "multi_modal_data": {"video": (frames, video_metadata)},
-        "chat_template_kwargs": {"enable_thinking": False},
+        "chat_template_kwargs": template_kwargs,
         "mm_processor_kwargs": {"do_sample_frames": False},
     }
 
@@ -144,9 +164,9 @@ def compute_max_model_len(width: int, height: int, num_frames: int, max_tokens: 
     return video_tokens + prompt_budget + max_tokens + margin
 
 
-def write_result(trial_dir: str, result: dict):
-    tmp_path = os.path.join(trial_dir, ".cluster_response.json.tmp")
-    final_path = os.path.join(trial_dir, "cluster_response.json")
+def write_result(trial_dir: str, response_file: str, result: dict):
+    tmp_path = os.path.join(trial_dir, f".{response_file}.tmp")
+    final_path = os.path.join(trial_dir, response_file)
     with open(tmp_path, "w") as f:
         json.dump(result, f, indent=2)
     os.replace(tmp_path, final_path)
@@ -157,16 +177,28 @@ def main():
     parser.add_argument("--trials-root", type=str, required=True)
     parser.add_argument("--chunk-size", type=int, default=20)
     parser.add_argument("--max-tokens", type=int, default=128)
+    parser.add_argument(
+        "--reasoning-effort", type=str, default=None, choices=["low", "medium", "xhigh"],
+        help="Enables thinking mode at this effort level. Omit for the nothink baseline.",
+    )
+    parser.add_argument(
+        "--preserve-thinking", action="store_true",
+        help="Keep reasoning trace in response_text (only meaningful with --reasoning-effort). "
+             "Defaults off to keep cluster_response.json small for the full batch sweep.",
+    )
     args = parser.parse_args()
+
+    model_tag = f"qwen3.8-27b-{args.reasoning_effort or 'nothink'}"
+    response_file = response_filename(args.reasoning_effort)
 
     trial_ids = discover_trials(args.trials_root)
     print(f"Discovered {len(trial_ids)} trials under {args.trials_root}")
 
     pending = [
         tid for tid in trial_ids
-        if not os.path.isfile(os.path.join(args.trials_root, tid, "cluster_response.json"))
+        if not already_done(args.trials_root, tid, response_file)
     ]
-    print(f"{len(trial_ids) - len(pending)} already have cluster_response.json "
+    print(f"{len(trial_ids) - len(pending)} already have {response_file} "
           f"(skipping), {len(pending)} pending")
     if not pending:
         print("Nothing to do.")
@@ -215,6 +247,8 @@ def main():
             prepare_input(
                 processor, frames, build_question(gt["config"]["n_objects"]),
                 native_fps=gt["config"]["fps"],
+                reasoning_effort=args.reasoning_effort,
+                preserve_thinking=args.preserve_thinking,
             )
             for frames, gt in zip(chunk_frames, chunk_gts)
         ]
@@ -229,7 +263,8 @@ def main():
             for tid, output in zip(chunk_ids, outputs):
                 result = {
                     "trial_id": tid,
-                    "model_tag": MODEL_TAG,
+                    "model_tag": model_tag,
+                    "reasoning_effort": args.reasoning_effort,
                     "prompt_tokens": len(output.prompt_token_ids),
                     "output_tokens": len(output.outputs[0].token_ids),
                     "response_text": output.outputs[0].text,
@@ -237,7 +272,7 @@ def main():
                     "chunk_index": chunk_index,
                     "error": None,
                 }
-                write_result(os.path.join(args.trials_root, tid), result)
+                write_result(os.path.join(args.trials_root, tid), response_file, result)
                 print(f"  [{tid}] {result['output_tokens']} tokens -> {result['response_text']!r}")
 
         except Exception:

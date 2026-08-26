@@ -31,14 +31,14 @@ RESULT_FIELDS = [
 ]
 
 
-def load_trial_row(trial_dir: str, trial_id: str) -> dict | None:
+def load_trial_row(trial_dir: str, trial_id: str, response_file: str) -> dict | None:
     gt_path = os.path.join(trial_dir, "ground_truth.json")
-    response_path = os.path.join(trial_dir, "cluster_response.json")
+    response_path = os.path.join(trial_dir, response_file)
     if not os.path.isfile(gt_path):
         print(f"[{trial_id}] missing ground_truth.json, skipping")
         return None
     if not os.path.isfile(response_path):
-        print(f"[{trial_id}] no cluster_response.json yet, skipping")
+        print(f"[{trial_id}] no {response_file} yet, skipping")
         return None
 
     with open(gt_path) as f:
@@ -84,10 +84,17 @@ def main():
         "--out-root", type=str, default=None,
         help="Defaults to results/debug_circular/<run-name>",
     )
+    parser.add_argument(
+        "--reasoning-effort", type=str, default=None, choices=["low", "medium", "xhigh"],
+        help="Reads cluster_response_<effort>.json instead of cluster_response.json -- use "
+             "when --trials-root is shared across reasoning-effort levels (e.g. reusing the "
+             "qwen3.8-27b-nothink trial videos for the reasoning sweep).",
+    )
     args = parser.parse_args()
 
     trials_root = args.trials_root or os.path.join("data", "debug_circular", args.run_name, "trials")
     out_root = args.out_root or os.path.join("results", "debug_circular", args.run_name)
+    response_file = "cluster_response.json" if args.reasoning_effort is None else f"cluster_response_{args.reasoning_effort}.json"
     os.makedirs(out_root, exist_ok=True)
 
     if not os.path.isdir(trials_root):
@@ -99,7 +106,7 @@ def main():
     )
     rows = [
         row for row in (
-            load_trial_row(os.path.join(trials_root, trial_id), trial_id)
+            load_trial_row(os.path.join(trials_root, trial_id), trial_id, response_file)
             for trial_id in trial_ids
         )
         if row is not None
