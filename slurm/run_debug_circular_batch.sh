@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=64G
-#SBATCH --time=12:00:00
+#SBATCH --time=01:00:00
 #SBATCH --output=slurm/logs/debug_circular_batch_%j.out
 
 # Runs the full debug_circular sweep (200 trials: rotation_deg in
@@ -30,7 +30,7 @@
 # TRIALS_ROOT below to match the run_name used when the stimuli were
 # generated.
 
-TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/CHANGE_ME/trials"
+TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/qwen3.8-27b-nothink/trials"
 
 module load cudatoolkit/12.4.1
 

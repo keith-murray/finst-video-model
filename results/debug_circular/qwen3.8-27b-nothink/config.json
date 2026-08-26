@@ -1,0 +1,7 @@
+{
+  "run_name": "qwen3.8-27b-nothink",
+  "arm": "debug_circular",
+  "trials_root": "data/debug_circular/qwen3.8-27b-nothink/trials",
+  "n_trials_found": 200,
+  "n_missing": 0
+}
