@@ -81,6 +81,11 @@ MAX_TOKENS = 8192
 REASONING_LEVELS_BY_MODEL = {
     "qwen/qwen3.8-27b": ["none", "low", "medium"],
     "qwen/qwen3.8-max": ["low", "medium"],  # reasoning is mandatory, no "none"
+    # Part 4 (claude/2026_08/2026_08_26/TODO.md): can a non-reasoning model
+    # solve this purely feedforward? reasoning.mandatory=false per the live
+    # OpenRouter /models listing (checked 2026-08-26), so "none" is valid.
+    "qwen/qwen3.5-122b-a10b": ["none"],  # only 10B active params (MoE) -- user flagged this after the fact
+    "qwen/qwen3.6-plus": ["none"],  # larger, denser follow-up per the same question
 }
 VARIANTS = ["native", "stretched"]
 

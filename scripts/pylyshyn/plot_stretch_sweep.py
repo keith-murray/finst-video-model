@@ -43,8 +43,13 @@ REASONING_LEVEL_ORDER = ["none", "minimal", "low", "medium", "high"]
 MODEL_LABELS = {
     "qwen/qwen3.8-27b": "qwen3.8-27b",
     "qwen/qwen3.8-max": "qwen3.8-max",
+    "qwen/qwen3.5-122b-a10b": "qwen3.5-122b-a10b\n(10B active, no reasoning)",
+    "qwen/qwen3.6-plus": "qwen3.6-plus\n(no reasoning)",
 }
-MODEL_ORDER = ["qwen/qwen3.8-27b", "qwen/qwen3.8-max"]
+MODEL_ORDER = [
+    "qwen/qwen3.8-27b", "qwen/qwen3.8-max",
+    "qwen/qwen3.5-122b-a10b", "qwen/qwen3.6-plus",
+]
 VARIANT_LABELS = {"native": "Native (fps=10, ~10s)", "stretched": "Stretched (fps=2, ~50s)"}
 
 # (model, reasoning_level) pairs running at a small, reproducible reasoning
