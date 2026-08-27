@@ -1,0 +1,45 @@
+{
+  "run_name": "angle_sweep_n4",
+  "arm": "debug_circular",
+  "model": "google/gemma-4-31b-it",
+  "reasoning": {
+    "enabled": false
+  },
+  "n_objects": 4,
+  "rotation_degs": [
+    45.0,
+    90.0,
+    135.0,
+    180.0,
+    225.0,
+    270.0,
+    315.0,
+    360.0
+  ],
+  "variants": [
+    "native"
+  ],
+  "stretch_encode_fps": 2.0,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}
