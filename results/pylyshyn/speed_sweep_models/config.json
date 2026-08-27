@@ -1,0 +1,55 @@
+{
+  "run_name": "speed_sweep_models",
+  "arm": "pylyshyn",
+  "models": [
+    "z-ai/glm-5v-turbo"
+  ],
+  "n_objects": 3,
+  "n_cued": 1,
+  "model_reasoning": {
+    "z-ai/glm-5v-turbo": {
+      "enabled": false
+    }
+  },
+  "redirect_conditions": {
+    "slow": 2.0,
+    "fast": 1.0
+  },
+  "speed_conditions": {
+    "slow": [
+      16.0,
+      33.0
+    ],
+    "fast": [
+      32.0,
+      66.0
+    ]
+  },
+  "variants": [
+    "native",
+    "stretched"
+  ],
+  "stretch_encode_fps": 2.0,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}
