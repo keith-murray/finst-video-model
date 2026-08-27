@@ -58,6 +58,21 @@ MAX_TOKENS = 8192
 # substituted z-ai/glm-5v-turbo (reasoning.mandatory=false) per the user.
 MODEL_REASONING = {
     "z-ai/glm-5v-turbo": {"enabled": False},
+    "moonshotai/kimi-k3": {"enabled": False},
+    "google/gemma-4-31b-it:free": {"enabled": False},
+    "google/gemma-4-31b-it": {"enabled": False},
+    "qwen/qwen3.5-397b-a17b": {"enabled": False},
+}
+
+# Pin providers where OpenRouter's default routing falls back to an endpoint
+# that doesn't actually support video input. Found live 2026-08-27:
+# moonshotai/kimi-k3 requests fell back from Moonshot AI (rate-limited
+# upstream, 429) to Alibaba, whose kimi-k3 endpoint 400s with "Video inputs
+# are not supported by this model" -- a ~35% failure rate on an unpinned
+# run. Pinning to the creator's own endpoint trades that for an occasional
+# 429 instead, which ask_about_video already retries.
+MODEL_PROVIDER = {
+    "moonshotai/kimi-k3": {"only": ["moonshotai"], "allow_fallbacks": False},
 }
 
 REDIRECT_CONDITIONS = {"slow": 2.0, "fast": 1.0}
@@ -126,6 +141,7 @@ def run_one_trial(
         response_text, usage = ask_about_video(
             video_path, question, model,
             reasoning=MODEL_REASONING[model], max_tokens=MAX_TOKENS,
+            provider=MODEL_PROVIDER.get(model),
             return_usage=True,
         )
         predicted = parse_boolean_answer(response_text)

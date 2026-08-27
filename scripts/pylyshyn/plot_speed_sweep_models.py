@@ -1,12 +1,18 @@
 """
 Summary figure for claude/2026_08/2026_08_27/TODO.md's "Task 3":
-redirect-cadence x speed x native/stretched sweep across models
-(results/pylyshyn/speed_sweep_models/results.csv, produced by
-run_pylyshyn_speed_sweep_models.py). One row of 4 panels (redirect x speed
-conditions, in the same order as plot_speed_sweep.py) per model, each panel
-showing the native/stretched accuracy bar pair with SEM -- same colors/
-style as plot_speed_sweep.py, generalized to stack additional model rows
-if/when more models are added to MODEL_REASONING.
+redirect-cadence x speed x native/stretched sweep across models. One row of
+4 panels (redirect x speed conditions, in the same order as
+plot_speed_sweep.py) per model, each panel showing the native/stretched
+accuracy bar pair with SEM -- same colors/style as plot_speed_sweep.py,
+generalized to stack additional model rows if/when more models are added.
+
+Reads from RESULTS_CSVS (plural): both
+results/pylyshyn/speed_sweep_models/results.csv (run_pylyshyn_speed_sweep_models.py's
+kimi-k3/glm-5v-turbo/gemma-4-31b-it, 20 seeds/condition) and Task 2's own
+results/pylyshyn/speed_sweep/results.csv (qwen3.6-plus, 16 seeds/condition)
+-- same schema, combined in-memory only so each sweep's own resume/
+config.json seed lock stays untouched. Each panel prints its own n/bar, so
+the seed-count difference is visible rather than hidden.
 
 Usage:
     uv run python scripts/pylyshyn/plot_speed_sweep_models.py
@@ -25,10 +31,31 @@ GRIDLINE = "#e1e0d9"
 BASELINE = "#c3c2b7"
 VARIANT_COLORS = {"native": "#2a78d6", "stretched": "#eb6834"}  # validated categorical slots 1-2
 
-RESULTS_CSV = "results/pylyshyn/speed_sweep_models/results.csv"
+RESULTS_CSVS = [
+    "results/pylyshyn/speed_sweep_models/results.csv",
+    # qwen3.6-plus lives in Task 2's own results.csv (run_pylyshyn_speed_sweep.py,
+    # 16 seeds/condition vs. this script's 20) -- same schema, read in-memory
+    # only, so Task 2's resume/config.json seed lock is untouched.
+    "results/pylyshyn/speed_sweep/results.csv",
+]
 OUT_PATH = "results/pylyshyn/speed_sweep_models/accuracy_summary.png"
 
-MODEL_ORDER = ["z-ai/glm-5v-turbo"]
+MODEL_ORDER = [
+    "qwen/qwen3.6-plus", "google/gemma-4-31b-it", "moonshotai/kimi-k3",
+    "qwen/qwen3.5-397b-a17b", "z-ai/glm-5v-turbo",
+]
+MODEL_LABELS = {
+    "qwen/qwen3.6-plus": "qwen3.6-plus",
+    "google/gemma-4-31b-it": "gemma-4-31b-it",
+    "moonshotai/kimi-k3": "kimi-k3",
+    "qwen/qwen3.5-397b-a17b": "qwen3.5-397b-a17b",
+    "z-ai/glm-5v-turbo": "glm-5v-turbo",
+}
+# google/gemma-4-31b-it:free excluded 2026-08-27: OpenRouter's free-tier
+# shared rate-limit pool for this model was too saturated to fill out a full
+# 20-seed/condition run in reasonable time -- only ~23/160 trials landed.
+# Left in results.csv for reference; add back to MODEL_ORDER above if that
+# data ever gets completed.
 REDIRECT_ORDER = ["slow", "fast"]
 SPEED_ORDER = ["slow", "fast"]
 REDIRECT_LABELS = {"slow": "redirect_s=2.0", "fast": "redirect_s=1.0"}
@@ -44,16 +71,17 @@ def _parse_bool(s: str) -> bool | None:
     return None
 
 
-def accuracy_by_group(results_csv: str) -> dict[tuple[str, str, str, str], tuple[float, float, int]]:
+def accuracy_by_group(results_csvs: list[str]) -> dict[tuple[str, str, str, str], tuple[float, float, int]]:
     """Returns {(model, redirect_condition, speed_condition, variant): (accuracy_pct, sem_pct, n)}."""
     totals = defaultdict(int)
     correct = defaultdict(int)
-    with open(results_csv) as f:
-        for row in csv.DictReader(f):
-            key = (row["model"], row["redirect_condition"], row["speed_condition"], row["variant"])
-            totals[key] += 1
-            if _parse_bool(row["predicted"]) == _parse_bool(row["probe_is_target"]):
-                correct[key] += 1
+    for results_csv in results_csvs:
+        with open(results_csv) as f:
+            for row in csv.DictReader(f):
+                key = (row["model"], row["redirect_condition"], row["speed_condition"], row["variant"])
+                totals[key] += 1
+                if _parse_bool(row["predicted"]) == _parse_bool(row["probe_is_target"]):
+                    correct[key] += 1
 
     stats = {}
     for key, n in totals.items():
@@ -64,7 +92,7 @@ def accuracy_by_group(results_csv: str) -> dict[tuple[str, str, str, str], tuple
 
 
 def main():
-    stats = accuracy_by_group(RESULTS_CSV)
+    stats = accuracy_by_group(RESULTS_CSVS)
     models_present = [m for m in MODEL_ORDER if any(k[0] == m for k in stats)]
     conditions = [(r, s) for r in REDIRECT_ORDER for s in SPEED_ORDER]
 
@@ -119,7 +147,7 @@ def main():
             else:
                 ax.set_title(f"(n={n_this_panel}/bar)", color=INK_PRIMARY, fontsize=10.5)
             if col_i == 0:
-                ax.set_ylabel(f"{model}\nAccuracy (%)", color=INK_SECONDARY, fontsize=10)
+                ax.set_ylabel(f"{MODEL_LABELS[model]}\nAccuracy (%)", color=INK_SECONDARY, fontsize=10)
 
     # bbox_to_anchor/top are figure-fraction, so a fixed header_in maps to a
     # different fraction depending on fig_h -- compute both from header_in.
