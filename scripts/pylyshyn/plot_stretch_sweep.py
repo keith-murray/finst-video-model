@@ -2,9 +2,16 @@
 Summary figure for the pylyshyn native-vs-stretched-duration x reasoning
 sweep (results/pylyshyn/stretch_sweep/results.csv, produced by
 run_pylyshyn_stretch_sweep.py -- see claude/2026_08/2026_08_26/TODO.md's
-"Part 3"): accuracy (%) on the y-axis, reasoning effort level on the
-x-axis, one subplot per model, two bars per x-position (native vs.
-stretched video encoding) with SEM error bars.
+"Part 3" and claude/2026_08/2026_08_27/TODO.md's "Task 1").
+
+Single-panel design (2026-08-27 rewrite of the original one-subplot-per-model
+layout): every (model, reasoning_level) condition gets one x-tick (model on
+the first label line, level on the second), with the native/stretched bar
+pair + SEM at each tick, all sharing one axis. The old per-model-subplot
+layout gave every panel the same *physical* width regardless of how many
+levels that model had, so a model with only one level (e.g. qwen3.6-plus)
+got comically wide bars -- a single shared axis makes every bar the same
+width regardless of how many conditions a given model has.
 
 Note baked into the footnote: qwen3.8-27b's "low"/"medium" reasoning_level
 conditions run at a small, reproducible internal reasoning-token budget
@@ -14,6 +21,8 @@ mutually-exclusive-with-effort reasoning.max_tokens field) could not raise
 .ask_about_video's docstring for the full writeup. This is accepted as a
 real property of this reasoning control on this model/endpoint, not a
 truncation bug -- the data below is treated as trustworthy at face value.
+"high" (added 2026-08-27) is not subject to this pinning -- see
+[[reference-openrouter-reasoning-max-tokens]].
 
 Mirrors scripts/debug_circular/plot_openrouter_diagnostic.py's design
 exactly (same validated categorical slots 1-2: blue=native, orange=stretched).
@@ -43,8 +52,8 @@ REASONING_LEVEL_ORDER = ["none", "minimal", "low", "medium", "high"]
 MODEL_LABELS = {
     "qwen/qwen3.8-27b": "qwen3.8-27b",
     "qwen/qwen3.8-max": "qwen3.8-max",
-    "qwen/qwen3.5-122b-a10b": "qwen3.5-122b-a10b\n(10B active, no reasoning)",
-    "qwen/qwen3.6-plus": "qwen3.6-plus\n(no reasoning)",
+    "qwen/qwen3.5-122b-a10b": "qwen3.5-122b-a10b\n(10B active)",
+    "qwen/qwen3.6-plus": "qwen3.6-plus",
 }
 MODEL_ORDER = [
     "qwen/qwen3.8-27b", "qwen/qwen3.8-max",
@@ -87,61 +96,63 @@ def accuracy_by_group(results_csv: str) -> dict[tuple[str, str, str], tuple[floa
 
 def main():
     stats = accuracy_by_group(RESULTS_CSV)
-    models_present = [m for m in MODEL_ORDER if any(k[0] == m for k in stats)]
 
-    fig, axes = plt.subplots(
-        1, len(models_present), figsize=(6.5 * len(models_present), 5.5),
-        facecolor="#fcfcfb", sharey=True,
-    )
-    if len(models_present) == 1:
-        axes = [axes]
+    # Flat list of (model, level) conditions, grouped by model, in MODEL_ORDER/
+    # REASONING_LEVEL_ORDER order -- this is what gives every model's bars the
+    # same width, unlike the old one-subplot-per-model layout.
+    conditions = [
+        (model, level)
+        for model in MODEL_ORDER
+        for level in REASONING_LEVEL_ORDER
+        if (model, "native", level) in stats
+    ]
+
+    fig, ax = plt.subplots(figsize=(max(9.0, 1.7 * len(conditions)), 6.0), facecolor="#fcfcfb")
+    ax.set_facecolor("#fcfcfb")
+    ax.grid(True, axis="y", color=GRIDLINE, linewidth=1, zorder=0)
+    for spine in ("top", "right"):
+        ax.spines[spine].set_visible(False)
+    for spine in ("left", "bottom"):
+        ax.spines[spine].set_color(BASELINE)
+    ax.tick_params(colors=INK_MUTED)
+    ax.set_ylim(0, 108)
+    ax.axhline(50, color=INK_MUTED, linewidth=1, linestyle="--", zorder=1)
 
     bar_width = 0.32
-    for ax, model in zip(axes, models_present):
-        ax.set_facecolor("#fcfcfb")
-        ax.grid(True, axis="y", color=GRIDLINE, linewidth=1, zorder=0)
-        for spine in ("top", "right"):
-            ax.spines[spine].set_visible(False)
-        for spine in ("left", "bottom"):
-            ax.spines[spine].set_color(BASELINE)
-        ax.tick_params(colors=INK_MUTED)
-        ax.set_ylim(0, 108)
-        ax.axhline(50, color=INK_MUTED, linewidth=1, linestyle="--", zorder=1)
+    xs = range(len(conditions))
+    for offset, variant in zip((-1, 1), ("native", "stretched")):
+        heights, errs = [], []
+        for model, level in conditions:
+            acc, sem, n = stats.get((model, variant, level), (0, 0, 0))
+            heights.append(acc)
+            errs.append(sem)
+        ax.bar(
+            [x + offset * bar_width / 2 for x in xs], heights, width=bar_width,
+            color=VARIANT_COLORS[variant], label=VARIANT_LABELS[variant],
+            zorder=3, edgecolor="#fcfcfb", linewidth=2,
+        )
+        ax.errorbar(
+            [x + offset * bar_width / 2 for x in xs], heights, yerr=errs,
+            fmt="none", ecolor=INK_PRIMARY, elinewidth=1.5, capsize=4, zorder=4,
+        )
 
-        levels = [lvl for lvl in REASONING_LEVEL_ORDER if (model, "native", lvl) in stats]
-        xs = range(len(levels))
+    # Thin dividers between model groups.
+    for i in range(1, len(conditions)):
+        if conditions[i][0] != conditions[i - 1][0]:
+            ax.axvline(i - 0.5, color=BASELINE, linewidth=1, zorder=2)
 
-        for offset, variant in zip((-1, 1), ("native", "stretched")):
-            heights, errs = [], []
-            for lvl in levels:
-                acc, sem, n = stats.get((model, variant, lvl), (0, 0, 0))
-                heights.append(acc)
-                errs.append(sem)
-            ax.bar(
-                [x + offset * bar_width / 2 for x in xs], heights, width=bar_width,
-                color=VARIANT_COLORS[variant], label=VARIANT_LABELS[variant],
-                zorder=3, edgecolor="#fcfcfb", linewidth=2,
-            )
-            ax.errorbar(
-                [x + offset * bar_width / 2 for x in xs], heights, yerr=errs,
-                fmt="none", ecolor=INK_PRIMARY, elinewidth=1.5, capsize=4, zorder=4,
-            )
+    xtick_labels = [
+        f"{MODEL_LABELS[model]}\n{level}{'*' if (model, level) in SMALL_BUDGET_CONDITIONS else ''}"
+        for model, level in conditions
+    ]
+    ax.set_xticks(list(xs))
+    ax.set_xticklabels(xtick_labels)
+    ax.set_xlim(-0.6, len(conditions) - 0.4)
+    ax.set_ylabel("Accuracy (%)", color=INK_SECONDARY)
 
-        xtick_labels = [
-            (lvl + "*") if (model, lvl) in SMALL_BUDGET_CONDITIONS else lvl
-            for lvl in levels
-        ]
-        ax.set_xticks(list(xs))
-        ax.set_xticklabels(xtick_labels)
-        ax.set_xlim(-0.6, len(levels) - 0.4)
-        ax.set_xlabel("Reasoning effort", color=INK_SECONDARY)
-        ax.set_title(MODEL_LABELS[model], color=INK_PRIMARY, fontsize=13, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.86))
 
-    axes[0].set_ylabel("Accuracy (%)", color=INK_SECONDARY)
-
-    fig.tight_layout(rect=(0, 0, 1, 0.82))
-
-    handles, labels = axes[0].get_legend_handles_labels()
+    handles, labels = ax.get_legend_handles_labels()
     fig.legend(
         handles, labels, frameon=False, labelcolor=INK_PRIMARY, fontsize=10,
         loc="upper center", ncol=2, bbox_to_anchor=(0.5, 0.94),
@@ -152,7 +163,7 @@ def main():
         color=INK_PRIMARY, fontsize=12, y=1.0,
     )
     fig.text(
-        0.5, 0.885,
+        0.5, 0.895,
         "* qwen3.8-27b low/medium: reasoning runs at a small, reproducible internal\n"
         "budget (~65/~257 tokens) that max_tokens does not raise -- see script docstring",
         color=FOOTNOTE, fontsize=9.5, ha="center", va="top", style="italic",

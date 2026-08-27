@@ -575,3 +575,169 @@ e3b032ce,qwen/qwen3.6-plus,none,stretched,3,1,13,False,False, False,False,correc
 bbe258db,qwen/qwen3.6-plus,none,stretched,3,1,12,False,False, False,False,correct_rejection,7399,2,0,0.002408575,
 07631a1a,qwen/qwen3.6-plus,none,stretched,3,1,15,False,False, False,False,correct_rejection,7399,2,0,0.002408575,
 423cdcb5,qwen/qwen3.6-plus,none,stretched,3,1,14,False,False, False,False,correct_rejection,7399,2,0,0.002408575,
+18b28db5,qwen/qwen3.8-27b,high,native,3,1,2,True,True,"
+
+True",True,hit,1713,1307,751,0.00495325,
+856b1f5c,qwen/qwen3.8-27b,high,native,3,1,3,True,True,True,True,hit,1633,1156,1151,0.003641825,
+9cef75ea,qwen/qwen3.8-27b,high,native,3,1,1,True,True,"
+
+True",True,hit,1713,736,0,0.00262355,
+e8cf850e,qwen/qwen3.8-27b,high,native,3,1,5,True,True,True,True,hit,1633,789,784,0.002705975,
+eaa8bd53,qwen/qwen3.8-27b,high,native,3,1,4,True,True,"
+
+True",True,hit,1713,767,420,0.00322525,
+c2391215,qwen/qwen3.8-27b,high,native,3,1,6,True,True,"
+
+True",True,hit,1713,751,513,0.00317405,
+94574101,qwen/qwen3.8-27b,high,native,3,1,0,True,True,"
+
+True",True,hit,1713,2154,1366,0.00766365,
+e1c1e2f7,qwen/qwen3.8-27b,high,native,3,1,9,False,False,"
+
+True",True,false_alarm,1753,260,257,0.0014812,
+c0d68411,qwen/qwen3.8-27b,high,native,3,1,10,False,False,"
+
+False",False,correct_rejection,1713,1236,667,0.003837,
+4e288311,qwen/qwen3.8-27b,high,native,3,1,8,False,False,"
+
+False",False,correct_rejection,1713,2201,1134,0.00830564,
+0dd10fb8,qwen/qwen3.8-27b,high,native,3,1,11,False,False,"
+
+False",False,correct_rejection,1713,1038,1034,0.00409245,
+36b3aa87,qwen/qwen3.8-27b,high,native,3,1,12,False,False,"
+
+False",False,correct_rejection,1713,912,0,0.00310755,
+b71ac54e,qwen/qwen3.8-27b,high,native,3,1,7,True,True,"
+
+True",True,hit,2625,1516,707,0.005598,
+8cd9fac5,qwen/qwen3.8-27b,high,native,3,1,15,False,False,"
+
+False",False,correct_rejection,1713,1688,910,0.00617245,
+a86dee91,qwen/qwen3.8-27b,high,native,3,1,13,False,False,"
+
+False",False,correct_rejection,1713,1584,801,0.0047244,
+55524a2a,qwen/qwen3.8-27b,high,native,3,1,14,False,False,"
+
+False",False,correct_rejection,1713,967,0,0.0032588,
+94ad5ff3,qwen/qwen3.8-27b,high,stretched,3,1,0,True,True,"
+
+True",True,hit,7833,1553,0,0.0070123,
+3ef81df4,qwen/qwen3.8-27b,high,stretched,3,1,4,True,True,") at (95,120)
+
+Frame 5.0s: A~(115,70), B~(160,80), C~(75,140).
+Frame 6.0s: A~(118,73), B~(155,82), C~(75,138).
+Frame 7.0s: A~(128,78), B~(152,82), C~(80,132).
+Frame 8.0s: A~(135,80), B~(152,82), C~(85,125).
+Frame 9.0s: A~(128,80), B~(150,82), C~(90,128).
+Frame 10.0s: A~(125,82), B~(148,85), C~(90,138).
+Frame 11.0s: A~(128,80), B~(148,90), C~(100,138).
+Frame 12.0s: A~(130,78), B~(155,92), C~(108,135).
+Frame 13.0s: A~(122,80), B~(158,95), C~(110,130).
+Frame 14.0s: A~(110,80), B~(155,95), C~(105,132).
+Frame 15.0s: A~(100,80), B~(155,98), C~(100,140).
+Frame 16.0s: A~(95,82), B~(152,100), C~(95,148).
+Frame 17.0s: A~(95,85), B~(150,102), C~(92,152).
+Frame 18.0s: A~(92,88), B~(148,105), C~(88,155).
+Frame 19.0s: A~(90,90), B~(148,108), C~(88,158).
+Frame 20.0s: A~(88,92), B~(148,110), C~(90,162).
+Frame 21.0s: A~(88,95), B~(148,112), C~(95,165).
+Frame 22.0s: A~(88,100), B~(150,115), C~(100,170).
+Frame 23.0s: A~(85,105), B~(152,120), C~(110,175).
+Frame 24.0s: A~(78,110), B~(155,122), C~(115,178).
+Frame 25.0s: A~(78,112), B~(158,120), C~(120,180) RED.
+
+Wait at 25.0s there's a red cross at about (120,180). Let's check the other two white: (78,112) and (158,120). So the red one is the bottom-middle one.
+
+Now which original is that? At 24.0s, positions: A~(78,110), B~(155,122), C~(115,178). At 25.0s: white (78,112)=A, white (158,120)=B, red (120,180)=C. Yes C is the red one. C was the originally red cross.
+
+Let me double check continuity: C at 24.0 (115,178) -> 25.0 (120,180) red. Good.
+
+Thus the cross that briefly turned red (around 25-29s) is the same as the originally red cross C.
+
+Therefore answer: True.
+
+Let me verify the red persists 25,26,27,28,29 then white at 30. Yes about 2 seconds (25-29 inclusive ~ 4-5 frames but the description says about two seconds; frames are 1s apart, fine).
+
+Thus the cued red cross (originally red) is the one that turned red again. Answer True.
+
+I'll provide verification: track C from start (95,120) through motion to (120,180) where it turns red. Matches.
+
+Thus final answer: True.
+</think>
+
+True",True,hit,7873,1475,257,0.0075742,
+2e8d6586,qwen/qwen3.8-27b,high,stretched,3,1,1,True,True,"
+
+True",True,hit,7833,1551,1547,0.00848805,
+46d91816,qwen/qwen3.8-27b,high,stretched,3,1,3,True,True,"
+
+True",True,hit,7833,1591,807,0.00861605,
+b50ccd26,qwen/qwen3.8-27b,high,stretched,3,1,5,True,True,"
+
+True",True,hit,2638,583,411,0.0028042,
+e6f72447,qwen/qwen3.8-27b,high,stretched,3,1,7,True,True,True,True,hit,7393,990,985,0.005666525,
+81f66564,qwen/qwen3.8-27b,high,stretched,3,1,2,True,True,"
+
+True",True,hit,7833,1420,1416,0.00806885,
+d10d8531,qwen/qwen3.8-27b,high,stretched,3,1,9,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+4c14066a,qwen/qwen3.8-27b,high,stretched,3,1,6,True,True,"
+
+True",True,hit,7833,2486,1012,0.0094725,
+40428367,qwen/qwen3.8-27b,high,stretched,3,1,12,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+4f3c3c57,qwen/qwen3.8-27b,high,stretched,3,1,8,False,False,False,False,correct_rejection,7393,1742,1737,0.007584125,
+eeb1601c,qwen/qwen3.8-27b,high,stretched,3,1,11,False,False,"
+
+) Let me look more carefully frame by frame.
+
+Frame 5.2s: three white crosses: left (~150,340), middle (~240,360), right (~430,310).
+Frame 6.2s: left (~150,350), middle (~240,360), right (~430,310).
+Frame 7.2s: left (~150,360), middle (~240,360), right (~430,310).
+Frame 8.2s: left (~150,360), middle (~240,360), right (~430,310).
+Hmm they move slowly.
+
+Actually let's look at the right cross trajectory. At start it's at right-middle (~430,320). Over frames 5-22 it stays on right side, drifting a bit up to (~430,310) then (~430,310)... Actually at 14-22s the right cross is around (430-440, 310). Then later it moves further right/up to (430,310) then (430,310)... At end (49s) right cross at (~430,310) and middle at (~240,360) and left at (~150,420).
+
+Now the red flash occurs around 23-27s. At 23.2s the red cross is at middle-left position (~240,360). At 24.2s red at (~240,360). 25.2s red (~240,360). 26.2s red (~240,360). 27.2s red (~240,360). So the red flash is on the cross that is in the middle-ish left position (~240,360).
+
+Now which original cross is that? At start, the middle white cross B was at (~240,350). The left white cross A at (~150,320). The right red C at (~430,320).
+
+I need to track each. Let's trace the left cross A: start (150,320). 5.2 (150,340). 7.2 (150,360). 9.2 (150,360). 11.2 (150,360). 13.2 (150,360). 15.2 (150,360). 17.2 (150,360). 19.2 (150,360). 21.2 (150,360). 22.2 (150,360). 23.2 (150,360). 25.2 (150,360). 27.2 (150,360). 29.2 (150,360). 31.2 (150,360). 33.2 (150,360). 35.2 (150,360). 37.2 (150,360). 39.2 (150,360). 41.2 (150,360). 43.2 (150,360). 45.2 (150,360). 47.2 (150,360). 49.2 (150,420). Hmm.
+
+Wait I'm confusing positions. Let me look at the actual images more carefully. The description: at start left cross around x=150 y=320; middle x=240 y=350; right x=430 y=320.
+
+By 22s, the layout: right cross top-right (~430,310); middle cross (~240,360); left/bottom cross (~150,420)? Let's look at 22.2s image: I see right cross at top right (~430,310), a middle cross (~240,360), and a lower-left cross (~150,420). Yes there are three: top-right, center, lower-left.
+
+At 23.2s the red is the center one (~240,360).
+
+Now trace center one back to start. At 5.2s the three are: left (~150,340), middle (~240,360), right (~430,310). So center at 23s corresponds to middle at start (B) which was white at start, not red.
+
+But wait, need to ensure no crossing/swapping. The motion seems gentle; the three maintain their relative identity: left stays left-ish, middle stays middle-ish, right stays right-ish. The middle cross at start (white) becomes the center cross that turns red. The originally red cross (right) stays on the right and never turns red in the middle.
+
+Thus the cross that briefly turned red is NOT the originally red one. So answer False.
+
+Let me double check the originally red (right) cross never turns red during 23-27s: at 23-27s the right cross is white (top right). Yes.
+
+Therefore answer: False.
+
+Verification: initial red = right cross. Mid red = center cross. Different. So False.
+
+Thus single word: False.
+</think>
+
+False",False,correct_rejection,7873,1582,257,0.0078472,
+2a53461e,qwen/qwen3.8-27b,high,stretched,3,1,13,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+edc61297,qwen/qwen3.8-27b,high,stretched,3,1,14,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+af85d866,qwen/qwen3.8-27b,high,stretched,3,1,15,False,False,"
+
+False",False,correct_rejection,7873,260,257,0.0038812,
+b281e46a,qwen/qwen3.8-27b,high,stretched,3,1,10,False,False,"
+
+False",False,correct_rejection,7833,2267,2263,0.01077925,

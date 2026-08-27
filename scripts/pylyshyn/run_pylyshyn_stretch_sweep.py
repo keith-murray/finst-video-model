@@ -79,7 +79,7 @@ N_SEEDS = 16
 MAX_TOKENS = 8192
 
 REASONING_LEVELS_BY_MODEL = {
-    "qwen/qwen3.8-27b": ["none", "low", "medium"],
+    "qwen/qwen3.8-27b": ["none", "low", "medium", "high"],
     "qwen/qwen3.8-max": ["low", "medium"],  # reasoning is mandatory, no "none"
     # Part 4 (claude/2026_08/2026_08_26/TODO.md): can a non-reasoning model
     # solve this purely feedforward? reasoning.mandatory=false per the live
