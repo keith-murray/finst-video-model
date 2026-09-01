@@ -78,7 +78,7 @@ from finst_video_model.scoring import classify_trial, compute_d_prime, parse_boo
 from finst_video_model.vlm_client import ask_about_video
 from run_openrouter_diagnostic import build_question
 
-MODEL = "google/gemma-4-31b-it"
+DEFAULT_MODEL = "google/gemma-4-31b-it"
 REASONING = {"enabled": False}
 N_SEEDS = 20
 MAX_TOKENS = 100
@@ -98,7 +98,7 @@ RESULT_FIELDS = [
 
 
 def run_one_trial(
-    batch_dir: str, n_objects: int, rotation_deg: float, variant: str,
+    batch_dir: str, model: str, n_objects: int, rotation_deg: float, variant: str,
     seed: int, probe_on_target: bool, stretch_encode_fps: float,
 ) -> dict:
     cfg = TrialConfig(n_objects=n_objects, rotation_deg=rotation_deg, probe_on_target=probe_on_target, seed=seed)
@@ -119,7 +119,7 @@ def run_one_trial(
         f.write(question)
 
     row = {
-        "trial_id": cfg.trial_id, "model": MODEL, "rotation_deg": rotation_deg,
+        "trial_id": cfg.trial_id, "model": model, "rotation_deg": rotation_deg,
         "variant": variant, "n_objects": n_objects,
         "seed": seed, "probe_on_target": probe_on_target,
         "probe_is_target": ground_truth["probe_is_target"],
@@ -131,7 +131,7 @@ def run_one_trial(
 
     try:
         response_text, usage = ask_about_video(
-            video_path, question, MODEL,
+            video_path, question, model,
             reasoning=REASONING, max_tokens=MAX_TOKENS,
             return_usage=True,
         )
@@ -175,6 +175,7 @@ def build_grid(rotation_degs: list[float], variants: list[str], seeds: list[int]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-name", type=str, default=DEFAULT_RUN_NAME)
+    parser.add_argument("--model", type=str, default=DEFAULT_MODEL)
     parser.add_argument("--n-objects", type=int, default=DEFAULT_N_OBJECTS)
     parser.add_argument("--rotation-degs", type=float, nargs="+", default=DEFAULT_ROTATION_DEGS)
     parser.add_argument("--variants", type=str, nargs="+", default=DEFAULT_VARIANTS, choices=["native", "stretched"])
@@ -210,7 +211,7 @@ def main():
     else:
         with open(config_path, "w") as f:
             json.dump({
-                "run_name": args.run_name, "arm": "debug_circular", "model": MODEL,
+                "run_name": args.run_name, "arm": "debug_circular", "model": args.model,
                 "reasoning": REASONING, "n_objects": args.n_objects,
                 "rotation_degs": args.rotation_degs, "variants": args.variants,
                 "stretch_encode_fps": stretch_encode_fps, "seeds": args.seeds,
@@ -228,7 +229,7 @@ def main():
                 ))
 
     grid = build_grid(args.rotation_degs, args.variants, args.seeds)
-    pending = [spec for spec in grid if (MODEL, args.n_objects, *spec) not in already_ran]
+    pending = [spec for spec in grid if (args.model, args.n_objects, *spec) not in already_ran]
     total = len(grid)
     done = len(already_ran)
 
@@ -241,7 +242,7 @@ def main():
         with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
             futures = {
                 pool.submit(
-                    run_one_trial, batch_dir, args.n_objects, rotation_deg, variant,
+                    run_one_trial, batch_dir, args.model, args.n_objects, rotation_deg, variant,
                     seed, probe_on_target, stretch_encode_fps,
                 ): (rotation_deg, variant, seed, probe_on_target)
                 for rotation_deg, variant, seed, probe_on_target in pending

@@ -1,0 +1,47 @@
+{
+  "run_name": "angle_sweep_qwen3.8-27b",
+  "arm": "debug_circular",
+  "model": "qwen/qwen3.8-27b",
+  "reasoning": {
+    "enabled": false
+  },
+  "n_objects": 3,
+  "rotation_degs": [
+    40,
+    80,
+    120,
+    160,
+    200,
+    240,
+    280,
+    320,
+    360
+  ],
+  "variants": [
+    "native",
+    "stretched"
+  ],
+  "stretch_encode_fps": 2.0,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}

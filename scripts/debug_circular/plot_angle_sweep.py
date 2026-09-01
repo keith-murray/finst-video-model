@@ -26,6 +26,7 @@ Usage:
 
 import argparse
 import csv
+import json
 import math
 from collections import defaultdict
 
@@ -110,9 +111,12 @@ def main():
 
     with open(results_csv) as f:
         n_objects = next(csv.DictReader(f))["n_objects"]
+    config_path = f"results/debug_circular/{args.run_name}/config.json"
+    with open(config_path) as f:
+        model = json.load(f)["model"]
 
     fig.suptitle(
-        f"google/gemma-4-31b-it on debug_circular (n_objects={n_objects}): "
+        f"{model} on debug_circular (n_objects={n_objects}): "
         "accuracy vs. rotation angle\n"
         f"(error bars: SEM, n={n_per_point}/point; dashed line: chance)",
         color=INK_PRIMARY, fontsize=12.5, y=1.0,
