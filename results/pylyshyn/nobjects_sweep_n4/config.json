@@ -1,0 +1,66 @@
+{
+  "run_name": "nobjects_sweep_n4",
+  "arm": "pylyshyn",
+  "models": [
+    "qwen/qwen3.6-plus",
+    "google/gemma-4-31b-it"
+  ],
+  "n_objects": 4,
+  "n_cued": 1,
+  "model_reasoning": {
+    "z-ai/glm-5v-turbo": {
+      "enabled": false
+    },
+    "moonshotai/kimi-k3": {
+      "enabled": false
+    },
+    "google/gemma-4-31b-it:free": {
+      "enabled": false
+    },
+    "google/gemma-4-31b-it": {
+      "enabled": false
+    },
+    "qwen/qwen3.5-397b-a17b": {
+      "enabled": false
+    },
+    "qwen/qwen3.6-plus": {
+      "enabled": false
+    }
+  },
+  "redirect_conditions": {
+    "slow": 2.0
+  },
+  "speed_conditions": {
+    "slow": [
+      16.0,
+      33.0
+    ]
+  },
+  "variants": [
+    "native",
+    "stretched"
+  ],
+  "stretch_encode_fps": 2.0,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}

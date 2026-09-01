@@ -21,16 +21,28 @@ each with its own reasoning param (mirrors
 run_pylyshyn_stretch_sweep.py's REASONING_LEVELS_BY_MODEL convention).
 
 Every trial's artifacts land in
-data/pylyshyn/speed_sweep_models/trials/<trial_id>/ (gitignored);
-results.csv/config.json (tracked) go to
-results/pylyshyn/speed_sweep_models/. results.csv is written incrementally
-and re-running resumes automatically (already-run (model,
-redirect_condition, speed_condition, variant, seed, probe_on_target)
-combinations are skipped).
+data/pylyshyn/<run-name>/trials/<trial_id>/ (gitignored); results.csv/
+config.json (tracked) go to results/pylyshyn/<run-name>/. results.csv is
+written incrementally and re-running resumes automatically (already-run
+(model, n_objects, redirect_condition, speed_condition, variant, seed,
+probe_on_target) combinations are skipped).
+
+`--run-name`/`--n-objects`/`--redirect-conditions`/`--speed-conditions`
+added 2026-09-01 (claude/2026_09/2026_09_01/TODO.md's Task 3) to test
+whether the nearest-neighbor heuristic's near-model-level pylyshyn accuracy
+([[project-status-2026-09-01]]) degrades once more distractors are added
+-- pass a different --run-name for this so it gets its own results.csv/
+config.json/data dir, same convention as debug_circular's angle_sweep_n4
+follow-up. The resume key includes n_objects for the same reason that
+follow-up's did: so reusing a run-name across n_objects values can't be
+mistaken for already-done work.
 
 Usage:
     uv run python scripts/pylyshyn/run_pylyshyn_speed_sweep_models.py
     uv run python scripts/pylyshyn/run_pylyshyn_speed_sweep_models.py --models z-ai/glm-5v-turbo
+    uv run python scripts/pylyshyn/run_pylyshyn_speed_sweep_models.py \\
+        --run-name nobjects_sweep --n-objects 4 --redirect-conditions slow --speed-conditions slow \\
+        --models qwen/qwen3.6-plus google/gemma-4-31b-it
 """
 
 import argparse
@@ -48,7 +60,7 @@ from finst_video_model.scoring import classify_trial, compute_d_prime, parse_boo
 from finst_video_model.vlm_client import ask_about_video
 from run_pylyshyn_trial import build_question
 
-N_OBJECTS = 3
+DEFAULT_N_OBJECTS = 3
 N_CUED = 1
 N_SEEDS = 20
 MAX_TOKENS = 8192
@@ -62,6 +74,11 @@ MODEL_REASONING = {
     "google/gemma-4-31b-it:free": {"enabled": False},
     "google/gemma-4-31b-it": {"enabled": False},
     "qwen/qwen3.5-397b-a17b": {"enabled": False},
+    # Added 2026-09-01 for the n_objects follow-up (see module docstring) --
+    # qwen3.6-plus's own results live in run_pylyshyn_speed_sweep.py's
+    # results/pylyshyn/speed_sweep/ for the original n_objects=3 sweep, but
+    # this script is reused (via --run-name) for the n_objects=4/5 follow-up.
+    "qwen/qwen3.6-plus": {"enabled": False},
 }
 
 # Pin providers where OpenRouter's default routing falls back to an endpoint
@@ -79,10 +96,12 @@ REDIRECT_CONDITIONS = {"slow": 2.0, "fast": 1.0}
 SPEED_CONDITIONS = {"slow": (16.0, 33.0), "fast": (32.0, 66.0)}
 VARIANTS = ["native", "stretched"]
 
-RUN_NAME = "speed_sweep_models"
+DEFAULT_RUN_NAME = "speed_sweep_models"
 
 STRETCH_TARGET_DURATION_S = 50.0
-_NATIVE_TOTAL_FRAMES = TrialConfig(n_objects=N_OBJECTS, n_cued=N_CUED).total_frames
+# total_frames depends only on cfg.fps/cue_s/tracking_s, not n_objects, so
+# this is n_objects-independent and safe to compute once at import time.
+_NATIVE_TOTAL_FRAMES = TrialConfig(n_cued=N_CUED).total_frames
 STRETCH_ENCODE_FPS = _NATIVE_TOTAL_FRAMES / STRETCH_TARGET_DURATION_S
 
 RESULT_FIELDS = [
@@ -94,13 +113,13 @@ RESULT_FIELDS = [
 
 
 def run_one_trial(
-    batch_dir: str, model: str, redirect_condition: str, speed_condition: str, variant: str,
+    batch_dir: str, model: str, n_objects: int, redirect_condition: str, speed_condition: str, variant: str,
     seed: int, probe_on_target: bool,
 ) -> dict:
     redirect_s = REDIRECT_CONDITIONS[redirect_condition]
     speed_min, speed_max = SPEED_CONDITIONS[speed_condition]
     cfg = TrialConfig(
-        n_objects=N_OBJECTS, n_cued=N_CUED, probe_on_target=probe_on_target, seed=seed,
+        n_objects=n_objects, n_cued=N_CUED, probe_on_target=probe_on_target, seed=seed,
         redirect_min_s=redirect_s, redirect_max_s=redirect_s,
         speed_min_px_s=speed_min, speed_max_px_s=speed_max,
     )
@@ -121,7 +140,7 @@ def run_one_trial(
     result = {
         "trial_id": cfg.trial_id, "model": model,
         "redirect_condition": redirect_condition, "speed_condition": speed_condition,
-        "variant": variant, "n_objects": N_OBJECTS, "n_cued": N_CUED,
+        "variant": variant, "n_objects": n_objects, "n_cued": N_CUED,
         "seed": seed, "probe_on_target": probe_on_target,
         "probe_is_target": ground_truth["probe_is_target"],
         "video_path": video_path, "question": question,
@@ -129,7 +148,7 @@ def run_one_trial(
     row = {
         "trial_id": cfg.trial_id, "model": model,
         "redirect_condition": redirect_condition, "speed_condition": speed_condition,
-        "variant": variant, "n_objects": N_OBJECTS, "n_cued": N_CUED,
+        "variant": variant, "n_objects": n_objects, "n_cued": N_CUED,
         "seed": seed, "probe_on_target": probe_on_target,
         "probe_is_target": ground_truth["probe_is_target"],
         "response": "", "predicted": "", "outcome": "",
@@ -167,7 +186,7 @@ def run_one_trial(
     return row
 
 
-def build_grid(models: list[str], seeds: list[int]):
+def build_grid(models: list[str], redirect_conditions: list[str], speed_conditions: list[str], seeds: list[int]):
     if len(seeds) % 2 != 0:
         raise ValueError(f"seeds must split evenly into matching/non-matching halves, got {len(seeds)}")
     half = len(seeds) // 2
@@ -175,8 +194,8 @@ def build_grid(models: list[str], seeds: list[int]):
     probe_on_target_by_seed = {seed: (i < half) for i, seed in enumerate(seeds_sorted)}
     grid = []
     for model in models:
-        for redirect_condition in REDIRECT_CONDITIONS:
-            for speed_condition in SPEED_CONDITIONS:
+        for redirect_condition in redirect_conditions:
+            for speed_condition in speed_conditions:
                 for variant in VARIANTS:
                     for seed in seeds_sorted:
                         grid.append((model, redirect_condition, speed_condition, variant, seed, probe_on_target_by_seed[seed]))
@@ -185,7 +204,11 @@ def build_grid(models: list[str], seeds: list[int]):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run-name", type=str, default=DEFAULT_RUN_NAME)
+    parser.add_argument("--n-objects", type=int, default=DEFAULT_N_OBJECTS)
     parser.add_argument("--models", type=str, nargs="+", default=list(MODEL_REASONING.keys()))
+    parser.add_argument("--redirect-conditions", type=str, nargs="+", default=list(REDIRECT_CONDITIONS.keys()), choices=list(REDIRECT_CONDITIONS.keys()))
+    parser.add_argument("--speed-conditions", type=str, nargs="+", default=list(SPEED_CONDITIONS.keys()), choices=list(SPEED_CONDITIONS.keys()))
     parser.add_argument("--seeds", type=int, nargs="+", default=list(range(N_SEEDS)))
     parser.add_argument("--concurrency", type=int, default=5)
     args = parser.parse_args()
@@ -195,13 +218,13 @@ def main():
             raise ValueError(f"No reasoning param for model {model!r}; add it to MODEL_REASONING")
 
     print(
-        f"Native clip: {_NATIVE_TOTAL_FRAMES} frames @ {TrialConfig().fps}fps "
+        f"n_objects={args.n_objects}. Native clip: {_NATIVE_TOTAL_FRAMES} frames @ {TrialConfig().fps}fps "
         f"(~{_NATIVE_TOTAL_FRAMES / TrialConfig().fps:.1f}s). "
         f"Stretched encode: {STRETCH_ENCODE_FPS:.2f}fps (~{STRETCH_TARGET_DURATION_S:.0f}s nominal)."
     )
 
-    batch_dir = os.path.join("data", "pylyshyn", RUN_NAME)
-    results_dir = os.path.join("results", "pylyshyn", RUN_NAME)
+    batch_dir = os.path.join("data", "pylyshyn", args.run_name)
+    results_dir = os.path.join("results", "pylyshyn", args.run_name)
     os.makedirs(os.path.join(batch_dir, "trials"), exist_ok=True)
     os.makedirs(results_dir, exist_ok=True)
 
@@ -218,10 +241,11 @@ def main():
     else:
         with open(config_path, "w") as f:
             json.dump({
-                "run_name": RUN_NAME, "arm": "pylyshyn", "models": args.models,
-                "n_objects": N_OBJECTS, "n_cued": N_CUED,
+                "run_name": args.run_name, "arm": "pylyshyn", "models": args.models,
+                "n_objects": args.n_objects, "n_cued": N_CUED,
                 "model_reasoning": MODEL_REASONING,
-                "redirect_conditions": REDIRECT_CONDITIONS, "speed_conditions": SPEED_CONDITIONS,
+                "redirect_conditions": {k: REDIRECT_CONDITIONS[k] for k in args.redirect_conditions},
+                "speed_conditions": {k: SPEED_CONDITIONS[k] for k in args.speed_conditions},
                 "variants": VARIANTS, "stretch_encode_fps": STRETCH_ENCODE_FPS,
                 "seeds": args.seeds,
             }, f, indent=2)
@@ -233,12 +257,16 @@ def main():
         with open(results_csv) as f:
             for r in csv.DictReader(f):
                 already_ran.add((
-                    r["model"], r["redirect_condition"], r["speed_condition"], r["variant"],
+                    r["model"], int(r["n_objects"]), r["redirect_condition"], r["speed_condition"], r["variant"],
                     int(r["seed"]), r["probe_on_target"] == "True",
                 ))
 
-    grid = build_grid(args.models, args.seeds)
-    pending = [spec for spec in grid if spec not in already_ran]
+    grid = build_grid(args.models, args.redirect_conditions, args.speed_conditions, args.seeds)
+    pending = [
+        (model, redirect_condition, speed_condition, variant, seed, probe_on_target)
+        for model, redirect_condition, speed_condition, variant, seed, probe_on_target in grid
+        if (model, args.n_objects, redirect_condition, speed_condition, variant, seed, probe_on_target) not in already_ran
+    ]
     total = len(grid)
     done = len(already_ran)
 
@@ -250,7 +278,7 @@ def main():
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
             futures = {
-                pool.submit(run_one_trial, batch_dir, model, redirect_condition, speed_condition, variant, seed, probe_on_target): (
+                pool.submit(run_one_trial, batch_dir, model, args.n_objects, redirect_condition, speed_condition, variant, seed, probe_on_target): (
                     model, redirect_condition, speed_condition, variant, seed, probe_on_target
                 )
                 for model, redirect_condition, speed_condition, variant, seed, probe_on_target in pending
@@ -271,15 +299,16 @@ def main():
     with open(results_csv) as f:
         all_rows = list(csv.DictReader(f))
     for model in args.models:
-        for redirect_condition in REDIRECT_CONDITIONS:
-            for speed_condition in SPEED_CONDITIONS:
+        for redirect_condition in args.redirect_conditions:
+            for speed_condition in args.speed_conditions:
                 for variant in VARIANTS:
                     rows = [
                         {"probe_is_target": r["probe_is_target"] == "True", "predicted": (
                             None if r["predicted"] == "" else r["predicted"] == "True"
                         )}
                         for r in all_rows
-                        if r["model"] == model and r["redirect_condition"] == redirect_condition
+                        if r["model"] == model and int(r["n_objects"]) == args.n_objects
+                        and r["redirect_condition"] == redirect_condition
                         and r["speed_condition"] == speed_condition and r["variant"] == variant
                     ]
                     if not rows:
