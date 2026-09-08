@@ -128,8 +128,11 @@ def ask_about_video(
 
     If `return_usage`, returns `(text, usage_dict_or_None)` instead of just
     `text` -- `usage_dict` is the response's raw `usage` object (token
-    counts and `cost` in USD), useful for a batch runner to log actual
-    per-trial spend rather than relying on a pre-run estimate.
+    counts and `cost` in USD) plus one added key, `served_by_provider`, the
+    response's top-level `provider` field naming which endpoint actually
+    served the call -- useful both for logging actual per-trial spend and
+    for confirming a `provider` pin actually held rather than silently
+    falling back to a different endpoint.
     """
     payload = {
         "model": model,
@@ -181,4 +184,13 @@ def ask_about_video(
                 f"Model returned no content (finish_reason={finish_reason!r}); "
                 f"usage={data.get('usage')!r}"
             )
-        return (text, data.get("usage")) if return_usage else text
+        if not return_usage:
+            return text
+        usage = data.get("usage")
+        if usage is not None:
+            # Which endpoint actually served this call -- can differ from
+            # any `provider.only` pin's expectation if OpenRouter fell back,
+            # and is otherwise unobservable from `usage` alone (see
+            # reference_openrouter_provider_routing_gotchas memory, item 4).
+            usage = {**usage, "served_by_provider": data.get("provider")}
+        return (text, usage)
