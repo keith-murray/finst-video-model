@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=64G
-#SBATCH --time=01:00:00
+#SBATCH --time=02:00:00
 #SBATCH --output=slurm/logs/gemma_frame_sweep_%j.out
 
 # Runs the local-gemma-4-31b-it debug_circular frame-count sweep: 40 trials

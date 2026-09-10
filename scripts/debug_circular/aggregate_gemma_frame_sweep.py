@@ -48,7 +48,7 @@ def load_trial_row(trial_dir: str, trial_id: str, num_frames: int, response_file
         response = json.load(f)
 
     cfg = ground_truth["config"]
-    response_text = response.get("response_text")
+    response_text = response.get("response_text").get("content")
     predicted = parse_boolean_answer(response_text) if response_text else None
     if predicted is not None:
         outcome = classify_trial(ground_truth["probe_is_target"], predicted)

@@ -1,0 +1,17 @@
+{
+  "arm": "debug_circular",
+  "run_name": "gemma_frame_sweep",
+  "model": "gemma-4-31b-it",
+  "trials_root": "data/debug_circular/gemma_frame_sweep/trials",
+  "num_frames_swept": [
+    4,
+    8,
+    16,
+    24,
+    32,
+    50,
+    100
+  ],
+  "n_pairs_found": 280,
+  "n_pairs_expected": 280
+}
