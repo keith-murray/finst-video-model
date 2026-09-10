@@ -12,6 +12,10 @@
     50,
     100
   ],
-  "n_pairs_found": 280,
-  "n_pairs_expected": 280
+  "sampling_swept": [
+    "greedy",
+    "recommended"
+  ],
+  "n_triples_found": 560,
+  "n_triples_expected": 560
 }
