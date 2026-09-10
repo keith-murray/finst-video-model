@@ -1,11 +1,12 @@
 """
 Summary figure for claude/2026_09/2026_09_09/TODO.md: locally-hosted
 google/gemma-4-31b-it on debug_circular (rotation_deg=40) across a swept
-num_frames budget (results/debug_circular/gemma_frame_sweep/results.csv,
-produced by aggregate_gemma_frame_sweep.py). Line plot: num_frames on the
-x-axis, accuracy (%) on the y-axis, one line (no native/stretched split --
-this sweep has only one variant), with SEM error bars, mirroring
-plot_angle_sweep.py's styling.
+num_frames budget, with lines for both generation sampling modes ("greedy"
+and "recommended" -- see run_gemma_cluster_batch.py's SAMPLING_CONFIGS)
+(results/debug_circular/gemma_frame_sweep/results.csv, produced by
+aggregate_gemma_frame_sweep.py). Line plot: num_frames on the x-axis, accuracy
+(%) on the y-axis, one line per sampling mode with SEM error bars, mirroring
+plot_angle_sweep.py's native/stretched two-line styling.
 
 Marks num_frames=32 with a vertical reference line, since that's the fixed
 frame budget OpenRouter's hosted endpoint was measured to silently truncate
@@ -31,8 +32,12 @@ INK_SECONDARY = "#52514e"
 INK_MUTED = "#898781"
 GRIDLINE = "#e1e0d9"
 BASELINE = "#c3c2b7"
-LINE_COLOR = "#2a78d6"  # validated categorical slot 1
-CAP_LINE_COLOR = "#eb6834"  # validated categorical slot 2
+SAMPLING_COLORS = {"greedy": "#2a78d6", "recommended": "#eb6834"}  # validated categorical slots 1-2
+SAMPLING_LABELS = {
+    "greedy": "greedy (do_sample=False)",
+    "recommended": "recommended (T=1.0, top_p=0.95, top_k=64)",
+}
+CAP_LINE_COLOR = "#7a7871"
 
 
 def _parse_bool(s: str) -> bool | None:
@@ -43,13 +48,13 @@ def _parse_bool(s: str) -> bool | None:
     return None
 
 
-def accuracy_by_num_frames(results_csv: str) -> dict[int, tuple[float, float, int]]:
-    """Returns {num_frames: (accuracy_pct, sem_pct, n)}."""
+def accuracy_by_group(results_csv: str) -> dict[tuple[int, str], tuple[float, float, int]]:
+    """Returns {(num_frames, sampling): (accuracy_pct, sem_pct, n)}."""
     totals = defaultdict(int)
     correct = defaultdict(int)
     with open(results_csv) as f:
         for row in csv.DictReader(f):
-            key = int(row["num_frames"])
+            key = (int(row["num_frames"]), row["sampling"])
             totals[key] += 1
             if _parse_bool(row["predicted"]) == _parse_bool(row["probe_is_target"]):
                 correct[key] += 1
@@ -71,8 +76,9 @@ def main():
     results_csv = f"results/debug_circular/{args.run_name}/results.csv"
     out_path = f"results/debug_circular/{args.run_name}/accuracy_by_n_frames.png"
 
-    stats = accuracy_by_num_frames(results_csv)
-    num_frames_values = sorted(stats)
+    stats = accuracy_by_group(results_csv)
+    num_frames_values = sorted({k[0] for k in stats})
+    samplings_present = [s for s in ("greedy", "recommended") if any(k[1] == s for k in stats)]
 
     fig, ax = plt.subplots(figsize=(9, 6), facecolor="#fcfcfb")
     ax.set_facecolor("#fcfcfb")
@@ -93,17 +99,19 @@ def main():
             zorder=1, label=f"OpenRouter cap ({args.openrouter_cap} frames)",
         )
 
-    ys, errs, n_per_point = [], [], 0
-    for nf in num_frames_values:
-        acc, sem, n = stats[nf]
-        ys.append(acc)
-        errs.append(sem)
-        n_per_point = max(n_per_point, n)
-    ax.errorbar(
-        num_frames_values, ys, yerr=errs, marker="o", markersize=7, linewidth=2,
-        color=LINE_COLOR, ecolor=LINE_COLOR, elinewidth=1.5, capsize=4,
-        label="gemma-4-31b-it (local)", zorder=3,
-    )
+    n_per_point = 0
+    for sampling in samplings_present:
+        ys, errs = [], []
+        for nf in num_frames_values:
+            acc, sem, n = stats.get((nf, sampling), (float("nan"), 0, 0))
+            ys.append(acc)
+            errs.append(sem)
+            n_per_point = max(n_per_point, n)
+        ax.errorbar(
+            num_frames_values, ys, yerr=errs, marker="o", markersize=7, linewidth=2,
+            color=SAMPLING_COLORS[sampling], ecolor=SAMPLING_COLORS[sampling],
+            elinewidth=1.5, capsize=4, label=SAMPLING_LABELS[sampling], zorder=3,
+        )
 
     ax.set_xticks(num_frames_values)
     ax.set_xlabel("num_frames (sampled from video)", color=INK_SECONDARY)

@@ -10,7 +10,8 @@
 
 # Runs the local-gemma-4-31b-it debug_circular frame-count sweep: 40 trials
 # (rotation_deg=40, 20 match/20 non-match) x num_frames in
-# {4,8,16,24,32,50,100}, loading the model once for the whole sweep. See
+# {4,8,16,24,32,50,100} x sampling in {greedy,recommended} (560 total calls),
+# loading the model once for the whole sweep. See
 # claude/2026_09/2026_09_09/TODO.md and
 # scripts/debug_circular/run_gemma_cluster_batch.py.
 #
@@ -19,10 +20,10 @@
 # its printed recommendation via `sbatch --time=<measured> ...` (overrides
 # this file's directive) before submitting the real job -- same convention as
 # slurm/run_debug_circular_batch.sh for the qwen3.8-27b pipeline. This job
-# resumes safely if re-submitted (skips (trial, num_frames) pairs that already
-# have a cluster_response_nframes{N}.json), so an initial too-generous --time
-# is still a safe way to make progress even before the profiling numbers are
-# in.
+# resumes safely if re-submitted (skips (trial, num_frames, sampling) triples
+# that already have a cluster_response_nframes{N}_{sampling}.json), so an
+# initial too-generous --time is still a safe way to make progress even
+# before the profiling numbers are in.
 #
 # Assumes trial data (data/debug_circular/gemma_frame_sweep/trials/) plus
 # scripts/ have been rsynced to /mnt/cup/people/km3199/finst-video-model/
@@ -42,7 +43,8 @@ df -h "$HOME"
 echo "=== Running gemma frame sweep (trials-root=$TRIALS_ROOT) ==="
 python3 /mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/run_gemma_cluster_batch.py \
     --trials-root "$TRIALS_ROOT" \
-    --num-frames 4 8 16 24 32 50 100
+    --num-frames 4 8 16 24 32 50 100 \
+    --sampling greedy recommended
 
 echo "=== Disk check after run ==="
 df -h "$HOME"

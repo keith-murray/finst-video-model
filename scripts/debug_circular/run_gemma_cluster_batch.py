@@ -1,8 +1,19 @@
 """
 Batch video-understanding job for the locally-hosted google/gemma-4-31b-it
 model, sweeping the number of frames sampled from each debug_circular video
-(see claude/2026_09/2026_09_09/TODO.md and
+AND the generation sampling mode (see claude/2026_09/2026_09_09/TODO.md and
 claude/skills/cluster/gemma4/test_gemma4_baseline.py/.sh).
+
+Two sampling modes (SAMPLING_CONFIGS below): "greedy" (do_sample=False,
+deterministic, matches the qwen3.8-27b cluster pipeline's
+temperature=0.0/top_p=1.0 convention) and "recommended" (do_sample=True,
+temperature=1.0, top_p=0.95, top_k=64 -- HuggingFace's documented defaults for
+this model). Neither test_gemma4_baseline.py nor this script's first draft set
+any sampling params at all, silently falling back to whatever
+generation_config.json ships with the checkpoint -- both modes here are now
+explicit rather than left to that unverified default. "recommended" is
+stochastic: each trial gets exactly one draw, not averaged over repeated
+samples, so treat its per-condition accuracy as noisier than "greedy"'s.
 
 Runs ON THE CLUSTER inside $HOME/local-llm/.venv -- self-contained, no
 finst_video_model import, since that venv only has transformers/torch/etc.
@@ -47,16 +58,17 @@ since test_gemma4_baseline.py's own hardcoded sample path
         scotty:/mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials/ \\
         data/debug_circular/gemma_frame_sweep/trials/
 
-Writes one <trials-root>/<trial_id>/cluster_response_nframes{N}.json per
-(trial, num_frames) pair -- raw model output only (parsed response text, token
-counts, timing), no True/False parsing or scoring. That happens locally in
-scripts/debug_circular/aggregate_gemma_frame_sweep.py, where
-finst_video_model.scoring is importable.
+Writes one <trials-root>/<trial_id>/cluster_response_nframes{N}_{sampling}.json
+per (trial, num_frames, sampling) triple -- raw model output only (parsed
+response text, token counts, timing), no True/False parsing or scoring. That
+happens locally in scripts/debug_circular/aggregate_gemma_frame_sweep.py,
+where finst_video_model.scoring is importable.
 
 Usage (on a compute node, via slurm/run_gemma_frame_sweep.sh):
     python3 run_gemma_cluster_batch.py \\
         --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
-        --num-frames 4 8 16 24 32 50 100
+        --num-frames 4 8 16 24 32 50 100 \\
+        --sampling greedy recommended
 """
 
 import argparse
@@ -70,9 +82,17 @@ from transformers import AutoProcessor, AutoModelForMultimodalLM
 
 MODEL_PATH = "/scratch/km3199/models/gemma-4-31B-it"
 
+# "greedy": deterministic, matches the qwen3.8-27b cluster pipeline's
+# temperature=0.0/top_p=1.0 convention. "recommended": HuggingFace's
+# documented sampling defaults for this model card.
+SAMPLING_CONFIGS = {
+    "greedy": {"do_sample": False},
+    "recommended": {"do_sample": True, "temperature": 1.0, "top_p": 0.95, "top_k": 64},
+}
 
-def response_filename(num_frames: int) -> str:
-    return f"cluster_response_nframes{num_frames}.json"
+
+def response_filename(num_frames: int, sampling: str) -> str:
+    return f"cluster_response_nframes{num_frames}_{sampling}.json"
 
 
 def build_question(n_objects: int) -> str:
@@ -178,6 +198,11 @@ def main():
         "--num-frames", type=int, nargs="+", required=True,
         help="One or more frame-sampling budgets to sweep, e.g. 4 8 16 24 32 50 100.",
     )
+    parser.add_argument(
+        "--sampling", type=str, nargs="+", default=["greedy", "recommended"],
+        choices=list(SAMPLING_CONFIGS),
+        help="One or more generation sampling modes to sweep (see SAMPLING_CONFIGS).",
+    )
     parser.add_argument("--max-new-tokens", type=int, default=128)
     args = parser.parse_args()
 
@@ -186,16 +211,17 @@ def main():
     trial_ids = discover_trials(args.trials_root)
     print(f"Discovered {len(trial_ids)} trials under {args.trials_root}")
 
-    pairs = [
-        (tid, nf)
+    triples = [
+        (tid, nf, sampling)
         for tid in trial_ids
         for nf in args.num_frames
-        if not already_done(args.trials_root, tid, response_filename(nf))
+        for sampling in args.sampling
+        if not already_done(args.trials_root, tid, response_filename(nf, sampling))
     ]
-    n_total = len(trial_ids) * len(args.num_frames)
-    print(f"{n_total - len(pairs)}/{n_total} (trial, num_frames) pairs already done "
-          f"(skipping), {len(pairs)} pending")
-    if not pairs:
+    n_total = len(trial_ids) * len(args.num_frames) * len(args.sampling)
+    print(f"{n_total - len(triples)}/{n_total} (trial, num_frames, sampling) triples "
+          f"already done (skipping), {len(triples)} pending")
+    if not triples:
         print("Nothing to do.")
         return
 
@@ -209,10 +235,11 @@ def main():
     )
     print(f"Model loaded in {time.time() - t0:.1f}s")
 
-    for i, (trial_id, num_frames) in enumerate(pairs):
-        response_file = response_filename(num_frames)
+    for i, (trial_id, num_frames, sampling) in enumerate(triples):
+        response_file = response_filename(num_frames, sampling)
         trial_dir = os.path.join(args.trials_root, trial_id)
-        print(f"\n[{i + 1}/{len(pairs)}] trial={trial_id} num_frames={num_frames}")
+        print(f"\n[{i + 1}/{len(triples)}] trial={trial_id} num_frames={num_frames} "
+              f"sampling={sampling}")
 
         try:
             frames, ground_truth = load_trial(args.trials_root, trial_id)
@@ -226,7 +253,9 @@ def main():
             input_len = inputs["input_ids"].shape[-1]
 
             t0 = time.time()
-            outputs = model.generate(**inputs, max_new_tokens=args.max_new_tokens)
+            outputs = model.generate(
+                **inputs, max_new_tokens=args.max_new_tokens, **SAMPLING_CONFIGS[sampling],
+            )
             generation_time_s = time.time() - t0
 
             output_ids = outputs[0][input_len:]
@@ -239,6 +268,7 @@ def main():
                 "model_tag": model_tag,
                 "num_frames_requested": num_frames,
                 "num_frames_effective": effective_num_frames,
+                "sampling": sampling,
                 "prompt_tokens": input_len,
                 "output_tokens": len(output_ids),
                 "response_text": parsed_response,
@@ -251,8 +281,8 @@ def main():
                   f"-> {parsed_response!r}")
 
         except Exception:
-            # Deliberately don't write any cluster_response_nframes{N}.json
-            # here -- leaving this pair "pending" means a resubmitted job
+            # Deliberately don't write any cluster_response_nframes{N}_{sampling}.json
+            # here -- leaving this triple "pending" means a resubmitted job
             # retries it automatically, rather than needing someone to find
             # and delete a stray error file first.
             print(f"  FAILED, leaving pending for retry:\n{traceback.format_exc()}")

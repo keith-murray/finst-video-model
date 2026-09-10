@@ -18,10 +18,17 @@ real job (run_gemma_cluster_batch.py) also runs serially, so this measurement
 matches reality (no batched-vs-serial discrepancy to worry about, unlike the
 qwen profiling script's note about vLLM's continuous batching).
 
+Also profiles both generation sampling modes ("greedy" and "recommended", see
+run_gemma_cluster_batch.py's SAMPLING_CONFIGS) since the real job now sweeps
+that axis too -- "recommended" (do_sample=True) may have different generation
+timing than "greedy" (do_sample=False), and this is also a chance to eyeball
+whether its stochastic output still looks like a sane True/False answer.
+
 Usage (on a compute node, via a small sbatch wrapper or interactively):
     python3 profile_gemma_cluster_timing.py \\
         --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
         --num-frames 4 8 16 24 32 50 100 \\
+        --sampling greedy recommended \\
         --n-trials 2 \\
         --full-sweep-trials 40
 """
@@ -35,6 +42,11 @@ import numpy as np
 from transformers import AutoProcessor, AutoModelForMultimodalLM
 
 MODEL_PATH = "/scratch/km3199/models/gemma-4-31B-it"
+
+SAMPLING_CONFIGS = {
+    "greedy": {"do_sample": False},
+    "recommended": {"do_sample": True, "temperature": 1.0, "top_p": 0.95, "top_k": 64},
+}
 
 
 def build_question(n_objects: int) -> str:
@@ -112,11 +124,15 @@ def main():
         default="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials",
     )
     parser.add_argument("--num-frames", type=int, nargs="+", default=[4, 8, 16, 24, 32, 50, 100])
-    parser.add_argument("--n-trials", type=int, default=2, help="How many sample trials to time per num_frames value.")
+    parser.add_argument(
+        "--sampling", type=str, nargs="+", default=["greedy", "recommended"],
+        choices=list(SAMPLING_CONFIGS),
+    )
+    parser.add_argument("--n-trials", type=int, default=2, help="How many sample trials to time per (num_frames, sampling) pair.")
     parser.add_argument("--max-new-tokens", type=int, default=128)
     parser.add_argument(
         "--full-sweep-trials", type=int, default=40,
-        help="Total trial count (per num_frames value) to extrapolate the full job's time for.",
+        help="Total trial count (per num_frames x sampling condition) to extrapolate the full job's time for.",
     )
     args = parser.parse_args()
 
@@ -134,40 +150,47 @@ def main():
     model_load_s = time.time() - t0
     print(f"Model loaded in {model_load_s:.1f}s")
 
-    per_trial_by_num_frames = {}
+    per_trial_by_condition = {}
     for num_frames in args.num_frames:
-        timings = []
-        for tid, frames, gt in trials:
-            inputs = prepare_input(
-                processor, frames, build_question(gt["config"]["n_objects"]),
-                gt["config"]["fps"], num_frames,
-            )
-            inputs = inputs.to(model.device)
-            input_len = inputs["input_ids"].shape[-1]
+        for sampling in args.sampling:
+            timings = []
+            for tid, frames, gt in trials:
+                inputs = prepare_input(
+                    processor, frames, build_question(gt["config"]["n_objects"]),
+                    gt["config"]["fps"], num_frames,
+                )
+                inputs = inputs.to(model.device)
+                input_len = inputs["input_ids"].shape[-1]
 
-            t0 = time.time()
-            outputs = model.generate(**inputs, max_new_tokens=args.max_new_tokens)
-            elapsed = time.time() - t0
-            timings.append(elapsed)
+                t0 = time.time()
+                outputs = model.generate(
+                    **inputs, max_new_tokens=args.max_new_tokens, **SAMPLING_CONFIGS[sampling],
+                )
+                elapsed = time.time() - t0
+                timings.append(elapsed)
 
-            output_ids = outputs[0][input_len:]
-            output_text = processor.decode(output_ids, skip_special_tokens=True)
-            print(f"  [num_frames={num_frames}, {tid}] prompt_tokens={input_len} "
-                  f"output_tokens={len(output_ids)} time={elapsed:.1f}s -> {output_text!r}")
+                output_ids = outputs[0][input_len:]
+                output_text = processor.decode(output_ids, skip_special_tokens=True)
+                print(f"  [num_frames={num_frames}, sampling={sampling}, {tid}] "
+                      f"prompt_tokens={input_len} output_tokens={len(output_ids)} "
+                      f"time={elapsed:.1f}s -> {output_text!r}")
 
-        mean_s = sum(timings) / len(timings)
-        per_trial_by_num_frames[num_frames] = mean_s
-        print(f"num_frames={num_frames}: mean {mean_s:.1f}s/trial over {len(timings)} trials")
+            mean_s = sum(timings) / len(timings)
+            per_trial_by_condition[(num_frames, sampling)] = mean_s
+            print(f"num_frames={num_frames}, sampling={sampling}: "
+                  f"mean {mean_s:.1f}s/trial over {len(timings)} trials")
 
     print("\n=== Extrapolation for the full sweep ===")
     total_generation_s = sum(
-        per_trial * args.full_sweep_trials for per_trial in per_trial_by_num_frames.values()
+        per_trial * args.full_sweep_trials for per_trial in per_trial_by_condition.values()
     )
     est_total_s = model_load_s + total_generation_s
-    print(f"Per-num_frames mean times: {per_trial_by_num_frames}")
+    n_conditions = len(args.num_frames) * len(args.sampling)
+    print(f"Per-condition mean times: {per_trial_by_condition}")
     print(
         f"{args.full_sweep_trials} trials x {len(args.num_frames)} num_frames values "
-        f"({args.full_sweep_trials * len(args.num_frames)} total calls) = "
+        f"x {len(args.sampling)} sampling modes "
+        f"({args.full_sweep_trials * n_conditions} total calls) = "
         f"{total_generation_s / 60:.1f} min generation + {model_load_s / 60:.1f} min load "
         f"= {est_total_s / 60:.1f} min total "
         f"(recommend --time >= {est_total_s * 1.5 / 60:.0f} min with margin)"
