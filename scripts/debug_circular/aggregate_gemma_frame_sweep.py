@@ -12,9 +12,19 @@ in each cluster_response_nframes{N}_{sampling}.json), not of
 TrialConfig/ground_truth.json the way rotation_deg is -- the existing
 aggregator's "group by a config column" shape doesn't fit this sweep axis.
 
+--response-prefix selects which cluster batch script's output to score:
+"nframes" (default) for run_gemma_cluster_batch.py's do_sample_frames=True
+auto-sampled output (cluster_response_nframes{N}_{sampling}.json), or
+"manualframes" for run_gemma_cluster_batch_manual_frames.py's bypass-and-
+manually-slice diagnostic (cluster_response_manualframes{N}_{sampling}.json)
+-- see that script's docstring for why it exists. --out-root defaults to a
+prefix-specific directory so the two pipelines' results.csv never collide.
+
 Usage:
     uv run python scripts/debug_circular/aggregate_gemma_frame_sweep.py \\
         --num-frames 4 8 16 24 32 50 100 --sampling greedy recommended
+    uv run python scripts/debug_circular/aggregate_gemma_frame_sweep.py \\
+        --response-prefix manualframes --num-frames 4 8 16 24 32 50 100 --sampling greedy recommended
 """
 
 import argparse
@@ -85,14 +95,23 @@ def main():
         default="data/debug_circular/gemma_frame_sweep/trials",
     )
     parser.add_argument(
-        "--out-root", type=str,
-        default="results/debug_circular/gemma_frame_sweep",
+        "--out-root", type=str, default=None,
+        help="Defaults to results/debug_circular/gemma_frame_sweep for "
+             "--response-prefix nframes, or gemma_frame_sweep_<prefix> otherwise.",
+    )
+    parser.add_argument(
+        "--response-prefix", type=str, default="nframes", choices=["nframes", "manualframes"],
+        help="Which cluster batch script's output to score -- see module docstring.",
     )
     parser.add_argument("--num-frames", type=int, nargs="+", default=[4, 8, 16, 24, 32, 50, 100])
     parser.add_argument("--sampling", type=str, nargs="+", default=["greedy", "recommended"])
     args = parser.parse_args()
 
-    os.makedirs(args.out_root, exist_ok=True)
+    out_root = args.out_root or (
+        "results/debug_circular/gemma_frame_sweep" if args.response_prefix == "nframes"
+        else f"results/debug_circular/gemma_frame_sweep_{args.response_prefix}"
+    )
+    os.makedirs(out_root, exist_ok=True)
 
     if not os.path.isdir(args.trials_root):
         raise SystemExit(f"trials-root {args.trials_root} does not exist")
@@ -105,7 +124,7 @@ def main():
     rows = []
     for num_frames in args.num_frames:
         for sampling in args.sampling:
-            response_file = f"cluster_response_nframes{num_frames}_{sampling}.json"
+            response_file = f"cluster_response_{args.response_prefix}{num_frames}_{sampling}.json"
             for trial_id in trial_ids:
                 row = load_trial_row(
                     os.path.join(args.trials_root, trial_id), trial_id, num_frames,
@@ -118,14 +137,14 @@ def main():
     n_found = len(rows)
     print(f"{n_found}/{n_expected} (trial, num_frames, sampling) triples scored")
 
-    results_csv = os.path.join(args.out_root, "results.csv")
+    results_csv = os.path.join(out_root, "results.csv")
     with open(results_csv, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=RESULT_FIELDS)
         writer.writeheader()
         writer.writerows(rows)
     print(f"Wrote {results_csv}")
 
-    config_path = os.path.join(args.out_root, "config.json")
+    config_path = os.path.join(out_root, "config.json")
     with open(config_path, "w") as f:
         json.dump({
             "arm": "debug_circular",
