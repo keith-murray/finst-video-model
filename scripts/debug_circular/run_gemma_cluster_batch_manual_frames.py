@@ -167,7 +167,6 @@ def prepare_input(
         "fps": effective_fps,
         "duration": real_duration_s,
         "frames_indices": list(range(effective_num_frames)),
-        "do_sample_frames": False,
     }
 
     messages = [

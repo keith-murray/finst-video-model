@@ -41,7 +41,7 @@ echo "=== Disk check before run ==="
 df -h "$HOME"
 
 echo "=== Running gemma frame sweep (trials-root=$TRIALS_ROOT) ==="
-python3 /mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/run_gemma_cluster_batch.py \
+python3 /mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/run_gemma_cluster_batch_manual_frames.py \
     --trials-root "$TRIALS_ROOT" \
     --num-frames 4 8 16 24 32 50 100 \
     --sampling greedy recommended
