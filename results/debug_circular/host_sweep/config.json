@@ -1,0 +1,96 @@
+{
+  "run_name": "host_sweep",
+  "arm": "debug_circular",
+  "model": "google/gemma-4-31b-it",
+  "reasoning": {
+    "enabled": false
+  },
+  "n_objects": 3,
+  "rotation_degs": [
+    40,
+    80,
+    120
+  ],
+  "variant": "native",
+  "hosts": {
+    "deepinfra-fp4": {
+      "only": [
+        "deepinfra"
+      ],
+      "quantizations": [
+        "fp4"
+      ],
+      "allow_fallbacks": false
+    },
+    "deepinfra-fp8": {
+      "only": [
+        "deepinfra"
+      ],
+      "quantizations": [
+        "fp8"
+      ],
+      "allow_fallbacks": false
+    },
+    "coreweave": {
+      "only": [
+        "coreweave"
+      ],
+      "allow_fallbacks": false
+    },
+    "crusoe": {
+      "only": [
+        "crusoe"
+      ],
+      "allow_fallbacks": false
+    },
+    "parasail": {
+      "only": [
+        "parasail"
+      ],
+      "allow_fallbacks": false
+    },
+    "together": {
+      "only": [
+        "together"
+      ],
+      "allow_fallbacks": false
+    },
+    "modelrun": {
+      "only": [
+        "modelrun"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "host_quantization": {
+    "deepinfra-fp4": "fp4",
+    "deepinfra-fp8": "fp8",
+    "coreweave": "fp4",
+    "crusoe": "unknown",
+    "parasail": "fp8",
+    "together": "unknown",
+    "modelrun": "fp4"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ]
+}
