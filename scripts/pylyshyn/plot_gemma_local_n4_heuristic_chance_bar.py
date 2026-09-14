@@ -8,11 +8,11 @@ today's earlier 60-trial finding that mp4 input dramatically improved
 accuracy at n=4 -- this checks whether that holds at higher power once the
 heuristic's above-chance edge on the original sample is neutralized.
 
-Unlike every other accuracy plot in scripts/pylyshyn/ (which uses SEM,
-`sqrt(p*(1-p)/n)*100`), this one plots the population Bernoulli **std** of
-per-trial 0/1 correctness, `sqrt(p*(1-p))*100` -- a deliberately different,
-wider statistic, per explicit request for this specific figure. Bar-plus-
-errorbar structure mirrors `plot_stretch_sweep.py`'s
+Error bars are SEM (`sqrt(p*(1-p)/n)*100`), same convention as every other
+accuracy plot in scripts/pylyshyn/ -- an earlier version of this script used
+the wider population Bernoulli std (`sqrt(p*(1-p))*100`) instead, per an
+initial request, then was switched back to SEM per explicit follow-up
+request. Bar-plus-errorbar structure mirrors `plot_stretch_sweep.py`'s
 `ax.bar(...)` + `ax.errorbar(..., fmt="none")` overlay; styling constants
 shared with every other `plot_*.py` in this directory.
 
@@ -60,14 +60,12 @@ def _parse_bool(s: str) -> bool | None:
     return None
 
 
-def accuracy_and_std(rows: list[dict]) -> tuple[float, float, int]:
-    """Population Bernoulli std of per-trial correctness, sqrt(p*(1-p))*100
-    -- NOT the SEM used elsewhere in this project's plots."""
+def accuracy_and_sem(rows: list[dict]) -> tuple[float, float, int]:
     n = len(rows)
     correct = sum(1 for r in rows if _parse_bool(r["predicted"]) == _parse_bool(r["probe_is_target"]))
     p = correct / n
-    std = math.sqrt(p * (1 - p)) * 100
-    return p * 100, std, n
+    sem = math.sqrt(p * (1 - p) / n) * 100
+    return p * 100, sem, n
 
 
 def load_rows(results_csv: str) -> list[dict]:
@@ -81,18 +79,16 @@ def main():
     npy_rows = load_rows(NPY_RESULTS_CSV)
     mp4_rows = load_rows(MP4_RESULTS_CSV)
 
-    npy_acc, npy_std, npy_n = accuracy_and_std(npy_rows)
-    mp4_acc, mp4_std, mp4_n = accuracy_and_std(mp4_rows)
+    npy_acc, npy_sem, npy_n = accuracy_and_sem(npy_rows)
+    mp4_acc, mp4_sem, mp4_n = accuracy_and_sem(mp4_rows)
 
     h_stats = heuristic_accuracy_by_group(mp4_rows, TRIALS_DIR, lambda row: "n4")
-    h_acc, _h_sem, h_n = h_stats["n4"]
-    h_p = h_acc / 100
-    h_std = math.sqrt(h_p * (1 - h_p)) * 100
+    h_acc, h_sem, h_n = h_stats["n4"]
 
     bars = [
-        ("npy", npy_acc, npy_std, npy_n),
-        ("mp4", mp4_acc, mp4_std, mp4_n),
-        ("heuristic", h_acc, h_std, h_n),
+        ("npy", npy_acc, npy_sem, npy_n),
+        ("mp4", mp4_acc, mp4_sem, mp4_n),
+        ("heuristic", h_acc, h_sem, h_n),
     ]
 
     fig, ax = plt.subplots(figsize=(6.5, 6), facecolor="#fcfcfb")
@@ -108,11 +104,11 @@ def main():
 
     xs = range(len(bars))
     heights = [b[1] for b in bars]
-    stds = [b[2] for b in bars]
+    sems = [b[2] for b in bars]
     colors = [BAR_COLORS[b[0]] for b in bars]
     ax.bar(xs, heights, width=0.55, color=colors, zorder=3, edgecolor="#fcfcfb", linewidth=2)
     ax.errorbar(
-        xs, heights, yerr=stds, fmt="none", ecolor=INK_PRIMARY, elinewidth=1.5, capsize=5, zorder=4,
+        xs, heights, yerr=sems, fmt="none", ecolor=INK_PRIMARY, elinewidth=1.5, capsize=5, zorder=4,
     )
 
     ax.set_xticks(list(xs))
@@ -123,15 +119,15 @@ def main():
     fig.suptitle(
         "pylyshyn n_objects=4: local gemma-4-31b-it, npy vs. mp4 input,\n"
         "heuristic neutralized to chance by construction\n"
-        "(error bars: population std, sqrt(p(1-p)); dashed line: chance)",
+        "(error bars: SEM; dashed line: chance)",
         color=INK_PRIMARY, fontsize=11, y=1.0,
     )
 
     fig.tight_layout(rect=(0, 0, 1, 0.88))
     fig.savefig(OUT_PATH, dpi=150, facecolor=fig.get_facecolor(), bbox_inches="tight")
     print(f"Wrote {OUT_PATH}")
-    for name, acc, std, n in bars:
-        print(f"  {BAR_LABELS[name]}: {acc:.1f}% (std={std:.1f}%, n={n})")
+    for name, acc, sem, n in bars:
+        print(f"  {BAR_LABELS[name]}: {acc:.1f}% (sem={sem:.1f}%, n={n})")
 
 
 if __name__ == "__main__":
