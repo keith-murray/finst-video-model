@@ -22,9 +22,10 @@
 # too-generous --time is still a safe way to make progress.
 #
 # Assumes trial data (data/pylyshyn/gemma_local_nobjects_sweep/trials/,
-# including video.mp4) plus scripts/ have already been rsynced to
-# /mnt/cup/people/km3199/finst-video-model/ (see
-# run_gemma_local_batch_mp4.py's docstring for the exact commands).
+# including video.mp4) has been rsynced to
+# /mnt/cup/people/km3199/finst-video-model/, and scripts/ are up to date via
+# git pull on the cluster-side clone (see run_gemma_local_batch_mp4.py's
+# docstring).
 
 TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials"
 

@@ -30,11 +30,8 @@ ahead of this task -- no new stimulus generation or push needed for trial
 data. ground_truth.json's "config" key must have n_objects/n_cued/fps
 (written by finst_video_model.pylyshyn.stimulus_gen.generate_stimulus).
 
-    # push (local -> cluster), before submitting the job
-    rsync -av scripts/pylyshyn/run_gemma_local_batch_mp4.py \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/scripts/pylyshyn/
-    rsync -av slurm/run_gemma_pylyshyn_local_mp4.sh \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/slurm/
+    # code (local -> cluster): git commit + push locally, then git pull on the
+    # cluster-side clone -- rsync is for data only, not scripts.
 
     # pull (cluster -> local), after the job finishes
     rsync -av --include='*/' --include='cluster_response_mp4.json' --exclude='*' \\
