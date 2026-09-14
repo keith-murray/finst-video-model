@@ -19,11 +19,16 @@ shared with every other `plot_*.py` in this directory.
 Data sources:
   Local, npy:  results/pylyshyn/gemma_local_n4_heuristic_chance/npy/results.csv
   Local, mp4:  results/pylyshyn/gemma_local_n4_heuristic_chance/mp4/results.csv
+  OpenRouter:  results/pylyshyn/gemma_local_n4_heuristic_chance/openrouter/results.csv
+               (Task 3: the identical 100 trials run through OpenRouter's
+               hosted google/gemma-4-31b-it, pinned to a single host/
+               condition -- deepinfra-fp4, see
+               run_gemma_local_n4_heuristic_chance_openrouter.py's docstring
+               for why fp4 rather than the originally-planned fp8)
   Heuristic:   computed directly via nearest_neighbor_heuristic
                .heuristic_accuracy_by_group on the mp4 arm's rows (ground
-               truth is identical between the npy/mp4 arms -- same trial
-               dirs), std then derived from that accuracy the same way as
-               the two model bars.
+               truth is identical across all three arms -- same trial
+               dirs).
 
 Usage:
     uv run python scripts/pylyshyn/plot_gemma_local_n4_heuristic_chance_bar.py
@@ -43,11 +48,15 @@ INK_MUTED = "#898781"
 GRIDLINE = "#e1e0d9"
 BASELINE = "#c3c2b7"
 
-BAR_COLORS = {"npy": "#8a5fc2", "mp4": "#eb6834", "heuristic": "#d1332e"}
-BAR_LABELS = {"npy": "Local, npy", "mp4": "Local, mp4", "heuristic": "Nearest-neighbor heuristic"}
+BAR_COLORS = {"npy": "#8a5fc2", "mp4": "#eb6834", "openrouter": "#2a78d6", "heuristic": "#d1332e"}
+BAR_LABELS = {
+    "npy": "Local, npy", "mp4": "Local, mp4",
+    "openrouter": "OpenRouter\n(deepinfra-fp4)", "heuristic": "Nearest-neighbor\nheuristic",
+}
 
 NPY_RESULTS_CSV = "results/pylyshyn/gemma_local_n4_heuristic_chance/npy/results.csv"
 MP4_RESULTS_CSV = "results/pylyshyn/gemma_local_n4_heuristic_chance/mp4/results.csv"
+OPENROUTER_RESULTS_CSV = "results/pylyshyn/gemma_local_n4_heuristic_chance/openrouter/results.csv"
 TRIALS_DIR = "data/pylyshyn/gemma_local_n4_heuristic_chance/trials"
 OUT_PATH = "results/pylyshyn/gemma_local_n4_heuristic_chance/accuracy_bar_npy_vs_mp4_vs_heuristic.png"
 
@@ -78,9 +87,11 @@ def main():
 
     npy_rows = load_rows(NPY_RESULTS_CSV)
     mp4_rows = load_rows(MP4_RESULTS_CSV)
+    openrouter_rows = load_rows(OPENROUTER_RESULTS_CSV)
 
     npy_acc, npy_sem, npy_n = accuracy_and_sem(npy_rows)
     mp4_acc, mp4_sem, mp4_n = accuracy_and_sem(mp4_rows)
+    or_acc, or_sem, or_n = accuracy_and_sem(openrouter_rows)
 
     h_stats = heuristic_accuracy_by_group(mp4_rows, TRIALS_DIR, lambda row: "n4")
     h_acc, h_sem, h_n = h_stats["n4"]
@@ -88,10 +99,11 @@ def main():
     bars = [
         ("npy", npy_acc, npy_sem, npy_n),
         ("mp4", mp4_acc, mp4_sem, mp4_n),
+        ("openrouter", or_acc, or_sem, or_n),
         ("heuristic", h_acc, h_sem, h_n),
     ]
 
-    fig, ax = plt.subplots(figsize=(6.5, 6), facecolor="#fcfcfb")
+    fig, ax = plt.subplots(figsize=(8.5, 6), facecolor="#fcfcfb")
     ax.set_facecolor("#fcfcfb")
     ax.grid(True, axis="y", color=GRIDLINE, linewidth=1, zorder=0)
     for spine in ("top", "right"):
@@ -117,7 +129,7 @@ def main():
     ax.set_ylabel("Accuracy (%)", color=INK_SECONDARY)
 
     fig.suptitle(
-        "pylyshyn n_objects=4: local gemma-4-31b-it, npy vs. mp4 input,\n"
+        "pylyshyn n_objects=4: local (npy/mp4) vs. OpenRouter gemma-4-31b-it,\n"
         "heuristic neutralized to chance by construction\n"
         "(error bars: SEM; dashed line: chance)",
         color=INK_PRIMARY, fontsize=11, y=1.0,
@@ -127,7 +139,8 @@ def main():
     fig.savefig(OUT_PATH, dpi=150, facecolor=fig.get_facecolor(), bbox_inches="tight")
     print(f"Wrote {OUT_PATH}")
     for name, acc, sem, n in bars:
-        print(f"  {BAR_LABELS[name]}: {acc:.1f}% (sem={sem:.1f}%, n={n})")
+        label = BAR_LABELS[name].replace("\n", " ")
+        print(f"  {label}: {acc:.1f}% (sem={sem:.1f}%, n={n})")
 
 
 if __name__ == "__main__":

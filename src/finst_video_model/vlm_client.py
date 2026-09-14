@@ -24,6 +24,9 @@ moments before a real batch) -- OpenRouter's actual account-level window can
 still be partway used up even though this process's own deque starts empty.
 To absorb that (and any other transient 429), ask_about_video retries on a
 429 response with a short backoff rather than failing the trial outright.
+It also retries a 200-OK-but-error-shaped response from a pinned provider
+(`provider.only`/`allow_fallbacks: False`) that's rate-limited or
+unavailable on its own end -- see PROVIDER_ERROR_BACKOFF_S below.
 """
 
 import base64
@@ -81,6 +84,17 @@ def _video_data_uri(video_path: str) -> str:
 
 
 MAX_429_RETRIES = 3
+# A pinned provider (payload["provider"]["only"]) can be rate-limited or
+# temporarily unavailable on ITS OWN end, independent of OpenRouter's global
+# 429 -- OpenRouter still answers 200 OK but with an `error` object instead
+# of `choices` (e.g. `{"error": {"message": "Upstream error from DeepInfra:
+# ...Rate limit exceeded...", "code": 502, "metadata": {"error_type":
+# "provider_unavailable"}}}`), so `response.raise_for_status()` doesn't
+# catch it. Discovered 2026-09-14 running a single pinned provider
+# (deepinfra-fp8, `allow_fallbacks: False`) at 100% failure rate. Retried
+# like a 429 (same MAX_429_RETRIES budget) since there's no Retry-After
+# header to honor here.
+PROVIDER_ERROR_BACKOFF_S = 20.0
 
 
 def ask_about_video(
@@ -173,6 +187,19 @@ def ask_about_video(
             continue
         response.raise_for_status()
         data = response.json()
+        if "choices" not in data:
+            error = data.get("error", {})
+            retryable = (
+                attempt < MAX_429_RETRIES
+                and (
+                    "rate limit" in str(error.get("message", "")).lower()
+                    or error.get("metadata", {}).get("error_type") == "provider_unavailable"
+                )
+            )
+            if retryable:
+                time.sleep(PROVIDER_ERROR_BACKOFF_S)
+                continue
+            raise RuntimeError(f"OpenRouter response missing 'choices': {error or data!r}")
         message = data["choices"][0]["message"]
         text = message["content"]
         if text is None:

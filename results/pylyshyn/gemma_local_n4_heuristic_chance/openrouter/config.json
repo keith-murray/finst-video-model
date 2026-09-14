@@ -1,0 +1,20 @@
+{
+  "run_name": "gemma_local_n4_heuristic_chance_openrouter",
+  "arm": "pylyshyn",
+  "model": "google/gemma-4-31b-it",
+  "reasoning": {
+    "enabled": false
+  },
+  "host": "deepinfra-fp4",
+  "host_spec": {
+    "only": [
+      "deepinfra"
+    ],
+    "quantizations": [
+      "fp4"
+    ],
+    "allow_fallbacks": false
+  },
+  "trials_root": "data/pylyshyn/gemma_local_n4_heuristic_chance/trials",
+  "n_trials": 100
+}
