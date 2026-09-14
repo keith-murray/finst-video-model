@@ -1,0 +1,13 @@
+{
+  "run_name": "gemma_local_mp4_nobjects_sweep",
+  "arm": "pylyshyn",
+  "model": "google/gemma-4-31b-it-local-mp4",
+  "trials_root": "data/pylyshyn/gemma_local_n4_heuristic_chance/trials",
+  "redirect_condition": "fast",
+  "speed_condition": "fast",
+  "variant": "native",
+  "num_frames": 32,
+  "sampling": "recommended",
+  "n_trials_found": 100,
+  "n_trials_expected": 100
+}
