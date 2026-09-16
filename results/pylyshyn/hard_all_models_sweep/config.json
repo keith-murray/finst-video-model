@@ -1,0 +1,39 @@
+{
+  "run_name": "hard_all_models_sweep",
+  "arm": "pylyshyn",
+  "models": [
+    "google/gemma-4-31b-it",
+    "qwen/qwen3.6-plus",
+    "qwen/qwen3.5-397b-a17b",
+    "moonshotai/kimi-k3",
+    "z-ai/glm-5v-turbo"
+  ],
+  "model_reasoning": {
+    "google/gemma-4-31b-it": {
+      "enabled": false
+    },
+    "qwen/qwen3.6-plus": {
+      "enabled": false
+    },
+    "qwen/qwen3.5-397b-a17b": {
+      "enabled": false
+    },
+    "moonshotai/kimi-k3": {
+      "enabled": false
+    },
+    "z-ai/glm-5v-turbo": {
+      "enabled": false
+    }
+  },
+  "model_provider": {
+    "moonshotai/kimi-k3": {
+      "only": [
+        "moonshotai"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "variant": "stretched",
+  "trials_root": "data/pylyshyn/hard_all_models_sweep/trials",
+  "n_trials": 100
+}

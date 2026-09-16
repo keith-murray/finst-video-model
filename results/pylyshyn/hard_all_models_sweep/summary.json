@@ -1,0 +1,60 @@
+{
+  "google/gemma-4-31b-it": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 73.0,
+    "accuracy_sem_pct": 4.439594576084622,
+    "d_prime": 1.2667284765673683,
+    "criterion": -0.334057327818017,
+    "total_cost_usd": 0.072259776
+  },
+  "moonshotai/kimi-k3": {
+    "n_trials": 99,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 60.60606060606061,
+    "accuracy_sem_pct": 4.910832674791896,
+    "d_prime": 0.5275941275545705,
+    "criterion": 0.015521970670168903,
+    "total_cost_usd": 1.5500456999999999
+  },
+  "qwen/qwen3.5-397b-a17b": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 46,
+    "accuracy_pct": 70.37037037037037,
+    "accuracy_sem_pct": 6.2138555022804525,
+    "d_prime": 0.9616955159661256,
+    "criterion": -0.3716472762916311,
+    "total_cost_usd": 0.15993914
+  },
+  "qwen/qwen3.6-plus": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 76.0,
+    "accuracy_sem_pct": 4.2708313008125245,
+    "d_prime": 1.4048634919393583,
+    "criterion": -0.18927708370372792,
+    "total_cost_usd": 0.2550925
+  },
+  "z-ai/glm-5v-turbo": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 54.0,
+    "accuracy_sem_pct": 4.983974317750845,
+    "d_prime": 0.1978821696283582,
+    "criterion": -0.0989410848141791,
+    "total_cost_usd": 0.45100159999999995
+  },
+  "_heuristic": {
+    "accuracy_pct": 50.0,
+    "accuracy_sem_pct": 5.0,
+    "n_trials": 100
+  },
+  "_totals": {
+    "total_cost_usd": 2.488338716
+  }
+}
