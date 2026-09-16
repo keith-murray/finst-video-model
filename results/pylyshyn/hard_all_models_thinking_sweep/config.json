@@ -1,0 +1,46 @@
+{
+  "run_name": "hard_all_models_thinking_sweep",
+  "arm": "pylyshyn",
+  "models": [
+    "google/gemma-4-31b-it",
+    "qwen/qwen3.6-plus",
+    "qwen/qwen3.5-397b-a17b",
+    "moonshotai/kimi-k3",
+    "z-ai/glm-5v-turbo"
+  ],
+  "model_reasoning": {
+    "google/gemma-4-31b-it": {
+      "effort": "medium"
+    },
+    "qwen/qwen3.6-plus": {
+      "effort": "medium"
+    },
+    "qwen/qwen3.5-397b-a17b": {
+      "effort": "medium"
+    },
+    "moonshotai/kimi-k3": {
+      "effort": "medium"
+    },
+    "z-ai/glm-5v-turbo": {
+      "effort": "medium"
+    }
+  },
+  "model_provider": {
+    "moonshotai/kimi-k3": {
+      "only": [
+        "moonshotai"
+      ],
+      "allow_fallbacks": false
+    },
+    "google/gemma-4-31b-it": {
+      "only": [
+        "modelrun"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "variant": "stretched",
+  "max_tokens": 16384,
+  "trials_root": "data/pylyshyn/hard_all_models_sweep/trials",
+  "n_trials": 100
+}
