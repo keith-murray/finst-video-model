@@ -1,0 +1,46 @@
+{
+  "run_name": "hardest_stimuli_thinking_sweep",
+  "arm": "pylyshyn",
+  "models": [
+    "google/gemma-4-31b-it",
+    "qwen/qwen3.6-plus",
+    "moonshotai/kimi-k3",
+    "qwen/qwen3.8-27b",
+    "google/gemini-3.8-flash"
+  ],
+  "model_reasoning": {
+    "google/gemma-4-31b-it": {
+      "effort": "medium"
+    },
+    "qwen/qwen3.6-plus": {
+      "effort": "medium"
+    },
+    "moonshotai/kimi-k3": {
+      "effort": "medium"
+    },
+    "qwen/qwen3.8-27b": {
+      "effort": "medium"
+    },
+    "google/gemini-3.8-flash": {
+      "effort": "medium"
+    }
+  },
+  "model_provider": {
+    "moonshotai/kimi-k3": {
+      "only": [
+        "moonshotai"
+      ],
+      "allow_fallbacks": false
+    },
+    "google/gemma-4-31b-it": {
+      "only": [
+        "modelrun"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "variant": "stretched",
+  "max_tokens": 16384,
+  "trials_root": "data/pylyshyn/hardest_stimuli_sweep/trials",
+  "n_trials": 100
+}

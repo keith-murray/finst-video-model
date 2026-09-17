@@ -1,0 +1,182 @@
+{
+  "google/gemma-4-31b-it": {
+    "live_pricing": {
+      "n_endpoints": 14,
+      "prompt_usd_per_token_min": 9e-08,
+      "prompt_usd_per_token_max": 7.5e-07,
+      "completion_usd_per_token_min": 3.4e-07,
+      "completion_usd_per_token_max": 1.15e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.00325925,
+        0.00281025,
+        0.00320825
+      ],
+      "mean_cost_per_trial_usd": 0.003092583333333333,
+      "prompt_tokens": [
+        2531,
+        2531,
+        2531
+      ],
+      "completion_tokens": [
+        1361,
+        912,
+        1310
+      ],
+      "reasoning_tokens": [
+        1356,
+        907,
+        1305
+      ],
+      "estimated_total_usd": 0.3092583333333333
+    }
+  },
+  "qwen/qwen3.6-plus": {
+    "live_pricing": {
+      "n_endpoints": 1,
+      "prompt_usd_per_token_min": 3.25e-07,
+      "prompt_usd_per_token_max": 3.25e-07,
+      "completion_usd_per_token_min": 1.95e-06,
+      "completion_usd_per_token_max": 1.95e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.011143925,
+        0.014564225,
+        0.013712075
+      ],
+      "mean_cost_per_trial_usd": 0.013140075000000001,
+      "prompt_tokens": [
+        7835,
+        7835,
+        7835
+      ],
+      "completion_tokens": [
+        4409,
+        6163,
+        5726
+      ],
+      "reasoning_tokens": [
+        4404,
+        6158,
+        5721
+      ],
+      "estimated_total_usd": 1.3140075000000002
+    }
+  },
+  "moonshotai/kimi-k3": {
+    "live_pricing": {
+      "n_endpoints": 20,
+      "prompt_usd_per_token_min": 2e-06,
+      "prompt_usd_per_token_max": 6e-06,
+      "completion_usd_per_token_min": 1.095e-05,
+      "completion_usd_per_token_max": 2.25e-05
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.031764,
+        0.021219,
+        0.0268578
+      ],
+      "mean_cost_per_trial_usd": 0.0266136,
+      "prompt_tokens": [
+        5348,
+        5348,
+        5348
+      ],
+      "completion_tokens": [
+        1048,
+        345,
+        767
+      ],
+      "reasoning_tokens": [
+        1032,
+        329,
+        751
+      ],
+      "estimated_total_usd": 2.66136
+    }
+  },
+  "qwen/qwen3.8-27b": {
+    "live_pricing": {
+      "n_endpoints": 16,
+      "prompt_usd_per_token_min": 1.5e-07,
+      "prompt_usd_per_token_max": 4.5e-07,
+      "completion_usd_per_token_min": 1.875e-06,
+      "completion_usd_per_token_max": 3.2e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.00494672,
+        0.00491535,
+        0.00668252
+      ],
+      "mean_cost_per_trial_usd": 0.005514863333333332,
+      "prompt_tokens": [
+        7833,
+        769,
+        7833
+      ],
+      "completion_tokens": [
+        1394,
+        2400,
+        2183
+      ],
+      "reasoning_tokens": [
+        1390,
+        2396,
+        0
+      ],
+      "estimated_total_usd": 0.5514863333333332
+    }
+  },
+  "google/gemini-3.8-flash": {
+    "live_pricing": {
+      "n_endpoints": 6,
+      "prompt_usd_per_token_min": 3.75e-07,
+      "prompt_usd_per_token_max": 1.35e-06,
+      "completion_usd_per_token_min": 1.875e-06,
+      "completion_usd_per_token_max": 6.75e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.0088845,
+        0.009525,
+        0.01243125
+      ],
+      "mean_cost_per_trial_usd": 0.01028025,
+      "prompt_tokens": [
+        3381,
+        3380,
+        3380
+      ],
+      "completion_tokens": [
+        1693,
+        1864,
+        2639
+      ],
+      "reasoning_tokens": [
+        1692,
+        1863,
+        2638
+      ],
+      "estimated_total_usd": 1.028025
+    }
+  },
+  "_summary": {
+    "n_trials_planned_per_model": 100,
+    "n_models": 5,
+    "total_estimated_usd": 5.864137166666666
+  }
+}

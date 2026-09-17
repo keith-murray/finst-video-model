@@ -1,0 +1,724 @@
+trial_id,model,n_objects,n_cued,seed,probe_on_target,probe_is_target,response,predicted,outcome,prompt_tokens,completion_tokens,reasoning_tokens,cost,served_by_provider,error
+008f1a4c,google/gemma-4-31b-it,3,1,36,True,True,True,True,hit,2531,1361,1356,0.00325925,ModelRun,
+03059294,google/gemma-4-31b-it,3,1,32,True,True,True,True,hit,2531,912,907,0.00281025,ModelRun,
+0513a4d3,google/gemma-4-31b-it,3,1,4,True,True,True,True,hit,2531,1310,1305,0.00320825,ModelRun,
+008f1a4c,qwen/qwen3.6-plus,3,1,36,True,True,True,True,hit,7835,4409,4404,0.011143925,Alibaba,
+03059294,qwen/qwen3.6-plus,3,1,32,True,True,False,False,miss,7835,6163,6158,0.014564225,Alibaba,
+0513a4d3,qwen/qwen3.6-plus,3,1,4,True,True,False,False,miss,7835,5726,5721,0.013712075,Alibaba,
+008f1a4c,moonshotai/kimi-k3,3,1,36,True,True,True,True,hit,5348,1048,1032,0.031764,Moonshot AI,
+03059294,moonshotai/kimi-k3,3,1,32,True,True,True,True,hit,5348,345,329,0.021219,Moonshot AI,
+0513a4d3,moonshotai/kimi-k3,3,1,4,True,True,False,False,miss,5348,767,751,0.0268578,Moonshot AI,
+008f1a4c,qwen/qwen3.8-27b,3,1,36,True,True,"
+
+True",True,hit,7833,1394,1390,0.00494672,Parasail,
+03059294,qwen/qwen3.8-27b,3,1,32,True,True,"
+
+True",True,hit,769,2400,2396,0.00491535,Darkbloom,
+0513a4d3,qwen/qwen3.8-27b,3,1,4,True,True,"
+
+False",False,miss,7833,2183,0,0.00668252,Chutes,
+008f1a4c,google/gemini-3.8-flash,3,1,36,True,True,True,True,hit,3381,1693,1692,0.0088845,Google AI Studio,
+03059294,google/gemini-3.8-flash,3,1,32,True,True,True,True,hit,3380,1864,1863,0.009525,Google,
+0513a4d3,google/gemini-3.8-flash,3,1,4,True,True,True,True,hit,3380,2639,2638,0.01243125,Google,
+185b5234,google/gemma-4-31b-it,3,1,186,True,True,True,True,hit,2531,426,421,0.00232425,ModelRun,
+218309f3,google/gemma-4-31b-it,3,1,166,True,True,True,True,hit,2531,562,557,0.00246025,ModelRun,
+19fdac4a,google/gemma-4-31b-it,3,1,126,True,True,True,True,hit,2531,573,568,0.00247125,ModelRun,
+1bd85427,google/gemma-4-31b-it,3,1,38,True,True,True,True,hit,2531,538,533,0.00243625,ModelRun,
+0dd89445,google/gemma-4-31b-it,3,1,847,False,False,True,True,false_alarm,2531,564,559,0.00246225,ModelRun,
+0a0f784a,google/gemma-4-31b-it,3,1,294,True,True,True,True,hit,2531,1067,1062,0.00296525,ModelRun,
+05e4ee0c,google/gemma-4-31b-it,3,1,122,True,True,True,True,hit,2531,1267,1262,0.00316525,ModelRun,
+22d6166f,google/gemma-4-31b-it,3,1,50,True,True,True,True,hit,2531,1198,1193,0.00309625,ModelRun,
+21f870af,google/gemma-4-31b-it,3,1,94,True,True,True,True,hit,2531,1331,1326,0.00322925,ModelRun,
+3057b598,google/gemma-4-31b-it,3,1,328,True,True,True,True,hit,2531,725,720,0.00262325,ModelRun,
+31ca9093,google/gemma-4-31b-it,3,1,833,False,False,False,False,correct_rejection,2531,672,667,0.00257025,ModelRun,
+130175d4,google/gemma-4-31b-it,3,1,257,False,False,True,True,false_alarm,2531,1706,1701,0.00360425,ModelRun,
+2954269c,google/gemma-4-31b-it,3,1,347,False,False,False,False,correct_rejection,2531,2547,2542,0.00444525,ModelRun,
+2e8f8ed7,google/gemma-4-31b-it,3,1,657,False,False,False,False,correct_rejection,2531,2717,2712,0.00461525,ModelRun,
+449bac03,google/gemma-4-31b-it,3,1,172,True,True,True,True,hit,2531,558,553,0.00245625,ModelRun,
+4d99533d,google/gemma-4-31b-it,3,1,831,False,False,False,False,correct_rejection,2531,743,738,0.00264125,ModelRun,
+544626ca,google/gemma-4-31b-it,3,1,483,False,False,True,True,false_alarm,2531,693,688,0.00259125,ModelRun,
+3d6d4d02,google/gemma-4-31b-it,3,1,447,False,False,True,True,false_alarm,2531,944,939,0.00284225,ModelRun,
+3d920721,google/gemma-4-31b-it,3,1,319,False,False,False,False,correct_rejection,2531,856,851,0.00275425,ModelRun,
+5ebdbc2e,google/gemma-4-31b-it,3,1,250,True,True,True,True,hit,2531,1091,1086,0.00298925,ModelRun,
+58d1a58a,google/gemma-4-31b-it,3,1,72,True,True,True,True,hit,2531,967,962,0.00286525,ModelRun,
+563183d4,google/gemma-4-31b-it,3,1,350,True,True,True,True,hit,2531,1157,1152,0.00305525,ModelRun,
+44ffaf3a,google/gemma-4-31b-it,3,1,10,True,True,True,True,hit,2531,835,830,0.00273325,ModelRun,
+502591a7,google/gemma-4-31b-it,3,1,306,True,True,True,True,hit,2531,1201,1196,0.00309925,ModelRun,
+4b4be6d1,google/gemma-4-31b-it,3,1,163,False,False,False,False,correct_rejection,2531,1371,1366,0.00326925,ModelRun,
+65d6f5b7,google/gemma-4-31b-it,3,1,196,True,True,True,True,hit,2531,590,585,0.00248825,ModelRun,
+66161338,google/gemma-4-31b-it,3,1,891,False,False,False,False,correct_rejection,2531,604,599,0.00250225,ModelRun,
+5fcdb138,google/gemma-4-31b-it,3,1,773,False,False,True,True,false_alarm,2531,1623,1618,0.00352125,ModelRun,
+5cc9a756,google/gemma-4-31b-it,3,1,21,False,False,False,False,correct_rejection,2531,1868,1863,0.00376625,ModelRun,
+628b561b,google/gemma-4-31b-it,3,1,204,True,True,True,True,hit,2531,1737,1732,0.00363525,ModelRun,
+4d20c127,google/gemma-4-31b-it,3,1,249,False,False,False,False,correct_rejection,2531,2040,2035,0.00393825,ModelRun,
+61fe08a3,google/gemma-4-31b-it,3,1,613,False,False,False,False,correct_rejection,2531,2243,2238,0.00414125,ModelRun,
+64fc5bcb,google/gemma-4-31b-it,3,1,157,False,False,False,False,correct_rejection,2531,1511,1506,0.00340925,ModelRun,
+64bbf5e6,google/gemma-4-31b-it,3,1,897,False,False,False,False,correct_rejection,2531,2099,2094,0.00399725,ModelRun,
+8f95dad8,google/gemma-4-31b-it,3,1,551,False,False,True,True,false_alarm,2531,509,504,0.00240725,ModelRun,
+84ba010f,google/gemma-4-31b-it,3,1,485,False,False,True,True,false_alarm,2531,619,614,0.00251725,ModelRun,
+698b87b1,google/gemma-4-31b-it,3,1,763,False,False,True,True,false_alarm,2531,676,671,0.00257425,ModelRun,
+726bf4cc,google/gemma-4-31b-it,3,1,173,False,False,False,False,correct_rejection,2531,1254,1249,0.00315225,ModelRun,
+7543dd29,google/gemma-4-31b-it,3,1,216,True,True,True,True,hit,2531,1218,1213,0.00311625,ModelRun,
+6891cfa2,google/gemma-4-31b-it,3,1,49,False,False,False,False,correct_rejection,2531,1261,1256,0.00315925,ModelRun,
+84b933ed,google/gemma-4-31b-it,3,1,747,False,False,False,False,correct_rejection,2531,1424,1419,0.00332225,ModelRun,
+8008790c,google/gemma-4-31b-it,3,1,150,True,True,False,False,miss,2531,1582,1577,0.00348025,ModelRun,
+70d81879,google/gemma-4-31b-it,3,1,491,False,False,False,False,correct_rejection,2531,1492,1487,0.00339025,ModelRun,
+8e14647a,google/gemma-4-31b-it,3,1,362,True,True,True,True,hit,2531,1375,1370,0.00327325,ModelRun,
+7bcb4a12,google/gemma-4-31b-it,3,1,99,False,False,True,True,false_alarm,2531,1734,1729,0.00363225,ModelRun,
+93f3f74a,google/gemma-4-31b-it,3,1,301,False,False,True,True,false_alarm,2531,876,871,0.00277425,ModelRun,
+6bf851c0,google/gemma-4-31b-it,3,1,148,True,True,True,True,hit,2531,2231,2226,0.00412925,ModelRun,
+73cb6699,google/gemma-4-31b-it,3,1,253,False,False,False,False,correct_rejection,2531,2333,2328,0.00423125,ModelRun,
+985a922a,google/gemma-4-31b-it,3,1,667,False,False,False,False,correct_rejection,2531,1925,1920,0.00382325,ModelRun,
+7d38aadc,google/gemma-4-31b-it,3,1,308,True,True,False,False,miss,2531,2298,2293,0.00419625,ModelRun,
+9a2fcc83,google/gemma-4-31b-it,3,1,248,True,True,True,True,hit,2531,1334,1329,0.00323225,ModelRun,
+910caf82,google/gemma-4-31b-it,3,1,342,True,True,True,True,hit,2531,2584,2579,0.00448225,ModelRun,
+675d290a,google/gemma-4-31b-it,3,1,400,True,True,True,True,hit,2531,3213,3208,0.00511125,ModelRun,
+989e0a4b,google/gemma-4-31b-it,3,1,901,False,False,False,False,correct_rejection,2531,2014,2009,0.00391225,ModelRun,
+b81c6884,google/gemma-4-31b-it,3,1,236,True,True,True,True,hit,2531,442,437,0.00234025,ModelRun,
+aafd056d,google/gemma-4-31b-it,3,1,252,True,True,True,True,hit,2531,664,659,0.00256225,ModelRun,
+c95b8d86,google/gemma-4-31b-it,3,1,402,True,True,True,True,hit,2531,658,653,0.00255625,ModelRun,
+b77c3af9,google/gemma-4-31b-it,3,1,66,True,True,True,True,hit,2531,664,659,0.00256225,ModelRun,
+c61c8de5,google/gemma-4-31b-it,3,1,392,True,True,True,True,hit,2531,849,844,0.00274725,ModelRun,
+c5fc02ff,google/gemma-4-31b-it,3,1,54,True,True,True,True,hit,2531,822,817,0.00272025,ModelRun,
+b5b8a2bd,google/gemma-4-31b-it,3,1,344,True,True,False,False,miss,2531,883,878,0.00278125,ModelRun,
+c6f5e826,google/gemma-4-31b-it,3,1,266,True,True,True,True,hit,2531,892,887,0.00279025,ModelRun,
+a557a177,google/gemma-4-31b-it,3,1,889,False,False,True,True,false_alarm,2531,836,831,0.00273425,ModelRun,
+ae87985e,google/gemma-4-31b-it,3,1,16,True,True,True,True,hit,2531,943,938,0.00284125,ModelRun,
+c923a38e,google/gemma-4-31b-it,3,1,208,True,True,False,False,miss,2531,1105,1100,0.00300325,ModelRun,
+d5fd3499,google/gemma-4-31b-it,3,1,224,True,True,True,True,hit,2531,537,532,0.00243525,ModelRun,
+c1d9ce92,google/gemma-4-31b-it,3,1,577,False,False,False,False,correct_rejection,2531,1818,1813,0.00371625,ModelRun,
+acf1c638,google/gemma-4-31b-it,3,1,315,False,False,False,False,correct_rejection,2531,2311,2306,0.00420925,ModelRun,
+d620def6,google/gemma-4-31b-it,3,1,617,False,False,False,False,correct_rejection,2531,615,610,0.00251325,ModelRun,
+b19cbb42,google/gemma-4-31b-it,3,1,865,False,False,False,False,correct_rejection,2531,808,803,0.00270625,ModelRun,
+9c840fbd,google/gemma-4-31b-it,3,1,262,True,True,False,False,miss,2531,2486,2481,0.00438425,ModelRun,
+c9678ea2,google/gemma-4-31b-it,3,1,39,False,False,True,True,false_alarm,2531,1115,1110,0.00301325,ModelRun,
+cf522fd4,google/gemma-4-31b-it,3,1,711,False,False,False,False,correct_rejection,2531,1879,1874,0.00377725,ModelRun,
+d275422a,google/gemma-4-31b-it,3,1,125,False,False,False,False,correct_rejection,2531,3197,3192,0.00509525,ModelRun,
+ed0375c4,google/gemma-4-31b-it,3,1,277,False,False,True,True,false_alarm,2531,583,578,0.00248125,ModelRun,
+e000dd00,google/gemma-4-31b-it,3,1,251,False,False,True,True,false_alarm,2531,802,797,0.00270025,ModelRun,
+edc72aa6,google/gemma-4-31b-it,3,1,539,False,False,True,True,false_alarm,2531,809,804,0.00270725,ModelRun,
+dd7f47fe,google/gemma-4-31b-it,3,1,290,True,True,True,True,hit,2531,640,635,0.00253825,ModelRun,
+f00c5f32,google/gemma-4-31b-it,3,1,264,True,True,True,True,hit,2531,882,877,0.00278025,ModelRun,
+e3bc2103,google/gemma-4-31b-it,3,1,376,True,True,True,True,hit,2531,1002,997,0.00290025,ModelRun,
+e3647096,google/gemma-4-31b-it,3,1,296,True,True,True,True,hit,2531,1152,1147,0.00305025,ModelRun,
+f20de8b3,google/gemma-4-31b-it,3,1,479,False,False,False,False,correct_rejection,2531,952,947,0.00285025,ModelRun,
+fb618ea8,google/gemma-4-31b-it,3,1,288,True,True,True,True,hit,2531,903,898,0.00280125,ModelRun,
+e163a794,google/gemma-4-31b-it,3,1,168,True,True,True,True,hit,2531,914,909,0.00281225,ModelRun,
+d890eba7,google/gemma-4-31b-it,3,1,349,False,False,False,False,correct_rejection,2531,1073,1068,0.00297125,ModelRun,
+d8be28ba,google/gemma-4-31b-it,3,1,25,False,False,True,True,false_alarm,2531,1435,1430,0.00333325,ModelRun,
+e698a28c,google/gemma-4-31b-it,3,1,136,True,True,False,False,miss,2531,1499,1494,0.00339725,ModelRun,
+f8bcc765,google/gemma-4-31b-it,3,1,169,False,False,False,False,correct_rejection,2531,1302,1297,0.00320025,ModelRun,
+ee02c218,google/gemma-4-31b-it,3,1,547,False,False,False,False,correct_rejection,2531,1892,1887,0.00379025,ModelRun,
+fedb6929,google/gemma-4-31b-it,3,1,134,True,True,True,True,hit,2531,1108,1103,0.00300625,ModelRun,
+e26b0eb8,google/gemma-4-31b-it,3,1,85,False,False,False,False,correct_rejection,2531,2602,2597,0.00450025,ModelRun,
+0a0f784a,qwen/qwen3.6-plus,3,1,294,True,True,True,True,hit,7835,2086,2081,0.006614075,Alibaba,
+05e4ee0c,qwen/qwen3.6-plus,3,1,122,True,True,True,True,hit,7835,3841,3836,0.010036325,Alibaba,
+1bd85427,qwen/qwen3.6-plus,3,1,38,True,True,True,True,hit,7835,566,561,0.003650075,Alibaba,
+0e5486aa,qwen/qwen3.6-plus,3,1,356,True,True,True,True,hit,7835,488,483,0.003497975,Alibaba,
+05d893f1,qwen/qwen3.6-plus,3,1,256,True,True,True,True,hit,7835,4250,4245,0.010833875,Alibaba,
+22d6166f,qwen/qwen3.6-plus,3,1,50,True,True,True,True,hit,7835,1622,1617,0.005709275,Alibaba,
+218309f3,qwen/qwen3.6-plus,3,1,166,True,True,True,True,hit,7835,1592,1587,0.005650775,Alibaba,
+19fdac4a,qwen/qwen3.6-plus,3,1,126,True,True,True,True,hit,7835,1819,1814,0.006093425,Alibaba,
+10cdde16,qwen/qwen3.6-plus,3,1,53,False,False,True,True,false_alarm,7835,2561,2556,0.007540325,Alibaba,
+21f870af,qwen/qwen3.6-plus,3,1,94,True,True,True,True,hit,7835,2615,2610,0.007645625,Alibaba,
+31ca9093,qwen/qwen3.6-plus,3,1,833,False,False,False,False,correct_rejection,7835,1795,1790,0.006046625,Alibaba,
+2954269c,qwen/qwen3.6-plus,3,1,347,False,False,False,False,correct_rejection,7835,2821,2816,0.008047325,Alibaba,
+3d6d4d02,qwen/qwen3.6-plus,3,1,447,False,False,True,True,false_alarm,7835,2392,2387,0.007210775,Alibaba,
+449bac03,qwen/qwen3.6-plus,3,1,172,True,True,True,True,hit,7835,807,802,0.004120025,Alibaba,
+113d24fa,qwen/qwen3.6-plus,3,1,777,False,False,False,False,correct_rejection,7835,3109,3105,0.008608925,Alibaba,
+2e8f8ed7,qwen/qwen3.6-plus,3,1,657,False,False,False,False,correct_rejection,7835,3035,3031,0.008464625,Alibaba,
+1c94fbd8,qwen/qwen3.6-plus,3,1,123,False,False,False,False,correct_rejection,7835,3747,3742,0.009853025,Alibaba,
+12313238,qwen/qwen3.6-plus,3,1,127,False,False,False,False,correct_rejection,7835,4031,4027,0.010406825,Alibaba,
+58d1a58a,qwen/qwen3.6-plus,3,1,72,True,True,True,True,hit,7835,950,945,0.004398875,Alibaba,
+502591a7,qwen/qwen3.6-plus,3,1,306,True,True,True,True,hit,7835,1276,1271,0.005034575,Alibaba,
+44ffaf3a,qwen/qwen3.6-plus,3,1,10,True,True,True,True,hit,7835,1462,1457,0.005397275,Alibaba,
+0dd89445,qwen/qwen3.6-plus,3,1,847,False,False,False,False,correct_rejection,7835,5357,5352,0.012992525,Alibaba,
+130175d4,qwen/qwen3.6-plus,3,1,257,False,False,False,False,correct_rejection,7835,5872,5868,0.013996775,Alibaba,
+5cc9a756,qwen/qwen3.6-plus,3,1,21,False,False,False,False,correct_rejection,7835,2281,2276,0.006994325,Alibaba,
+4d20c127,qwen/qwen3.6-plus,3,1,249,False,False,False,False,correct_rejection,7835,2678,2673,0.007768475,Alibaba,
+5ebdbc2e,qwen/qwen3.6-plus,3,1,250,True,True,True,True,hit,7835,2613,2608,0.007641725,Alibaba,
+64fc5bcb,qwen/qwen3.6-plus,3,1,157,False,False,False,False,correct_rejection,7835,1107,1102,0.004705025,Alibaba,
+3d920721,qwen/qwen3.6-plus,3,1,319,False,False,False,False,correct_rejection,7835,4175,4170,0.010687625,Alibaba,
+563183d4,qwen/qwen3.6-plus,3,1,350,True,True,True,True,hit,7835,2996,2992,0.008388575,Alibaba,
+185b5234,qwen/qwen3.6-plus,3,1,186,True,True,True,True,hit,7835,6583,6578,0.015383225,Alibaba,
+65d6f5b7,qwen/qwen3.6-plus,3,1,196,True,True,True,True,hit,7835,1245,1240,0.004974125,Alibaba,
+628b561b,qwen/qwen3.6-plus,3,1,204,True,True,True,True,hit,7835,2910,2905,0.008220875,Alibaba,
+698b87b1,qwen/qwen3.6-plus,3,1,763,False,False,False,False,correct_rejection,7835,1845,1840,0.006144125,Alibaba,
+4b4be6d1,qwen/qwen3.6-plus,3,1,163,False,False,False,False,correct_rejection,7835,5154,5150,0.012596675,Alibaba,
+544626ca,qwen/qwen3.6-plus,3,1,483,False,False,True,True,false_alarm,7835,5185,5180,0.012657125,Alibaba,
+66161338,qwen/qwen3.6-plus,3,1,891,False,False,False,False,correct_rejection,7835,2611,2607,0.007637825,Alibaba,
+4d99533d,qwen/qwen3.6-plus,3,1,831,False,False,False,False,correct_rejection,7835,5592,5587,0.013450775,Alibaba,
+61fe08a3,qwen/qwen3.6-plus,3,1,613,False,False,False,False,correct_rejection,7835,4400,4396,0.011126375,Alibaba,
+675d290a,qwen/qwen3.6-plus,3,1,400,True,True,True,True,hit,7835,3065,3060,0.008523125,Alibaba,
+6891cfa2,qwen/qwen3.6-plus,3,1,49,False,False,False,False,correct_rejection,7835,3207,3202,0.008800025,Alibaba,
+7bcb4a12,qwen/qwen3.6-plus,3,1,99,False,False,False,False,correct_rejection,7835,2327,2322,0.007084025,Alibaba,
+726bf4cc,qwen/qwen3.6-plus,3,1,173,False,False,False,False,correct_rejection,7835,3252,3247,0.008887775,Alibaba,
+8f95dad8,qwen/qwen3.6-plus,3,1,551,False,False,True,True,false_alarm,7835,1066,1061,0.004625075,Alibaba,
+7d38aadc,qwen/qwen3.6-plus,3,1,308,True,True,True,True,hit,7835,2241,2237,0.006916325,Alibaba,
+8e14647a,qwen/qwen3.6-plus,3,1,362,True,True,True,True,hit,7835,1796,1792,0.006048575,Alibaba,
+9a2fcc83,qwen/qwen3.6-plus,3,1,248,True,True,True,True,hit,7835,584,580,0.003685175,Alibaba,
+8008790c,qwen/qwen3.6-plus,3,1,150,True,True,False,False,miss,7835,2712,2707,0.007834775,Alibaba,
+70d81879,qwen/qwen3.6-plus,3,1,491,False,False,False,False,correct_rejection,7835,4486,4482,0.011294075,Alibaba,
+5fcdb138,qwen/qwen3.6-plus,3,1,773,False,False,False,False,correct_rejection,7835,7556,7551,0.017280575,Alibaba,
+64bbf5e6,qwen/qwen3.6-plus,3,1,897,False,False,False,False,correct_rejection,7835,7472,7467,0.017116775,Alibaba,
+6bf851c0,qwen/qwen3.6-plus,3,1,148,True,True,True,True,hit,7835,5850,5845,0.013953875,Alibaba,
+b19cbb42,qwen/qwen3.6-plus,3,1,865,False,False,False,False,correct_rejection,7835,1004,999,0.004504175,Alibaba,
+7543dd29,qwen/qwen3.6-plus,3,1,216,True,True,True,True,hit,7835,5145,5140,0.012579125,Alibaba,
+73cb6699,qwen/qwen3.6-plus,3,1,253,False,False,False,False,correct_rejection,7835,5832,5828,0.013918775,Alibaba,
+ae87985e,qwen/qwen3.6-plus,3,1,16,True,True,True,True,hit,7835,1785,1781,0.006027125,Alibaba,
+a557a177,qwen/qwen3.6-plus,3,1,889,False,False,True,True,false_alarm,7835,2534,2529,0.007487675,Alibaba,
+910caf82,qwen/qwen3.6-plus,3,1,342,True,True,True,True,hit,7835,4309,4304,0.010948925,Alibaba,
+c5fc02ff,qwen/qwen3.6-plus,3,1,54,True,True,True,True,hit,7835,925,920,0.004350125,Alibaba,
+c61c8de5,qwen/qwen3.6-plus,3,1,392,True,True,True,True,hit,7835,994,989,0.004484675,Alibaba,
+93f3f74a,qwen/qwen3.6-plus,3,1,301,False,False,False,False,correct_rejection,7835,4796,4791,0.011898575,Alibaba,
+b81c6884,qwen/qwen3.6-plus,3,1,236,True,True,True,True,hit,7835,1955,1950,0.006358625,Alibaba,
+c6f5e826,qwen/qwen3.6-plus,3,1,266,True,True,True,True,hit,7835,1580,1575,0.005627375,Alibaba,
+c923a38e,qwen/qwen3.6-plus,3,1,208,True,True,True,True,hit,7835,2286,2281,0.007004075,Alibaba,
+985a922a,qwen/qwen3.6-plus,3,1,667,False,False,False,False,correct_rejection,7835,6043,6038,0.014330225,Alibaba,
+c95b8d86,qwen/qwen3.6-plus,3,1,402,True,True,True,True,hit,7835,2287,2282,0.007006025,Alibaba,
+d5fd3499,qwen/qwen3.6-plus,3,1,224,True,True,True,True,hit,7835,1329,1325,0.005137925,Alibaba,
+84ba010f,qwen/qwen3.6-plus,3,1,485,False,False,False,False,correct_rejection,7835,7963,7958,0.018074225,Alibaba,
+c1d9ce92,qwen/qwen3.6-plus,3,1,577,False,False,False,False,correct_rejection,7835,4301,4296,0.010933325,Alibaba,
+acf1c638,qwen/qwen3.6-plus,3,1,315,False,False,True,True,false_alarm,7835,5966,5961,0.014180075,Alibaba,
+84b933ed,qwen/qwen3.6-plus,3,1,747,False,False,False,False,correct_rejection,7835,8826,8821,0.019757075,Alibaba,
+d275422a,qwen/qwen3.6-plus,3,1,125,False,False,False,False,correct_rejection,7835,2676,2671,0.007764575,Alibaba,
+b5b8a2bd,qwen/qwen3.6-plus,3,1,344,True,True,True,True,hit,7835,5183,5178,0.012653225,Alibaba,
+d620def6,qwen/qwen3.6-plus,3,1,617,False,False,True,True,false_alarm,7835,1488,1483,0.005447975,Alibaba,
+b77c3af9,qwen/qwen3.6-plus,3,1,66,True,True,False,False,miss,7835,4878,4873,0.012058475,Alibaba,
+989e0a4b,qwen/qwen3.6-plus,3,1,901,False,False,False,False,correct_rejection,7835,7409,7405,0.016993925,Alibaba,
+dd7f47fe,qwen/qwen3.6-plus,3,1,290,True,True,True,True,hit,7835,1268,1263,0.005018975,Alibaba,
+d8be28ba,qwen/qwen3.6-plus,3,1,25,False,False,False,False,correct_rejection,7835,1986,1982,0.006419075,Alibaba,
+e3bc2103,qwen/qwen3.6-plus,3,1,376,True,True,True,True,hit,7835,1152,1147,0.004792775,Alibaba,
+ed0375c4,qwen/qwen3.6-plus,3,1,277,False,False,False,False,correct_rejection,7835,1106,1101,0.004703075,Alibaba,
+f00c5f32,qwen/qwen3.6-plus,3,1,264,True,True,True,True,hit,7835,832,827,0.004168775,Alibaba,
+aafd056d,qwen/qwen3.6-plus,3,1,252,True,True,True,True,hit,7835,8001,7996,0.018148325,Alibaba,
+c9678ea2,qwen/qwen3.6-plus,3,1,39,False,False,False,False,correct_rejection,7835,4638,4633,0.011590475,Alibaba,
+e3647096,qwen/qwen3.6-plus,3,1,296,True,True,True,True,hit,7835,1788,1783,0.006032975,Alibaba,
+e698a28c,qwen/qwen3.6-plus,3,1,136,True,True,True,True,hit,7835,1628,1623,0.005720975,Alibaba,
+e163a794,qwen/qwen3.6-plus,3,1,168,True,True,True,True,hit,7835,2029,2024,0.006502925,Alibaba,
+05d893f1,moonshotai/kimi-k3,3,1,256,True,True,True,True,hit,5348,411,395,0.022209,Moonshot AI,
+0a0f784a,moonshotai/kimi-k3,3,1,294,True,True,True,True,hit,5348,452,436,0.0221328,Moonshot AI,
+05e4ee0c,moonshotai/kimi-k3,3,1,122,True,True,True,True,hit,5348,1010,994,0.031194,Moonshot AI,
+e000dd00,qwen/qwen3.6-plus,3,1,251,False,False,False,False,correct_rejection,7835,3484,3479,0.009340175,Alibaba,
+d890eba7,qwen/qwen3.6-plus,3,1,349,False,False,False,False,correct_rejection,7835,4211,4207,0.010757825,Alibaba,
+cf522fd4,qwen/qwen3.6-plus,3,1,711,False,False,False,False,correct_rejection,7835,6001,5996,0.014248325,Alibaba,
+113d24fa,moonshotai/kimi-k3,3,1,777,False,False,False,False,correct_rejection,5348,244,228,0.0190128,Moonshot AI,
+0e5486aa,moonshotai/kimi-k3,3,1,356,True,True,True,True,hit,5348,624,608,0.0247128,Moonshot AI,
+f8bcc765,qwen/qwen3.6-plus,3,1,169,False,False,True,True,false_alarm,7835,2067,2062,0.006577025,Alibaba,
+edc72aa6,qwen/qwen3.6-plus,3,1,539,False,False,True,True,false_alarm,7835,3083,3078,0.008558225,Alibaba,
+fedb6929,qwen/qwen3.6-plus,3,1,134,True,True,True,True,hit,7835,2107,2102,0.006655025,Alibaba,
+12313238,moonshotai/kimi-k3,3,1,127,False,False,False,False,correct_rejection,5348,185,169,0.0181278,Moonshot AI,
+0dd89445,moonshotai/kimi-k3,3,1,847,False,False,False,False,correct_rejection,5348,1276,1260,0.0344928,Moonshot AI,
+1c94fbd8,moonshotai/kimi-k3,3,1,123,False,False,False,False,correct_rejection,5348,122,106,0.0171828,Moonshot AI,
+10cdde16,moonshotai/kimi-k3,3,1,53,False,False,True,True,false_alarm,5348,1372,1356,0.0359328,Moonshot AI,
+185b5234,moonshotai/kimi-k3,3,1,186,True,True,True,True,hit,5348,610,594,0.0245028,Moonshot AI,
+f20de8b3,qwen/qwen3.6-plus,3,1,479,False,False,False,False,correct_rejection,7835,3657,3652,0.009677525,Alibaba,
+fb618ea8,qwen/qwen3.6-plus,3,1,288,True,True,True,True,hit,7835,2867,2862,0.008137025,Alibaba,
+22d6166f,moonshotai/kimi-k3,3,1,50,True,True,True,True,hit,5348,555,539,0.0236778,Moonshot AI,
+1bd85427,moonshotai/kimi-k3,3,1,38,True,True,True,True,hit,5348,856,840,0.0281928,Moonshot AI,
+2954269c,moonshotai/kimi-k3,3,1,347,False,False,False,False,correct_rejection,5348,848,832,0.0280728,Moonshot AI,
+3057b598,moonshotai/kimi-k3,3,1,328,True,True,False,False,miss,5348,174,158,0.0179628,Moonshot AI,
+218309f3,moonshotai/kimi-k3,3,1,166,True,True,True,True,hit,5348,1433,1417,0.0368478,Moonshot AI,
+2e8f8ed7,moonshotai/kimi-k3,3,1,657,False,False,False,False,correct_rejection,5348,706,690,0.0259428,Moonshot AI,
+21f870af,moonshotai/kimi-k3,3,1,94,True,True,True,True,hit,5348,2062,2046,0.0462828,Moonshot AI,
+31ca9093,moonshotai/kimi-k3,3,1,833,False,False,False,False,correct_rejection,5348,1058,1042,0.0312228,Moonshot AI,
+ee02c218,qwen/qwen3.6-plus,3,1,547,False,False,False,False,correct_rejection,7835,5804,5799,0.013864175,Alibaba,
+3d920721,moonshotai/kimi-k3,3,1,319,False,False,False,False,correct_rejection,5348,1045,1029,0.0310278,Moonshot AI,
+449bac03,moonshotai/kimi-k3,3,1,172,True,True,True,True,hit,5348,576,560,0.0239928,Moonshot AI,
+3d6d4d02,moonshotai/kimi-k3,3,1,447,False,False,False,False,correct_rejection,5348,1395,1379,0.0362778,Moonshot AI,
+44ffaf3a,moonshotai/kimi-k3,3,1,10,True,True,True,True,hit,5348,940,924,0.0294528,Moonshot AI,
+4b4be6d1,moonshotai/kimi-k3,3,1,163,False,False,False,False,correct_rejection,5348,679,663,0.0255378,Moonshot AI,
+e26b0eb8,qwen/qwen3.6-plus,3,1,85,False,False,False,False,correct_rejection,7835,7106,7101,0.016403075,Alibaba,
+130175d4,moonshotai/kimi-k3,3,1,257,False,False,True,True,false_alarm,5348,3542,3526,0.0684828,Moonshot AI,
+4d99533d,moonshotai/kimi-k3,3,1,831,False,False,False,False,correct_rejection,5348,863,847,0.0282978,Moonshot AI,
+4d20c127,moonshotai/kimi-k3,3,1,249,False,False,False,False,correct_rejection,5348,1157,1141,0.0327078,Moonshot AI,
+58d1a58a,moonshotai/kimi-k3,3,1,72,True,True,True,True,hit,5348,183,167,0.0180978,Moonshot AI,
+5ebdbc2e,moonshotai/kimi-k3,3,1,250,True,True,True,True,hit,5348,396,380,0.0212928,Moonshot AI,
+563183d4,moonshotai/kimi-k3,3,1,350,True,True,True,True,hit,5348,674,658,0.0254628,Moonshot AI,
+544626ca,moonshotai/kimi-k3,3,1,483,False,False,False,False,correct_rejection,5348,1250,1234,0.0341028,Moonshot AI,
+61fe08a3,moonshotai/kimi-k3,3,1,613,False,False,True,True,false_alarm,5348,1035,1019,0.0308778,Moonshot AI,
+19fdac4a,moonshotai/kimi-k3,3,1,126,True,True,True,True,hit,5348,4754,4738,0.0866628,Moonshot AI,
+502591a7,moonshotai/kimi-k3,3,1,306,True,True,True,True,hit,5348,1400,1384,0.0363528,Moonshot AI,
+5cc9a756,moonshotai/kimi-k3,3,1,21,False,False,False,False,correct_rejection,5348,1590,1574,0.0392028,Moonshot AI,
+66161338,moonshotai/kimi-k3,3,1,891,False,False,False,False,correct_rejection,5348,350,334,0.0206028,Moonshot AI,
+628b561b,moonshotai/kimi-k3,3,1,204,True,True,True,True,hit,5348,1431,1415,0.0368178,Moonshot AI,
+64fc5bcb,moonshotai/kimi-k3,3,1,157,False,False,False,False,correct_rejection,5348,803,787,0.0273978,Moonshot AI,
+698b87b1,moonshotai/kimi-k3,3,1,763,False,False,True,True,false_alarm,5348,198,182,0.0183228,Moonshot AI,
+6891cfa2,moonshotai/kimi-k3,3,1,49,False,False,True,True,false_alarm,5348,904,888,0.0289128,Moonshot AI,
+64bbf5e6,moonshotai/kimi-k3,3,1,897,False,False,False,False,correct_rejection,5348,1932,1916,0.0443328,Moonshot AI,
+65d6f5b7,moonshotai/kimi-k3,3,1,196,True,True,True,True,hit,5348,1239,1223,0.0339378,Moonshot AI,
+726bf4cc,moonshotai/kimi-k3,3,1,173,False,False,False,False,correct_rejection,5348,763,747,0.0267978,Moonshot AI,
+675d290a,moonshotai/kimi-k3,3,1,400,True,True,True,True,hit,5348,2103,2087,0.0468978,Moonshot AI,
+70d81879,moonshotai/kimi-k3,3,1,491,False,False,False,False,correct_rejection,5348,1335,1319,0.0353778,Moonshot AI,
+5fcdb138,moonshotai/kimi-k3,3,1,773,False,False,False,False,correct_rejection,5348,3648,3632,0.0700728,Moonshot AI,
+7543dd29,moonshotai/kimi-k3,3,1,216,True,True,True,True,hit,5348,604,588,0.0244128,Moonshot AI,
+73cb6699,moonshotai/kimi-k3,3,1,253,False,False,False,False,correct_rejection,5348,1285,1269,0.0346278,Moonshot AI,
+8f95dad8,moonshotai/kimi-k3,3,1,551,False,False,True,True,false_alarm,5348,360,344,0.0207528,Moonshot AI,
+8e14647a,moonshotai/kimi-k3,3,1,362,True,True,True,True,hit,5348,499,483,0.0228378,Moonshot AI,
+7d38aadc,moonshotai/kimi-k3,3,1,308,True,True,False,False,miss,5348,790,774,0.0272028,Moonshot AI,
+93f3f74a,moonshotai/kimi-k3,3,1,301,False,False,True,True,false_alarm,5348,329,313,0.0202878,Moonshot AI,
+6bf851c0,moonshotai/kimi-k3,3,1,148,True,True,True,True,hit,5348,2197,2181,0.0483078,Moonshot AI,
+84b933ed,moonshotai/kimi-k3,3,1,747,False,False,False,False,correct_rejection,5348,1236,1220,0.0338928,Moonshot AI,
+84ba010f,moonshotai/kimi-k3,3,1,485,False,False,True,True,false_alarm,5348,1392,1376,0.0362328,Moonshot AI,
+8008790c,moonshotai/kimi-k3,3,1,150,True,True,True,True,hit,5348,1585,1569,0.0391278,Moonshot AI,
+985a922a,moonshotai/kimi-k3,3,1,667,False,False,False,False,correct_rejection,5348,661,645,0.0252678,Moonshot AI,
+910caf82,moonshotai/kimi-k3,3,1,342,True,True,True,True,hit,5348,1223,1207,0.0336978,Moonshot AI,
+7bcb4a12,moonshotai/kimi-k3,3,1,99,False,False,False,False,correct_rejection,5348,2049,2033,0.0460878,Moonshot AI,
+a557a177,moonshotai/kimi-k3,3,1,889,False,False,False,False,correct_rejection,5348,710,694,0.0260028,Moonshot AI,
+9a2fcc83,moonshotai/kimi-k3,3,1,248,True,True,True,True,hit,5348,1346,1330,0.0355428,Moonshot AI,
+989e0a4b,moonshotai/kimi-k3,3,1,901,False,False,False,False,correct_rejection,5348,1757,1741,0.0417078,Moonshot AI,
+ae87985e,moonshotai/kimi-k3,3,1,16,True,True,True,True,hit,5348,881,865,0.0285678,Moonshot AI,
+b81c6884,moonshotai/kimi-k3,3,1,236,True,True,True,True,hit,5348,347,331,0.0205578,Moonshot AI,
+b19cbb42,moonshotai/kimi-k3,3,1,865,False,False,False,False,correct_rejection,5348,1026,1010,0.0307428,Moonshot AI,
+c1d9ce92,moonshotai/kimi-k3,3,1,577,False,False,False,False,correct_rejection,5348,266,250,0.0193428,Moonshot AI,
+c6f5e826,moonshotai/kimi-k3,3,1,266,True,True,True,True,hit,5348,345,329,0.0205278,Moonshot AI,
+acf1c638,moonshotai/kimi-k3,3,1,315,False,False,False,False,correct_rejection,5348,1647,1631,0.0400578,Moonshot AI,
+c95b8d86,moonshotai/kimi-k3,3,1,402,True,True,True,True,hit,5348,350,334,0.0206028,Moonshot AI,
+aafd056d,moonshotai/kimi-k3,3,1,252,True,True,True,True,hit,5348,2126,2110,0.0472428,Moonshot AI,
+b5b8a2bd,moonshotai/kimi-k3,3,1,344,True,True,True,True,hit,5348,1584,1568,0.0391128,Moonshot AI,
+c61c8de5,moonshotai/kimi-k3,3,1,392,True,True,True,True,hit,5348,839,823,0.0279378,Moonshot AI,
+b77c3af9,moonshotai/kimi-k3,3,1,66,True,True,True,True,hit,5348,1668,1652,0.0403728,Moonshot AI,
+d5fd3499,moonshotai/kimi-k3,3,1,224,True,True,True,True,hit,5348,271,255,0.0194178,Moonshot AI,
+c9678ea2,moonshotai/kimi-k3,3,1,39,False,False,True,True,false_alarm,5348,1261,1245,0.0342678,Moonshot AI,
+c5fc02ff,moonshotai/kimi-k3,3,1,54,True,True,True,True,hit,5348,2097,2081,0.0468078,Moonshot AI,
+dd7f47fe,moonshotai/kimi-k3,3,1,290,True,True,True,True,hit,5348,381,365,0.0210678,Moonshot AI,
+9c840fbd,moonshotai/kimi-k3,3,1,262,True,True,False,False,miss,5348,4736,4720,0.0863928,Moonshot AI,
+d275422a,moonshotai/kimi-k3,3,1,125,False,False,False,False,correct_rejection,5348,1537,1521,0.0384078,Moonshot AI,
+d620def6,moonshotai/kimi-k3,3,1,617,False,False,False,False,correct_rejection,5348,1403,1387,0.0363978,Moonshot AI,
+d890eba7,moonshotai/kimi-k3,3,1,349,False,False,False,False,correct_rejection,5348,1414,1398,0.0365628,Moonshot AI,
+c923a38e,moonshotai/kimi-k3,3,1,208,True,True,True,True,hit,5348,3020,3004,0.0606528,Moonshot AI,
+e000dd00,moonshotai/kimi-k3,3,1,251,False,False,False,False,correct_rejection,5348,1017,1001,0.0306078,Moonshot AI,
+e3647096,moonshotai/kimi-k3,3,1,296,True,True,True,True,hit,5348,570,554,0.0239028,Moonshot AI,
+d8be28ba,moonshotai/kimi-k3,3,1,25,False,False,False,False,correct_rejection,5348,2331,2315,0.0503178,Moonshot AI,
+e698a28c,moonshotai/kimi-k3,3,1,136,True,True,False,False,miss,5348,623,607,0.0246978,Moonshot AI,
+e3bc2103,moonshotai/kimi-k3,3,1,376,True,True,True,True,hit,5348,772,756,0.0269328,Moonshot AI,
+ee02c218,moonshotai/kimi-k3,3,1,547,False,False,True,True,false_alarm,5348,451,435,0.0221178,Moonshot AI,
+f00c5f32,moonshotai/kimi-k3,3,1,264,True,True,True,True,hit,5348,740,724,0.0264528,Moonshot AI,
+f20de8b3,moonshotai/kimi-k3,3,1,479,False,False,False,False,correct_rejection,5348,926,910,0.0292428,Moonshot AI,
+fb618ea8,moonshotai/kimi-k3,3,1,288,True,True,True,True,hit,5348,929,913,0.0292878,Moonshot AI,
+cf522fd4,moonshotai/kimi-k3,3,1,711,False,False,False,False,correct_rejection,5348,4394,4378,0.0812628,Moonshot AI,
+e26b0eb8,moonshotai/kimi-k3,3,1,85,False,False,False,False,correct_rejection,5348,2415,2399,0.0515778,Moonshot AI,
+f8bcc765,moonshotai/kimi-k3,3,1,169,False,False,False,False,correct_rejection,5348,1461,1445,0.0372678,Moonshot AI,
+e163a794,moonshotai/kimi-k3,3,1,168,True,True,True,True,hit,5348,2863,2847,0.0582978,Moonshot AI,
+edc72aa6,moonshotai/kimi-k3,3,1,539,False,False,True,True,false_alarm,5348,2127,2111,0.0472578,Moonshot AI,
+fedb6929,moonshotai/kimi-k3,3,1,134,True,True,True,True,hit,5348,1934,1918,0.0443628,Moonshot AI,
+ed0375c4,moonshotai/kimi-k3,3,1,277,False,False,False,False,correct_rejection,5348,2942,2926,0.0594828,Moonshot AI,
+05e4ee0c,qwen/qwen3.8-27b,3,1,122,True,True,"
+
+True",True,hit,7873,1628,1625,0.005065592,Phala,
+05d893f1,qwen/qwen3.8-27b,3,1,256,True,True,"
+
+True",True,hit,7873,2385,2382,0.006674217,Phala,
+0e5486aa,qwen/qwen3.8-27b,3,1,356,True,True,"
+
+True",True,hit,7873,2247,2244,0.006380967,Phala,
+113d24fa,qwen/qwen3.8-27b,3,1,777,False,False,"
+
+False",False,correct_rejection,7873,1764,1761,0.005339904,Phala,
+0dd89445,qwen/qwen3.8-27b,3,1,847,False,False,"
+
+False",False,correct_rejection,7873,2326,2323,0.006548842,Phala,
+1bd85427,qwen/qwen3.8-27b,3,1,38,True,True,"
+
+True",True,hit,7833,1852,1848,0.00603265,AkashML,
+12313238,qwen/qwen3.8-27b,3,1,127,False,False,"
+
+False",False,correct_rejection,7873,2256,2253,0.006385404,Phala,
+2954269c,qwen/qwen3.8-27b,3,1,347,False,False,False,False,correct_rejection,7393,1489,1484,0.006938975,Alibaba,
+130175d4,qwen/qwen3.8-27b,3,1,257,False,False,"
+
+True",True,false_alarm,7873,2456,2453,0.006825092,Phala,
+1c94fbd8,qwen/qwen3.8-27b,3,1,123,False,False,"
+
+False",False,correct_rejection,7873,1921,1918,0.005673529,Phala,
+19fdac4a,qwen/qwen3.8-27b,3,1,126,True,True,True,True,hit,7393,1752,1747,0.007609625,Alibaba,
+218309f3,qwen/qwen3.8-27b,3,1,166,True,True,"
+
+True",True,hit,7833,2415,2411,0.00719292,Parasail,
+185b5234,qwen/qwen3.8-27b,3,1,186,True,True,"
+
+False",False,miss,769,1706,1702,0.00352735,Darkbloom,
+3057b598,qwen/qwen3.8-27b,3,1,328,True,True,"
+
+False",False,miss,769,1287,1283,0.00268935,Darkbloom,
+22d6166f,qwen/qwen3.8-27b,3,1,50,True,True,"
+
+False",False,miss,769,2099,2095,0.00431335,Darkbloom,
+0a0f784a,qwen/qwen3.8-27b,3,1,294,True,True,") then 19s (70,320)? That jump is discontinuous. Alternatively C stays the bottom-middle one: 18s (120,310) -> 19s (70,320)? no.
+
+I'm spending too long. The visual pattern: the red cross at start is the bottom one. The red cross in the middle of the video is the leftmost one. Given the crosses move and the bottom one (C) ends up as the bottom-middle at 28-29s (the one at (100,325)), while the leftmost is A. Therefore the red-in-middle is A, not C. So the answer is False.
+
+But wait, I should double check by looking at 5s: A (top-left) at (90,235) moved down from (95,205). C (red) at (95,290) stayed ~same. The top one continues as A. The leftmost at 28s traces back to the top one A. The red-in-middle is leftmost => A. The original red was C (bottom). So they differ => False.
+
+Thus answer: False.
+
+Let me do a sanity check on the red-in-middle being leftmost: frames 29-34 clearly show red at the left position (around x=50,y=310). Yes.
+
+And that left position at 28s,27s,26s,... traces to the top-left original (A) as I followed. The bottom original (C) at 28s is at (100,325) which is the bottom-middle white cross at 29s. So C is white at 29s, not red. Good.
+
+Therefore the red-in-middle cross (A) is NOT the original red cross (C). Answer False.
+
+I'm fairly confident: False.
+</think>
+
+False",False,miss,7873,4522,4097,0.011200654,Phala,
+21f870af,qwen/qwen3.8-27b,3,1,94,True,True,"
+
+True",True,hit,7833,3741,0,0.01011012,Chutes,
+4b4be6d1,qwen/qwen3.8-27b,3,1,163,False,False,"
+
+False",False,correct_rejection,7873,2330,2327,0.006542654,Phala,
+10cdde16,qwen/qwen3.8-27b,3,1,53,False,False,"
+
+True",True,false_alarm,7873,3763,3760,0.009602467,Phala,
+31ca9093,qwen/qwen3.8-27b,3,1,833,False,False,"
+
+False",False,correct_rejection,7873,3097,3094,0.008172529,Phala,
+5cc9a756,qwen/qwen3.8-27b,3,1,21,False,False,"
+
+False",False,correct_rejection,7833,1789,1785,0.00589405,AkashML,
+544626ca,qwen/qwen3.8-27b,3,1,483,False,False,"
+
+True",True,false_alarm,7833,2437,0,0.00724132,Chutes,
+449bac03,qwen/qwen3.8-27b,3,1,172,True,True,"
+
+True",True,hit,7873,2230,2227,0.006330154,Phala,
+3d6d4d02,qwen/qwen3.8-27b,3,1,447,False,False,"
+
+False",False,correct_rejection,7873,2851,2848,0.007649779,Phala,
+58d1a58a,qwen/qwen3.8-27b,3,1,72,True,True,"
+
+True",True,hit,7833,1112,0,0.00432632,Chutes,
+44ffaf3a,qwen/qwen3.8-27b,3,1,10,True,True,"
+
+True",True,hit,7873,2808,2805,0.007558404,Phala,
+2e8f8ed7,qwen/qwen3.8-27b,3,1,657,False,False,"
+
+False",False,correct_rejection,7833,2051,2047,0.006906312,Reka,
+563183d4,qwen/qwen3.8-27b,3,1,350,True,True,"
+
+True",True,hit,7833,1885,1881,0.006483012,Reka,
+4d20c127,qwen/qwen3.8-27b,3,1,249,False,False,"
+
+False",False,correct_rejection,7873,3198,3195,0.008387154,Phala,
+4d99533d,qwen/qwen3.8-27b,3,1,831,False,False,"
+
+False",False,correct_rejection,769,2222,2218,0.00455935,Darkbloom,
+3d920721,qwen/qwen3.8-27b,3,1,319,False,False,"
+
+False",False,correct_rejection,7873,2931,2928,0.007834467,Phala,
+502591a7,qwen/qwen3.8-27b,3,1,306,True,True,"
+
+False",False,miss,7833,3319,0,0.00918172,Chutes,
+65d6f5b7,qwen/qwen3.8-27b,3,1,196,True,True,"
+
+True",True,hit,7833,2068,0,0.00642952,Chutes,
+64fc5bcb,qwen/qwen3.8-27b,3,1,157,False,False,"
+
+False",False,correct_rejection,7873,1795,1792,0.005405779,Phala,
+64bbf5e6,qwen/qwen3.8-27b,3,1,897,False,False,"
+
+False",False,correct_rejection,7873,2253,2250,0.006393717,Phala,
+628b561b,qwen/qwen3.8-27b,3,1,204,True,True,"
+
+True",True,hit,7873,2377,2374,0.006642529,Phala,
+61fe08a3,qwen/qwen3.8-27b,3,1,613,False,False,"
+
+False",False,correct_rejection,769,1920,1916,0.00395535,Darkbloom,
+66161338,qwen/qwen3.8-27b,3,1,891,False,False,"
+
+False",False,correct_rejection,769,1542,1538,0.00319935,Darkbloom,
+726bf4cc,qwen/qwen3.8-27b,3,1,173,False,False,"
+
+False",False,correct_rejection,7873,1804,1801,0.005424904,Phala,
+70d81879,qwen/qwen3.8-27b,3,1,491,False,False,"
+
+False",False,correct_rejection,7873,1893,1890,0.005614029,Phala,
+698b87b1,qwen/qwen3.8-27b,3,1,763,False,False,"
+
+False",False,correct_rejection,7873,2001,1998,0.005858217,Phala,
+5ebdbc2e,qwen/qwen3.8-27b,3,1,250,True,True,"
+
+False
+
+True",,unparseable,7873,4102,4097,0.010308154,Phala,
+8e14647a,qwen/qwen3.8-27b,3,1,362,True,True,"
+
+True",True,hit,7833,1174,655,0.004695,Mancer 2,
+7543dd29,qwen/qwen3.8-27b,3,1,216,True,True,"
+
+True",True,hit,7873,1806,1803,0.005429154,Phala,
+6bf851c0,qwen/qwen3.8-27b,3,1,148,True,True,"
+
+True",True,hit,7873,2999,2996,0.007964279,Phala,
+5fcdb138,qwen/qwen3.8-27b,3,1,773,False,False,"
+
+False",False,correct_rejection,7873,3964,3961,0.010014904,Phala,
+675d290a,qwen/qwen3.8-27b,3,1,400,True,True,"
+
+True",True,hit,7833,2526,1217,0.0059112,DeepInfra,
+8008790c,qwen/qwen3.8-27b,3,1,150,True,True,"
+
+False",False,miss,7873,2180,2177,0.006238592,Phala,
+7d38aadc,qwen/qwen3.8-27b,3,1,308,True,True,"
+
+True",True,hit,7873,3159,3156,0.008304279,Phala,
+9a2fcc83,qwen/qwen3.8-27b,3,1,248,True,True,"
+
+True",True,hit,7833,1724,1720,0.00575105,AkashML,
+73cb6699,qwen/qwen3.8-27b,3,1,253,False,False,"
+
+True",True,false_alarm,7873,3987,3984,0.010063779,Phala,
+84b933ed,qwen/qwen3.8-27b,3,1,747,False,False,"
+
+False",False,correct_rejection,7873,3366,3363,0.008744154,Phala,
+84ba010f,qwen/qwen3.8-27b,3,1,485,False,False,"
+
+False",False,correct_rejection,7873,2994,2991,0.007953654,Phala,
+985a922a,qwen/qwen3.8-27b,3,1,667,False,False,"
+
+False",False,correct_rejection,7873,2234,2231,0.006338654,Phala,
+6891cfa2,qwen/qwen3.8-27b,3,1,49,False,False,"
+
+False
+
+<answer>False</answer>",False,correct_rejection,7873,4108,4097,0.010320904,Phala,
+7bcb4a12,qwen/qwen3.8-27b,3,1,99,False,False,"
+
+False
+
+",False,correct_rejection,7873,4101,4097,0.010306029,Phala,
+a557a177,qwen/qwen3.8-27b,3,1,889,False,False,"
+
+False",False,correct_rejection,7873,1998,1995,0.005837154,Phala,
+b5b8a2bd,qwen/qwen3.8-27b,3,1,344,True,True,"
+
+False",False,miss,7833,2494,1226,0.007995,Mancer 2,
+ae87985e,qwen/qwen3.8-27b,3,1,16,True,True,"
+
+True",True,hit,7873,1589,1586,0.004968029,Phala,
+93f3f74a,qwen/qwen3.8-27b,3,1,301,False,False,"
+
+True",True,false_alarm,7873,2946,2943,0.007851654,Phala,
+910caf82,qwen/qwen3.8-27b,3,1,342,True,True,"
+
+True",True,hit,7873,4100,4097,0.010303904,Phala,
+acf1c638,qwen/qwen3.8-27b,3,1,315,False,False,"
+
+True",True,false_alarm,769,1799,1795,0.00371335,Darkbloom,
+b19cbb42,qwen/qwen3.8-27b,3,1,865,False,False,"
+
+False",False,correct_rejection,7873,2199,2196,0.006278967,Phala,
+b81c6884,qwen/qwen3.8-27b,3,1,236,True,True,"
+
+True",True,hit,7873,1309,1306,0.004373029,Phala,
+aafd056d,qwen/qwen3.8-27b,3,1,252,True,True,"
+
+False",False,miss,769,2493,2489,0.00510135,Darkbloom,
+989e0a4b,qwen/qwen3.8-27b,3,1,901,False,False,"
+
+False",False,correct_rejection,7873,3689,3686,0.009430529,Phala,
+c61c8de5,qwen/qwen3.8-27b,3,1,392,True,True,"
+
+True",True,hit,7833,1366,1362,0.00488512,Parasail,
+9c840fbd,qwen/qwen3.8-27b,3,1,262,True,True,"
+
+False",False,miss,7873,3312,3309,0.008629404,Phala,
+8f95dad8,qwen/qwen3.8-27b,3,1,551,False,False,"
+
+True",True,false_alarm,7873,4100,4097,0.010303904,Phala,
+c6f5e826,qwen/qwen3.8-27b,3,1,266,True,True,"
+
+True",True,hit,7873,1754,1751,0.005318654,Phala,
+c1d9ce92,qwen/qwen3.8-27b,3,1,577,False,False,"
+
+False",False,correct_rejection,7833,2051,2047,0.006906312,Reka,
+c5fc02ff,qwen/qwen3.8-27b,3,1,54,True,True,"
+
+True",True,hit,7873,3017,3014,0.008002529,Phala,
+b77c3af9,qwen/qwen3.8-27b,3,1,66,True,True,"
+
+True",True,hit,7873,3612,3609,0.009281592,Phala,
+d5fd3499,qwen/qwen3.8-27b,3,1,224,True,True,"
+
+True",True,hit,7833,1938,1934,0.006618162,Reka,
+e163a794,qwen/qwen3.8-27b,3,1,168,True,True,"
+
+True",True,hit,7873,1715,1712,0.005235779,Phala,
+e3647096,qwen/qwen3.8-27b,3,1,296,True,True,"
+
+True",True,hit,7833,1770,1766,0.00585225,AkashML,
+dd7f47fe,qwen/qwen3.8-27b,3,1,290,True,True,"
+
+True",True,hit,7873,2030,2027,0.005905154,Phala,
+d620def6,qwen/qwen3.8-27b,3,1,617,False,False,"
+
+False",False,correct_rejection,7873,2814,2811,0.007571154,Phala,
+c923a38e,qwen/qwen3.8-27b,3,1,208,True,True,"
+
+True",True,hit,7873,3353,3350,0.008716529,Phala,
+d890eba7,qwen/qwen3.8-27b,3,1,349,False,False,"
+
+False",False,correct_rejection,7873,2284,2281,0.006444904,Phala,
+e26b0eb8,qwen/qwen3.8-27b,3,1,85,False,False,"
+
+True",True,false_alarm,7873,1696,1693,0.005195404,Phala,
+ed0375c4,qwen/qwen3.8-27b,3,1,277,False,False,"
+
+False",False,correct_rejection,7873,1105,1102,0.003954217,Phala,
+c9678ea2,qwen/qwen3.8-27b,3,1,39,False,False,"
+
+True",True,false_alarm,7873,4100,4097,0.010303904,Phala,
+d8be28ba,qwen/qwen3.8-27b,3,1,25,False,False,"
+
+True",True,false_alarm,7873,2861,2858,0.007671029,Phala,
+e3bc2103,qwen/qwen3.8-27b,3,1,376,True,True,"
+
+True",True,hit,7833,2686,1563,0.0098707,Io Net,
+05d893f1,google/gemini-3.8-flash,3,1,256,True,True,True,True,hit,3380,1425,1424,0.00787875,Google,
+cf522fd4,qwen/qwen3.8-27b,3,1,711,False,False,"
+
+False
+
+",False,correct_rejection,7873,4101,4097,0.010306029,Phala,
+d275422a,qwen/qwen3.8-27b,3,1,125,False,False,"
+
+True
+
+I need to track the initially red cross. At start, red cross is the isolated lower-middle one (~270,258). Following its continuous motion through the frames (it stays as the lowest/leftmost-moving cross through the drift), it ends up as the lower-right cross that turns red at ~29-33s. Verification by tracing its trajectory (270,258)→(270,283)→...→(360,295)→(345,290 red) is consistent with a single continuous path, while the other two crosses remain the upper pair. Thus the red cross during motion is the same as the initially red cross.
+
+True",True,false_alarm,7873,4253,4097,0.010629029,Phala,
+c95b8d86,qwen/qwen3.8-27b,3,1,402,True,True,"
+
+True",True,hit,7873,4082,4079,0.010280342,Phala,
+05e4ee0c,google/gemini-3.8-flash,3,1,122,True,True,True,True,hit,3380,1938,1937,0.0098025,Google,
+e000dd00,qwen/qwen3.8-27b,3,1,251,False,False,"
+
+False",False,correct_rejection,7833,2074,1136,0.0050637,DeepInfra,
+f20de8b3,qwen/qwen3.8-27b,3,1,479,False,False,"
+
+False",False,correct_rejection,7833,2106,918,0.007025,Mancer 2,
+0dd89445,google/gemini-3.8-flash,3,1,847,False,False,False,False,correct_rejection,3380,2520,2519,0.011985,Google,
+f00c5f32,qwen/qwen3.8-27b,3,1,264,True,True,"
+
+True",True,hit,7873,1881,1878,0.005603217,Phala,
+0e5486aa,google/gemini-3.8-flash,3,1,356,True,True,True,True,hit,3380,2269,2268,0.01104375,Google,
+0a0f784a,google/gemini-3.8-flash,3,1,294,True,True,True,True,hit,3380,4278,4277,0.0185775,Google,
+113d24fa,google/gemini-3.8-flash,3,1,777,False,False,False,False,correct_rejection,3380,2419,2418,0.01160625,Google,
+f8bcc765,qwen/qwen3.8-27b,3,1,169,False,False,"
+
+False",False,correct_rejection,7873,2144,2141,0.006147404,Phala,
+10cdde16,google/gemini-3.8-flash,3,1,53,False,False,False,False,correct_rejection,3380,3122,3121,0.0142425,Google,
+12313238,google/gemini-3.8-flash,3,1,127,False,False,False,False,correct_rejection,3380,1963,1962,0.00989625,Google,
+185b5234,google/gemini-3.8-flash,3,1,186,True,True,True,True,hit,3380,1678,1677,0.0088275,Google,
+130175d4,google/gemini-3.8-flash,3,1,257,False,False,False,False,correct_rejection,3380,2698,2697,0.0126525,Google,
+1bd85427,google/gemini-3.8-flash,3,1,38,True,True,True,True,hit,3380,1556,1555,0.00837,Google,
+fb618ea8,qwen/qwen3.8-27b,3,1,288,True,True,"
+
+True",True,hit,7833,2051,2047,0.006906312,Reka,
+e698a28c,qwen/qwen3.8-27b,3,1,136,True,True,"
+
+True",True,hit,7873,3768,3765,0.009598404,Phala,
+19fdac4a,google/gemini-3.8-flash,3,1,126,True,True,True,True,hit,3380,3672,3671,0.016305,Google,
+1c94fbd8,google/gemini-3.8-flash,3,1,123,False,False,False,False,correct_rejection,3380,2321,2320,0.01123875,Google,
+22d6166f,google/gemini-3.8-flash,3,1,50,True,True,True,True,hit,3380,1343,1342,0.00757125,Google,
+ee02c218,qwen/qwen3.8-27b,3,1,547,False,False,"
+
+True",True,false_alarm,7873,3296,3293,0.008595404,Phala,
+218309f3,google/gemini-3.8-flash,3,1,166,True,True,True,True,hit,3380,1699,1698,0.00890625,Google,
+edc72aa6,qwen/qwen3.8-27b,3,1,539,False,False,"
+
+False",False,correct_rejection,7833,2772,0,0.00797832,Chutes,
+2954269c,google/gemini-3.8-flash,3,1,347,False,False,False,False,correct_rejection,3380,1840,1839,0.009435,Google,
+2e8f8ed7,google/gemini-3.8-flash,3,1,657,False,False,False,False,correct_rejection,3380,1997,1996,0.01002375,Google,
+31ca9093,google/gemini-3.8-flash,3,1,833,False,False,False,False,correct_rejection,3380,1213,1212,0.00708375,Google,
+21f870af,google/gemini-3.8-flash,3,1,94,True,True,True,True,hit,3380,3196,3195,0.01452,Google,
+3057b598,google/gemini-3.8-flash,3,1,328,True,True,True,True,hit,3380,3044,3043,0.01395,Google,
+3d920721,google/gemini-3.8-flash,3,1,319,False,False,False,False,correct_rejection,3380,1438,1437,0.0079275,Google,
+3d6d4d02,google/gemini-3.8-flash,3,1,447,False,False,False,False,correct_rejection,3380,2427,2426,0.01163625,Google,
+fedb6929,qwen/qwen3.8-27b,3,1,134,True,True,"
+
+False",False,miss,7873,4100,4097,0.010303904,Phala,
+449bac03,google/gemini-3.8-flash,3,1,172,True,True,True,True,hit,3380,1381,1380,0.00771375,Google,
+4b4be6d1,google/gemini-3.8-flash,3,1,163,False,False,False,False,correct_rejection,3380,1293,1292,0.00738375,Google,
+4d99533d,google/gemini-3.8-flash,3,1,831,False,False,False,False,correct_rejection,3380,1731,1730,0.00902625,Google,
+544626ca,google/gemini-3.8-flash,3,1,483,False,False,False,False,correct_rejection,3380,1686,1685,0.0088575,Google,
+4d20c127,google/gemini-3.8-flash,3,1,249,False,False,False,False,correct_rejection,3380,3579,3578,0.01595625,Google,
+563183d4,google/gemini-3.8-flash,3,1,350,True,True,True,True,hit,3380,1784,1783,0.009225,Google,
+44ffaf3a,google/gemini-3.8-flash,3,1,10,True,True,True,True,hit,3380,3421,3420,0.01536375,Google,
+502591a7,google/gemini-3.8-flash,3,1,306,True,True,True,True,hit,3380,2402,2401,0.0115425,Google,
+58d1a58a,google/gemini-3.8-flash,3,1,72,True,True,True,True,hit,3380,1487,1486,0.00811125,Google,
+5cc9a756,google/gemini-3.8-flash,3,1,21,False,False,False,False,correct_rejection,3380,2413,2412,0.01158375,Google,
+5ebdbc2e,google/gemini-3.8-flash,3,1,250,True,True,True,True,hit,3380,2666,2665,0.0125325,Google,
+628b561b,google/gemini-3.8-flash,3,1,204,True,True,True,True,hit,3380,1563,1562,0.00839625,Google,
+61fe08a3,google/gemini-3.8-flash,3,1,613,False,False,False,False,correct_rejection,3380,1664,1663,0.008775,Google,
+64fc5bcb,google/gemini-3.8-flash,3,1,157,False,False,False,False,correct_rejection,3380,1215,1214,0.00709125,Google,
+64bbf5e6,google/gemini-3.8-flash,3,1,897,False,False,False,False,correct_rejection,3380,1539,1538,0.00830625,Google,
+5fcdb138,google/gemini-3.8-flash,3,1,773,False,False,False,False,correct_rejection,3380,2728,2727,0.012765,Google,
+65d6f5b7,google/gemini-3.8-flash,3,1,196,True,True,True,True,hit,3380,1736,1735,0.009045,Google,
+66161338,google/gemini-3.8-flash,3,1,891,False,False,False,False,correct_rejection,3380,1217,1216,0.00709875,Google,
+675d290a,google/gemini-3.8-flash,3,1,400,True,True,True,True,hit,3380,1898,1897,0.0096525,Google,
+698b87b1,google/gemini-3.8-flash,3,1,763,False,False,False,False,correct_rejection,3380,1731,1730,0.00902625,Google,
+6891cfa2,google/gemini-3.8-flash,3,1,49,False,False,False,False,correct_rejection,3380,2897,2896,0.01339875,Google,
+726bf4cc,google/gemini-3.8-flash,3,1,173,False,False,False,False,correct_rejection,3380,1186,1185,0.0069825,Google,
+6bf851c0,google/gemini-3.8-flash,3,1,148,True,True,True,True,hit,3380,1830,1829,0.0093975,Google,
+70d81879,google/gemini-3.8-flash,3,1,491,False,False,False,False,correct_rejection,3380,2875,2874,0.01331625,Google,
+73cb6699,google/gemini-3.8-flash,3,1,253,False,False,False,False,correct_rejection,3380,2414,2413,0.0115875,Google,
+7543dd29,google/gemini-3.8-flash,3,1,216,True,True,True,True,hit,3380,1743,1742,0.00907125,Google,
+7d38aadc,google/gemini-3.8-flash,3,1,308,True,True,True,True,hit,3380,2156,2155,0.01062,Google,
+7bcb4a12,google/gemini-3.8-flash,3,1,99,False,False,False,False,correct_rejection,3380,2131,2130,0.01052625,Google,
+8008790c,google/gemini-3.8-flash,3,1,150,True,True,True,True,hit,3380,1979,1978,0.00995625,Google,
+84b933ed,google/gemini-3.8-flash,3,1,747,False,False,False,False,correct_rejection,3380,3018,3017,0.0138525,Google,
+8f95dad8,google/gemini-3.8-flash,3,1,551,False,False,False,False,correct_rejection,3380,1766,1765,0.0091575,Google,
+84ba010f,google/gemini-3.8-flash,3,1,485,False,False,False,False,correct_rejection,3380,3839,3838,0.01693125,Google,
+910caf82,google/gemini-3.8-flash,3,1,342,True,True,True,True,hit,3380,2184,2183,0.010725,Google,
+8e14647a,google/gemini-3.8-flash,3,1,362,True,True,True,True,hit,3380,1634,1633,0.0086625,Google,
+985a922a,google/gemini-3.8-flash,3,1,667,False,False,False,False,correct_rejection,3380,2040,2039,0.010185,Google,
+9a2fcc83,google/gemini-3.8-flash,3,1,248,True,True,True,True,hit,3380,1314,1313,0.0074625,Google,
+93f3f74a,google/gemini-3.8-flash,3,1,301,False,False,False,False,correct_rejection,3380,2938,2937,0.0135525,Google,
+a557a177,google/gemini-3.8-flash,3,1,889,False,False,False,False,correct_rejection,3380,2113,2112,0.01045875,Google,
+989e0a4b,google/gemini-3.8-flash,3,1,901,False,False,False,False,correct_rejection,3380,4214,4213,0.0183375,Google,
+9c840fbd,google/gemini-3.8-flash,3,1,262,True,True,True,True,hit,3380,3800,3799,0.016785,Google,
+acf1c638,google/gemini-3.8-flash,3,1,315,False,False,False,False,correct_rejection,3380,1667,1666,0.00878625,Google,
+b19cbb42,google/gemini-3.8-flash,3,1,865,False,False,False,False,correct_rejection,3380,1366,1365,0.0076575,Google,
+aafd056d,google/gemini-3.8-flash,3,1,252,True,True,True,True,hit,3380,2884,2883,0.01335,Google,
+b81c6884,google/gemini-3.8-flash,3,1,236,True,True,True,True,hit,3380,1185,1184,0.00697875,Google,
+ae87985e,google/gemini-3.8-flash,3,1,16,True,True,True,True,hit,3380,2501,2500,0.01191375,Google,
+b5b8a2bd,google/gemini-3.8-flash,3,1,344,True,True,True,True,hit,3380,2649,2648,0.01246875,Google,
+c1d9ce92,google/gemini-3.8-flash,3,1,577,False,False,False,False,correct_rejection,3380,2235,2234,0.01091625,Google,
+b77c3af9,google/gemini-3.8-flash,3,1,66,True,True,True,True,hit,3380,2418,2417,0.0116025,Google,
+c5fc02ff,google/gemini-3.8-flash,3,1,54,True,True,True,True,hit,3380,1759,1758,0.00913125,Google,
+c6f5e826,google/gemini-3.8-flash,3,1,266,True,True,True,True,hit,3380,1528,1527,0.008265,Google,
+c61c8de5,google/gemini-3.8-flash,3,1,392,True,True,True,True,hit,3380,1404,1403,0.0078,Google,
+c95b8d86,google/gemini-3.8-flash,3,1,402,True,True,True,True,hit,3380,2329,2328,0.01126875,Google,
+c923a38e,google/gemini-3.8-flash,3,1,208,True,True,True,True,hit,3380,2656,2655,0.012495,Google,
+d275422a,google/gemini-3.8-flash,3,1,125,False,False,False,False,correct_rejection,3380,1501,1500,0.00816375,Google,
+d5fd3499,google/gemini-3.8-flash,3,1,224,True,True,True,True,hit,3380,1424,1423,0.007875,Google,
+cf522fd4,google/gemini-3.8-flash,3,1,711,False,False,False,False,correct_rejection,3380,1785,1784,0.00922875,Google,
+c9678ea2,google/gemini-3.8-flash,3,1,39,False,False,False,False,correct_rejection,3380,2503,2502,0.01192125,Google,
+d620def6,google/gemini-3.8-flash,3,1,617,False,False,False,False,correct_rejection,3380,1123,1122,0.00674625,Google,
+d890eba7,google/gemini-3.8-flash,3,1,349,False,False,False,False,correct_rejection,3380,1242,1241,0.0071925,Google,
+dd7f47fe,google/gemini-3.8-flash,3,1,290,True,True,True,True,hit,3380,1240,1239,0.007185,Google,
+d8be28ba,google/gemini-3.8-flash,3,1,25,False,False,False,False,correct_rejection,3380,2013,2012,0.01008375,Google,
+e000dd00,google/gemini-3.8-flash,3,1,251,False,False,False,False,correct_rejection,3380,1529,1528,0.00826875,Google,
+e163a794,google/gemini-3.8-flash,3,1,168,True,True,True,True,hit,3380,1986,1985,0.0099825,Google,
+e3647096,google/gemini-3.8-flash,3,1,296,True,True,True,True,hit,3380,1324,1323,0.0075,Google,
+e26b0eb8,google/gemini-3.8-flash,3,1,85,False,False,False,False,correct_rejection,3380,2819,2818,0.01310625,Google,
+e3bc2103,google/gemini-3.8-flash,3,1,376,True,True,True,True,hit,3380,1657,1656,0.00874875,Google,
+ed0375c4,google/gemini-3.8-flash,3,1,277,False,False,False,False,correct_rejection,3380,2284,2283,0.0111,Google,
+e698a28c,google/gemini-3.8-flash,3,1,136,True,True,True,True,hit,3380,2466,2465,0.0117825,Google,
+edc72aa6,google/gemini-3.8-flash,3,1,539,False,False,False,False,correct_rejection,3380,2087,2086,0.01036125,Google,
+f00c5f32,google/gemini-3.8-flash,3,1,264,True,True,True,True,hit,3380,1572,1571,0.00843,Google,
+ee02c218,google/gemini-3.8-flash,3,1,547,False,False,False,False,correct_rejection,3380,3223,3222,0.01462125,Google,
+f8bcc765,google/gemini-3.8-flash,3,1,169,False,False,False,False,correct_rejection,3380,1494,1493,0.0081375,Google,
+f20de8b3,google/gemini-3.8-flash,3,1,479,False,False,False,False,correct_rejection,3380,1848,1847,0.009465,Google,
+fb618ea8,google/gemini-3.8-flash,3,1,288,True,True,True,True,hit,3380,1239,1238,0.00718125,Google,
+fedb6929,google/gemini-3.8-flash,3,1,134,True,True,True,True,hit,3380,2204,2203,0.0108,Google,
+0e5486aa,google/gemma-4-31b-it,3,1,356,True,True,True,True,hit,2531,489,484,0.00238725,ModelRun,
+12313238,google/gemma-4-31b-it,3,1,127,False,False,False,False,correct_rejection,2531,857,852,0.00275525,ModelRun,
+05d893f1,google/gemma-4-31b-it,3,1,256,True,True,True,True,hit,2531,939,934,0.00283725,ModelRun,
+10cdde16,google/gemma-4-31b-it,3,1,53,False,False,True,True,false_alarm,2531,1071,1066,0.00296925,ModelRun,
+1c94fbd8,google/gemma-4-31b-it,3,1,123,False,False,False,False,correct_rejection,2531,1391,1386,0.00328925,ModelRun,
+113d24fa,google/gemma-4-31b-it,3,1,777,False,False,False,False,correct_rejection,2531,2693,2688,0.00459125,ModelRun,
+3057b598,qwen/qwen3.6-plus,3,1,328,True,True,True,True,hit,7835,4667,4662,0.011647025,Alibaba,
+9c840fbd,qwen/qwen3.6-plus,3,1,262,True,True,True,True,hit,7835,6785,6780,0.015777125,Alibaba,

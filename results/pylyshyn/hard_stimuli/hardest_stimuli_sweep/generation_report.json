@@ -1,0 +1,16 @@
+{
+  "n_objects": 3,
+  "n_cued": 1,
+  "redirect_s": 1.0,
+  "speed_min_px_s": 32.0,
+  "speed_max_px_s": 66.0,
+  "target_per_bucket": 50,
+  "n_trials": 100,
+  "bucket_sizes": {
+    "True": 50,
+    "False": 50
+  },
+  "heuristic_accuracy_pct": 0.0,
+  "heuristic_accuracy_sem_pct": 0.0,
+  "stretch_encode_fps": 2.0
+}

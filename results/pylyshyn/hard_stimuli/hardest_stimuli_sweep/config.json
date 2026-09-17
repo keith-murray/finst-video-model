@@ -1,0 +1,45 @@
+{
+  "run_name": "hardest_stimuli_sweep",
+  "arm": "pylyshyn",
+  "models": [
+    "google/gemma-4-31b-it",
+    "qwen/qwen3.6-plus",
+    "moonshotai/kimi-k3",
+    "qwen/qwen3.8-27b"
+  ],
+  "model_reasoning": {
+    "google/gemma-4-31b-it": {
+      "enabled": false
+    },
+    "qwen/qwen3.6-plus": {
+      "enabled": false
+    },
+    "moonshotai/kimi-k3": {
+      "enabled": false
+    },
+    "qwen/qwen3.8-27b": {
+      "enabled": false
+    }
+  },
+  "model_provider": {
+    "moonshotai/kimi-k3": {
+      "only": [
+        "moonshotai"
+      ],
+      "allow_fallbacks": false
+    },
+    "google/gemma-4-31b-it": {
+      "only": [
+        "deepinfra",
+        "coreweave",
+        "crusoe",
+        "parasail",
+        "modelrun"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "variant": "stretched",
+  "trials_root": "data/pylyshyn/hardest_stimuli_sweep/trials",
+  "n_trials": 100
+}

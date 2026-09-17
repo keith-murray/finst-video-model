@@ -1,0 +1,50 @@
+{
+  "google/gemma-4-31b-it": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 56.00000000000001,
+    "accuracy_sem_pct": 4.963869458396342,
+    "d_prime": 0.3498655969287355,
+    "criterion": -0.5788487718087769,
+    "total_cost_usd": 0.02234
+  },
+  "moonshotai/kimi-k3": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 60.0,
+    "accuracy_sem_pct": 4.898979485566356,
+    "d_prime": 0.4971890800940252,
+    "criterion": -0.05071237041865452,
+    "total_cost_usd": 1.6004999999999998
+  },
+  "qwen/qwen3.6-plus": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 51.0,
+    "accuracy_sem_pct": 4.998999899979995,
+    "d_prime": 0.05278513855494488,
+    "criterion": -0.37752340406693674,
+    "total_cost_usd": 0.2550925
+  },
+  "qwen/qwen3.8-27b": {
+    "n_trials": 100,
+    "n_errors": 0,
+    "n_unparseable": 0,
+    "accuracy_pct": 47.0,
+    "accuracy_sem_pct": 4.990991885387111,
+    "d_prime": -0.1768423305928315,
+    "criterion": 0.601575827562367,
+    "total_cost_usd": 0.154769532
+  },
+  "_heuristic": {
+    "accuracy_pct": 0.0,
+    "accuracy_sem_pct": 0.0,
+    "n_trials": 100
+  },
+  "_totals": {
+    "total_cost_usd": 2.032702032
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "google/gemma-4-31b-it": {
+    "live_pricing": {
+      "n_endpoints": 14,
+      "prompt_usd_per_token_min": 9e-08,
+      "prompt_usd_per_token_max": 7.5e-07,
+      "completion_usd_per_token_min": 3.4e-07,
+      "completion_usd_per_token_max": 1.15e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.0002282,
+        0.0002282,
+        0.0002218
+      ],
+      "mean_cost_per_trial_usd": 0.00022606666666666667,
+      "prompt_tokens": [
+        2528,
+        2528,
+        2528
+      ],
+      "completion_tokens": [
+        2,
+        2,
+        2
+      ],
+      "estimated_total_usd": 0.022606666666666667
+    }
+  },
+  "qwen/qwen3.6-plus": {
+    "live_pricing": {
+      "n_endpoints": 1,
+      "prompt_usd_per_token_min": 3.25e-07,
+      "prompt_usd_per_token_max": 3.25e-07,
+      "completion_usd_per_token_min": 1.95e-06,
+      "completion_usd_per_token_max": 1.95e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.002550925,
+        0.002550925,
+        0.002550925
+      ],
+      "mean_cost_per_trial_usd": 0.002550925,
+      "prompt_tokens": [
+        7837,
+        7837,
+        7837
+      ],
+      "completion_tokens": [
+        2,
+        2,
+        2
+      ],
+      "estimated_total_usd": 0.2550925
+    }
+  },
+  "moonshotai/kimi-k3": {
+    "live_pricing": {
+      "n_endpoints": 20,
+      "prompt_usd_per_token_min": 2e-06,
+      "prompt_usd_per_token_max": 6e-06,
+      "completion_usd_per_token_min": 1.095e-05,
+      "completion_usd_per_token_max": 2.25e-05
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.016005,
+        0.016005,
+        0.016005
+      ],
+      "mean_cost_per_trial_usd": 0.016005,
+      "prompt_tokens": [
+        5280,
+        5280,
+        5280
+      ],
+      "completion_tokens": [
+        11,
+        11,
+        11
+      ],
+      "estimated_total_usd": 1.6004999999999998
+    }
+  },
+  "qwen/qwen3.8-27b": {
+    "live_pricing": {
+      "n_endpoints": 16,
+      "prompt_usd_per_token_min": 1.5e-07,
+      "prompt_usd_per_token_max": 4.5e-07,
+      "completion_usd_per_token_min": 1.875e-06,
+      "completion_usd_per_token_max": 3.2e-06
+    },
+    "pilot": {
+      "n_pilot_trials": 3,
+      "n_with_cost": 3,
+      "pilot_costs_usd": [
+        0.00168179,
+        0.003147975,
+        0.0018848
+      ],
+      "mean_cost_per_trial_usd": 0.0022381883333333335,
+      "prompt_tokens": [
+        7835,
+        7395,
+        7835
+      ],
+      "completion_tokens": [
+        2,
+        2,
+        2
+      ],
+      "estimated_total_usd": 0.22381883333333336
+    }
+  },
+  "_summary": {
+    "n_trials_planned_per_model": 100,
+    "n_models": 4,
+    "total_estimated_usd": 2.1020179999999997
+  }
+}
