@@ -1,4 +1,4 @@
-# Hard-stimulus pylyshyn sweep across models, reasoning on/off, and a files reorg
+# Hard-stimulus pylyshyn sweeps across models, reasoning on/off, a files reorg, and an even harder rerun
 
 ## Part 1: all models on the heuristic-neutralized hard stimuli
 
@@ -111,15 +111,96 @@ cross-file docstring reference. Ran a full import smoke test across all 36 scrip
 `--help`/real invocations on a sample -- clean except the 2 scripts needing `transformers`
 (cluster-only, pre-existing, unrelated to the reorg). Committed by the user.
 
+## Part 4: an even harder stimulus set, new model set, both conditions rerun
+
+"After work thoughts" follow-up, appended to `TODO.md` after Parts 1-3 were done: rerun the
+sweep (both reasoning off and reasoning="medium") on a stimulus set where the nearest-neighbor
+heuristic is **wrong on every single trial** (not just neutralized to chance), swapping
+`qwen/qwen3.5-397b-a17b` -> `google/gemini-3.8-flash` and `z-ai/glm-5v-turbo` ->
+`qwen/qwen3.8-27b`. User asked for a cost estimate first, expecting $9-10.
+
+**A real model conflict surfaced immediately**: live-checking `google/gemini-3.8-flash` via
+OpenRouter's `/models` endpoint found `reasoning.mandatory=true` (supported efforts
+high/medium/low, no way to disable) -- it cannot run in the no-reasoning condition at all.
+Also checked the wider Gemini family for the user (asked "is there a gemini model where
+reasoning is optional?"): `gemini-3-flash-preview`, `gemini-3.1-flash-lite{,-preview}`,
+`gemini-2.5-flash{,-lite}` all have optional reasoning and video support -- every other 3.x
+Gemini model (3.5/3.6/3.7/3.8-flash, 3.1-pro) is mandatory. Per the user's choice, kept
+`gemini-3.8-flash` as named but dropped it from the no-reasoning pass entirely (4 models
+there: gemma-4-31b-it, qwen3.6-plus, kimi-k3, qwen3.8-27b) rather than substituting a
+different model or approximating "off" with low effort; it's added back for the
+reasoning="medium" pass (5 models total). `qwen/qwen3.8-27b` confirmed non-mandatory
+(`{"mandatory": false, "supported_efforts": ["xhigh","medium","low"]}`, matches
+[[reference-local-qwen-reasoning-effort]]'s no-"high" finding for this model family).
+
+**Pipeline**: `generate_hardest_stimuli.py` (2-bucket variant of Part 1's generator -- only
+keeps seeds where `heuristic_predicts_match() != probe_is_target`, 50 per
+probe_is_target class instead of 25, so the heuristic hits exactly 0.0% instead of 50.0%),
+`run_hardest_stimuli_sweep.py` (no-reasoning, 4 models), `run_hardest_stimuli_thinking_sweep.py`
+(reasoning=medium, 5 models, gemma re-pinned to `modelrun` per Part 2's fix),
+`estimate_hardest_sweep_cost.py`/`estimate_hardest_sweep_thinking_cost.py`,
+`aggregate_hardest_stimuli_sweep.py`/`_thinking_sweep.py`, `plot_hardest_stimuli_sweep.py`/
+`_thinking_sweep.py` (the latter drawn as a union, not intersection, of both passes' models so
+gemini-3.8-flash still appears as a reasoning-only bar rather than being dropped from the
+figure).
+
+**Cost estimate**: $2.10 (no-reasoning) + $5.86 (medium-reasoning) = **$7.96** total -- both
+pilot passes came back completely clean (0 errors) on the first try, including both untested
+models. Confirmed with the user before launching either full sweep.
+
+**Result**: 100/100 trials scored per model, heuristic reverified at exactly 0.0%.
+
+No-reasoning pass (400/400 clean, first try):
+
+| Model | Accuracy | d' | Cost |
+|---|---|---|---|
+| kimi-k3 | 60.0% | 0.50 | $1.60 |
+| gemma-4-31b-it | 56.0% | 0.35 | $0.02 |
+| qwen3.6-plus | 51.0% | 0.05 | $0.26 |
+| qwen3.8-27b | 47.0% | **-0.18** | $0.15 |
+
+Every model landed at or below chance -- qwen3.8-27b actually scored *worse* than the
+heuristic, an even more decisive null result than Part 1's chance-neutralized set (where
+qwen3.6-plus/gemma still cleared 70%+).
+
+Medium-reasoning pass (500/500 clean after one backfill for 8 transient
+`prompt_tokens=216` video-attachment errors, same class as Part 2's):
+
+| Model | No reasoning | Medium reasoning | Delta | Cost |
+|---|---|---|---|---|
+| **gemini-3.8-flash** | *(mandatory reasoning, N/A)* | **100.0%** (d'=4.67) | -- | $1.04 |
+| qwen3.6-plus | 51.0% (d'=0.05) | 87.0% (d'=2.24) | +36.0pp | $0.92 |
+| kimi-k3 | 60.0% (d'=0.50) | 84.0% (d'=1.99) | +24.0pp | $3.40 |
+| qwen3.8-27b | 47.0% (d'=-0.18) | 76.8% (d'=1.43) | +29.8pp | $0.70 |
+| gemma-4-31b-it | 56.0% (d'=0.35) | 77.0% (d'=1.54) | +21.0pp | $0.32 |
+
+Total actual cost **$8.40** ($2.03 + $6.37) -- close to both the $7.96 pre-run estimate and
+the user's $9-10 expectation. `gemini-3.8-flash`'s **perfect 100% accuracy (d'=4.67)** is the
+standout finding of the whole session -- dramatically ahead of every other model on the
+hardest stimulus set built so far, though the mandatory-reasoning constraint means it isn't a
+clean apples-to-apples comparison the way the other four models' off/on pairs are.
+
+**Comparing to Parts 1/2** for the three overlapping models (heuristic-neutralized-to-chance
+-> heuristic-always-wrong): gemma 73.0%->56.0%, qwen3.6-plus 76.0%->51.0% (collapsed to
+chance), kimi-k3 60.6%->60.0% (unchanged -- it was already near its floor). Under reasoning:
+gemma 88.0%->77.0%, qwen3.6-plus 93.0%->87.0%, kimi-k3 89.0%->84.0% -- reasoning still
+recovers most models substantially on the harder set, just a bit less than on the
+chance-neutralized one.
+
 ## Open threads (carried over / updated)
 
-- **glm-5v-turbo's weak response to reasoning** is the most interesting unresolved thread --
-  worth checking whether it's actually using its reasoning budget productively (token counts
-  were comparable to the other models: ~1206 mean reasoning tokens) or just generating
-  unproductive text.
+- **`gemini-3.8-flash`'s perfect 100% (d'=4.67) on the hardest stimulus set** is the most
+  striking unexplained result of the session -- worth a dedicated follow-up (e.g. does it hold
+  up at lower reasoning effort, or on Part 1/2's chance-neutralized set too?) if the project
+  resumes, keeping in mind it's confounded with reasoning being mandatory for this model.
+- **glm-5v-turbo's weak response to reasoning** (Part 2) is still unresolved -- worth checking
+  whether it's actually using its reasoning budget productively (token counts were comparable
+  to the other models: ~1206 mean reasoning tokens) or just generating unproductive text. Note
+  it was dropped from the Part 4 model set, so no further data on it this session.
 - Project is paused indefinitely as of this session per the user -- `smooth_pursuit` arm
   remains untouched since 2026-08-14, and the local-vs-OpenRouter gemma gap
   (image-preprocessing/checkpoint-identity candidates from 09-09/09-10) was never resolved.
-- The heuristic-neutralized-to-chance construction (now used at both n_objects=3 and 4) looks
-  like the most methodologically important tool this project built -- worth leading with if
-  the project resumes.
+- The heuristic-always-wrong construction (Part 4) is a cleaner, more decisive version of
+  Part 1's heuristic-neutralized-to-chance one (also now proven at n_objects=3/4) --
+  probably the single most reusable methodological tool this project built, worth leading
+  with if the project resumes.

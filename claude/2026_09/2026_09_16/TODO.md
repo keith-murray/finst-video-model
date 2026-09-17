@@ -15,3 +15,7 @@ In the previous part, we came across a disappointing results: none of the models
 ## Part 3: Organize files
 
 With the previous result, we will most likely pause this project indefinitely. Before we do that, we need to do some house keeping. Let's organize the files in `results/pylyshyn` and `scripts/pylyshyn`. Opening these directories gives people whiplash with the number of files and subdirectories. Let's just add some more subdirectories to make this manageable.
+
+## Part 4: Rerunning the sweep today, but with even harder stimulus
+
+Some after work thoughts. Let's rerun the sweep (both with and without reasoning). Drop qwen3.5 for `google/gemini-3.8-flash` and drop glm-5v-turbo for `qwen/qwen3.8-27b`. Also, let's sample stimuli to have the nearest neighbor heuristic always be wrong. Estimate the cost of the sweep before running. I'm expecting it to be between $9 and 10$.
