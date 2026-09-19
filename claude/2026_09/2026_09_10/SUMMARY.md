@@ -6,7 +6,7 @@ second added as a same-session continuation into the next calendar day.
 ## Task 1: local cluster gemma-4-31b-it on pylyshyn
 
 Built and ran the full pipeline (this Mac still has no SSH access to
-`scotty` -- confirmed again live via a failed `rsync`/`ssh` attempt, same
+`<cluster-host>` -- confirmed again live via a failed `rsync`/`ssh` attempt, same
 as `claude/2026_09/2026_09_09/SUMMARY.md`; the user/on-cluster session ran
 the actual push/sbatch/pull/aggregate/plot steps and delivered
 `results/pylyshyn/gemma_local_nobjects_sweep/`):

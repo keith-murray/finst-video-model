@@ -1,7 +1,7 @@
 # Summary: prepared a local-gemma-4-31b-it frame-count sweep on debug_circular
 
 Full context/goals: `claude/2026_09/2026_09_09/TODO.md`. This machine has no
-SSH access to the cluster (`scotty` -- confirmed via a failed key-auth
+SSH access to the cluster (`<cluster-host>` -- confirmed via a failed key-auth
 attempt), so this session only prepares stimuli + scripts locally; the actual
 `sbatch` run needs to happen from the cluster (the user, or a separate
 on-cluster Claude session, per the existing `qwen38_cluster_handoff.md`
@@ -196,7 +196,7 @@ swept:
    resolution enough to blur the crosses' fine positional/color detail.
    Cheap to check: print `processor.image_processor`'s actual config
    (resize/crop settings) on the cluster -- no GPU generation needed.
-2. **Checkpoint identity** -- confirm `/scratch/km3199/models/gemma-4-31B-it`
+2. **Checkpoint identity** -- confirm `/scratch/<netid>/models/gemma-4-31B-it`
    is bit-for-bit the same instruction-tuned weights OpenRouter serves, not a
    different quantization or a community re-upload with a subtly different
    vision tower. Check the checkpoint's own `config.json`/revision info.
