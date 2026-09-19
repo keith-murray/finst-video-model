@@ -22,10 +22,10 @@
 # is still a safe way to make progress even without profiling first.
 #
 # Assumes trial data (data/pylyshyn/gemma_local_nobjects_sweep/trials/) plus
-# scripts/ have been rsynced to /mnt/cup/people/km3199/finst-video-model/
+# scripts/ have been rsynced to /mnt/cup/people/<netid>/finst-video-model/
 # (see run_gemma_local_batch.py's docstring for the exact commands).
 
-TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials"
+TRIALS_ROOT="/mnt/cup/people/<netid>/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials"
 
 module load cudatoolkit/12.4.1
 
@@ -35,7 +35,7 @@ echo "=== Disk check before run ==="
 df -h "$HOME"
 
 echo "=== Running gemma pylyshyn local batch (trials-root=$TRIALS_ROOT) ==="
-python3 /mnt/cup/people/km3199/finst-video-model/scripts/pylyshyn/run_gemma_local_batch.py \
+python3 /mnt/cup/people/<netid>/finst-video-model/scripts/pylyshyn/run_gemma_local_batch.py \
     --trials-root "$TRIALS_ROOT"
 
 echo "=== Disk check after run ==="

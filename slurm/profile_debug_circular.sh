@@ -27,7 +27,7 @@
 #
 # Assumes the repo's scripts/ directory, plus at least a few generated
 # debug_circular trials (data/debug_circular/debug_circular_samples/),
-# have already been rsynced to /mnt/cup/people/km3199/finst-video-model/
+# have already been rsynced to /mnt/cup/people/<netid>/finst-video-model/
 # (see the rsync commands documented in run_cluster_batch.py's docstring).
 # --time=02:00:00 is a generous placeholder covering both the nothink case
 # (30min would suffice) and a reasoning-enabled profile (default
@@ -61,7 +61,7 @@ echo "=== Disk check before run ==="
 df -h "$HOME"
 
 echo "=== Running debug_circular profiling job (reasoning_effort=${REASONING_EFFORT:-nothink}) ==="
-python3 /mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/profile_cluster_timing.py \
+python3 /mnt/cup/people/<netid>/finst-video-model/scripts/debug_circular/profile_cluster_timing.py \
     "${PROFILE_ARGS[@]}"
 
 echo "=== Disk check after run ==="

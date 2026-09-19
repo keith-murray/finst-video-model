@@ -26,12 +26,12 @@
 # before the profiling numbers are in.
 #
 # Assumes trial data (data/debug_circular/gemma_frame_sweep/trials/) plus
-# scripts/ have been rsynced to /mnt/cup/people/km3199/finst-video-model/
+# scripts/ have been rsynced to /mnt/cup/people/<netid>/finst-video-model/
 # (see run_gemma_cluster_batch.py's docstring for the exact commands, and its
 # "known unknowns" note about confirming this path against the gemma4
 # environment's actual mount).
 
-TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials"
+TRIALS_ROOT="/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials"
 
 module load cudatoolkit/12.4.1
 
@@ -41,7 +41,7 @@ echo "=== Disk check before run ==="
 df -h "$HOME"
 
 echo "=== Running gemma frame sweep (trials-root=$TRIALS_ROOT) ==="
-python3 /mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/run_gemma_cluster_batch_manual_frames.py \
+python3 /mnt/cup/people/<netid>/finst-video-model/scripts/debug_circular/run_gemma_cluster_batch_manual_frames.py \
     --trials-root "$TRIALS_ROOT" \
     --num-frames 4 8 16 24 32 50 100 \
     --sampling greedy recommended

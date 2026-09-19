@@ -42,11 +42,11 @@
 # make progress even before the profiling numbers are in.
 #
 # Assumes trial data (data/debug_circular/<run_name>/trials/) plus
-# scripts/ have been rsynced to /mnt/cup/people/km3199/finst-video-model/
+# scripts/ have been rsynced to /mnt/cup/people/<netid>/finst-video-model/
 # (see run_cluster_batch.py's docstring for the exact commands).
 
 REASONING_EFFORT="${1:-}"
-TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/qwen3.8-27b-nothink/trials"
+TRIALS_ROOT="/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/qwen3.8-27b-nothink/trials"
 
 BATCH_ARGS=(--trials-root "$TRIALS_ROOT" --chunk-size 20)
 if [[ -n "$REASONING_EFFORT" ]]; then
@@ -69,7 +69,7 @@ echo "=== Disk check before run ==="
 df -h "$HOME"
 
 echo "=== Running debug_circular batch job (trials-root=$TRIALS_ROOT, reasoning_effort=${REASONING_EFFORT:-nothink}) ==="
-python3 /mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/run_cluster_batch.py \
+python3 /mnt/cup/people/<netid>/finst-video-model/scripts/debug_circular/run_cluster_batch.py \
     "${BATCH_ARGS[@]}"
 
 echo "=== Disk check after run ==="

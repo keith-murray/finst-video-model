@@ -22,10 +22,10 @@
 #
 # Assumes trial data (data/pylyshyn/gemma_local_n4_heuristic_chance/trials/,
 # including video.mp4) has been rsynced to
-# /mnt/cup/people/km3199/finst-video-model/, and scripts/ are up to date
+# /mnt/cup/people/<netid>/finst-video-model/, and scripts/ are up to date
 # via git pull on the cluster-side clone.
 
-TRIALS_ROOT="/mnt/cup/people/km3199/finst-video-model/data/pylyshyn/gemma_local_n4_heuristic_chance/trials"
+TRIALS_ROOT="/mnt/cup/people/<netid>/finst-video-model/data/pylyshyn/gemma_local_n4_heuristic_chance/trials"
 
 module load cudatoolkit/12.4.1
 
@@ -40,7 +40,7 @@ echo "=== Disk check before run ==="
 df -h "$HOME"
 
 echo "=== Running gemma pylyshyn local batch, n4 heuristic-chance mp4 variant (trials-root=$TRIALS_ROOT) ==="
-python3 /mnt/cup/people/km3199/finst-video-model/scripts/pylyshyn/run_gemma_local_batch_mp4.py \
+python3 /mnt/cup/people/<netid>/finst-video-model/scripts/pylyshyn/run_gemma_local_batch_mp4.py \
     --trials-root "$TRIALS_ROOT"
 
 echo "=== Disk check after run ==="
