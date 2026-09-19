@@ -1,8 +1,9 @@
 [project]
 name = "finst-video-model"
 version = "0.1.0"
-description = "Add your description here"
+description = "Do VLMs have a FINST-like object-tracking mechanism? Behavioral experiments testing multi-object-tracking capacity in video language models."
 readme = "README.md"
+license = "MIT"
 authors = [
     { name = "Keith Murray", email = "murraykeith64@gmail.com" }
 ]
