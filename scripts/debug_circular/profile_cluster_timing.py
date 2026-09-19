@@ -20,7 +20,7 @@ reality.
 
 Usage (on a compute node, via slurm/profile_debug_circular.sh):
     python3 profile_cluster_timing.py \\
-        --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/debug_circular_samples
+        --trials-root /mnt/cup/people/<netid>/finst-video-model/data/debug_circular/debug_circular_samples
 """
 
 import argparse
@@ -32,8 +32,8 @@ import numpy as np
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
 
-MODEL_PATH = "/mnt/cup/people/km3199/models/qwen3.8-27b"
-ALLOWED_LOCAL_MEDIA_PATH = "/mnt/cup/people/km3199"
+MODEL_PATH = "/mnt/cup/people/<netid>/models/qwen3.8-27b"
+ALLOWED_LOCAL_MEDIA_PATH = "/mnt/cup/people/<netid>"
 
 
 def build_question(n_objects: int) -> str:
@@ -115,7 +115,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--trials-root", type=str,
-        default="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/debug_circular_samples",
+        default="/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/debug_circular_samples",
     )
     parser.add_argument("--chunk-sizes", type=int, nargs="+", default=[5, 10, 16])
     parser.add_argument("--max-tokens", type=int, default=128)

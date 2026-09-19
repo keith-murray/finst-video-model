@@ -43,19 +43,19 @@ the /mnt/cup/... path below matches the convention established by the
 qwen3.8-27b cluster pipeline (see qwen38_cluster_handoff.md) -- confirm this
 is also where the gemma4 environment expects the repo to live before running,
 since test_gemma4_baseline.py's own hardcoded sample path
-(/usr/people/km3199/finst-video-model/...) suggests it may differ:
+(/usr/people/<netid>/finst-video-model/...) suggests it may differ:
 
     # push (local -> cluster), before submitting the job
     rsync -av --exclude='*.mp4' data/debug_circular/gemma_frame_sweep/trials/ \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials/
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials/
     rsync -av scripts/debug_circular/run_gemma_cluster_batch.py \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/scripts/debug_circular/
     rsync -av slurm/run_gemma_frame_sweep.sh \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/slurm/
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/slurm/
 
     # pull (cluster -> local), after the job finishes
     rsync -av --include='*/' --include='cluster_response_nframes*.json' --exclude='*' \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials/ \\
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials/ \\
         data/debug_circular/gemma_frame_sweep/trials/
 
 Writes one <trials-root>/<trial_id>/cluster_response_nframes{N}_{sampling}.json
@@ -66,7 +66,7 @@ where finst_video_model.scoring is importable.
 
 Usage (on a compute node, via slurm/run_gemma_frame_sweep.sh):
     python3 run_gemma_cluster_batch.py \\
-        --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
+        --trials-root /mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
         --num-frames 4 8 16 24 32 50 100 \\
         --sampling greedy recommended
 """
@@ -80,7 +80,7 @@ import traceback
 import numpy as np
 from transformers import AutoProcessor, AutoModelForMultimodalLM
 
-MODEL_PATH = "/scratch/km3199/models/gemma-4-31B-it"
+MODEL_PATH = "/scratch/<netid>/models/gemma-4-31B-it"
 
 # "greedy": deterministic, matches the qwen3.8-27b cluster pipeline's
 # temperature=0.0/top_p=1.0 convention. "recommended": HuggingFace's

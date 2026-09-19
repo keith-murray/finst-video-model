@@ -47,7 +47,7 @@ report.
 
 The user rsyncs OUT_ROOT to the cluster themselves afterward (same target
 path convention as the other gemma_local_* trial roots:
-scotty:/mnt/cup/people/km3199/finst-video-model/data/pylyshyn/
+<cluster-host>:/mnt/cup/people/<netid>/finst-video-model/data/pylyshyn/
 gemma_local_n4_heuristic_chance/trials/) -- code changes go through git
 push/pull, not rsync, per [[feedback-git-for-code-rsync-for-data]].
 

@@ -35,7 +35,7 @@ data. ground_truth.json's "config" key must have n_objects/n_cued/fps
 
     # pull (cluster -> local), after the job finishes
     rsync -av --include='*/' --include='cluster_response_mp4.json' --exclude='*' \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials/ \\
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials/ \\
         data/pylyshyn/gemma_local_nobjects_sweep/trials/
 
 Writes one <trials-root>/<trial_id>/cluster_response_mp4.json per trial --
@@ -48,7 +48,7 @@ finst_video_model.scoring is importable.
 
 Usage (on a compute node, via slurm/run_gemma_pylyshyn_local_mp4.sh):
     python3 run_gemma_local_batch_mp4.py \\
-        --trials-root /mnt/cup/people/km3199/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials
+        --trials-root /mnt/cup/people/<netid>/finst-video-model/data/pylyshyn/gemma_local_nobjects_sweep/trials
 """
 
 import argparse
@@ -59,7 +59,7 @@ import traceback
 
 from transformers import AutoProcessor, AutoModelForMultimodalLM
 
-MODEL_PATH = "/scratch/km3199/models/gemma-4-31B-it"
+MODEL_PATH = "/scratch/<netid>/models/gemma-4-31B-it"
 NUM_FRAMES = 32
 SAMPLING = {"do_sample": True, "temperature": 1.0, "top_p": 0.95, "top_k": 64}
 RESPONSE_FILE = "cluster_response_mp4.json"

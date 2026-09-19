@@ -59,7 +59,7 @@ manualframes flag.
 
 Usage (on a compute node):
     python3 run_gemma_cluster_batch_manual_frames.py \\
-        --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
+        --trials-root /mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
         --num-frames 4 8 16 24 32 50 100 \\
         --sampling greedy recommended
 """
@@ -73,7 +73,7 @@ import traceback
 import numpy as np
 from transformers import AutoProcessor, AutoModelForMultimodalLM
 
-MODEL_PATH = "/scratch/km3199/models/gemma-4-31B-it"
+MODEL_PATH = "/scratch/<netid>/models/gemma-4-31B-it"
 
 SAMPLING_CONFIGS = {
     "greedy": {"do_sample": False},

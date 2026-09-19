@@ -26,7 +26,7 @@ whether its stochastic output still looks like a sane True/False answer.
 
 Usage (on a compute node, via a small sbatch wrapper or interactively):
     python3 profile_gemma_cluster_timing.py \\
-        --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
+        --trials-root /mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials \\
         --num-frames 4 8 16 24 32 50 100 \\
         --sampling greedy recommended \\
         --n-trials 2 \\
@@ -41,7 +41,7 @@ import time
 import numpy as np
 from transformers import AutoProcessor, AutoModelForMultimodalLM
 
-MODEL_PATH = "/scratch/km3199/models/gemma-4-31B-it"
+MODEL_PATH = "/scratch/<netid>/models/gemma-4-31B-it"
 
 SAMPLING_CONFIGS = {
     "greedy": {"do_sample": False},
@@ -121,7 +121,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--trials-root", type=str,
-        default="/mnt/cup/people/km3199/finst-video-model/data/debug_circular/gemma_frame_sweep/trials",
+        default="/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/gemma_frame_sweep/trials",
     )
     parser.add_argument("--num-frames", type=int, nargs="+", default=[4, 8, 16, 24, 32, 50, 100])
     parser.add_argument(

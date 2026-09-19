@@ -20,15 +20,15 @@ No dedicated transfer tooling exists in this repo -- run these by hand:
 
     # push (local -> cluster), before submitting the job
     rsync -av --exclude='*.mp4' data/debug_circular/<run_name>/trials/ \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/data/debug_circular/<run_name>/trials/
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/<run_name>/trials/
     rsync -av scripts/debug_circular/ \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/scripts/debug_circular/
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/scripts/debug_circular/
     rsync -av slurm/ \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/slurm/
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/slurm/
 
     # pull (cluster -> local), after the job finishes
     rsync -av --include='*/' --include='cluster_response.json' --exclude='*' \\
-        scotty:/mnt/cup/people/km3199/finst-video-model/data/debug_circular/<run_name>/trials/ \\
+        <cluster-host>:/mnt/cup/people/<netid>/finst-video-model/data/debug_circular/<run_name>/trials/ \\
         data/debug_circular/<run_name>/trials/
 
 Writes one <trials-root>/<trial_id>/cluster_response.json per trial -- raw
@@ -38,7 +38,7 @@ scripts/debug_circular/aggregate_cluster_results.py, where
 finst_video_model.scoring is importable.
 
 Usage (on a compute node, via slurm/run_debug_circular_batch.sh):
-    python3 run_cluster_batch.py --trials-root /mnt/cup/people/km3199/finst-video-model/data/debug_circular/<run_name>/trials
+    python3 run_cluster_batch.py --trials-root /mnt/cup/people/<netid>/finst-video-model/data/debug_circular/<run_name>/trials
 """
 
 import argparse
@@ -51,8 +51,8 @@ import numpy as np
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
 
-MODEL_PATH = "/mnt/cup/people/km3199/models/qwen3.8-27b"
-ALLOWED_LOCAL_MEDIA_PATH = "/mnt/cup/people/km3199"
+MODEL_PATH = "/mnt/cup/people/<netid>/models/qwen3.8-27b"
+ALLOWED_LOCAL_MEDIA_PATH = "/mnt/cup/people/<netid>"
 
 
 def response_filename(reasoning_effort: str | None) -> str:
